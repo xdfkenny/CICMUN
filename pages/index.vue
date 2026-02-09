@@ -36,40 +36,14 @@ import { ArrowRight } from 'lucide-vue-next'
 
     <!-- About Section -->
     <section class="bg-white py-16 md:py-24 px-4">
-      <div class="container max-w-4xl mx-auto">
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 class="text-4xl font-bold text-black mb-6 font-montserrat">About CICMUN</h2>
-            <p class="text-gray-700 text-lg mb-4 leading-relaxed">
-              The Colegio Internacional de Caracas Model United Nations (CICMUN) is one of South America's premier Model UN conferences. Since 1990, CIC has hosted the South American Model United Nations (SAMUN), bringing together hundreds of delegates to engage in diplomatic simulations.
-            </p>
-            <p class="text-gray-700 text-lg leading-relaxed">
-              Our conference features authentic committees, challenging topics, and an environment that fosters critical thinking, public speaking, and international relations skills.
-            </p>
-          </div>
-
-          <div class="bg-red-50 p-8 rounded-lg border-2 border-red-600">
-            <h3 class="text-2xl font-bold text-red-600 mb-6 font-montserrat">CICMUN 2026</h3>
-            <ul class="space-y-4 text-gray-800">
-              <li class="flex items-start gap-3">
-                <span class="text-red-600 font-bold text-xl">•</span>
-                <span><strong>Two Conferences:</strong> SAMUN (Senior) and JMUN (Junior)</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="text-red-600 font-bold text-xl">•</span>
-                <span><strong>Location:</strong> Colegio Internacional de Caracas, Caracas, Venezuela</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="text-red-600 font-bold text-xl">•</span>
-                <span><strong>Authentic Committees:</strong> UN bodies and specialized agencies</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="text-red-600 font-bold text-xl">•</span>
-                <span><strong>Diverse Delegates:</strong> Students from across South America</span>
-              </li>
-            </ul>
-          </div>
-        </div>
+      <div class="container max-w-3xl mx-auto text-center">
+        <h2 class="text-4xl font-bold text-black mb-6 font-montserrat">About CICMUN</h2>
+        <p class="text-gray-700 text-lg mb-6 leading-relaxed">
+          The Colegio Internacional de Caracas Model United Nations (CICMUN) is one of South America's premier Model UN conferences. Since 1990, CIC has hosted the South American Model United Nations (SAMUN), bringing together hundreds of delegates to engage in diplomatic simulations.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          Our conference features authentic committees, challenging topics, and an environment that fosters critical thinking, public speaking, and international relations skills.
+        </p>
       </div>
     </section>
 

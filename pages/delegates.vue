@@ -80,10 +80,6 @@ import { Users, BookOpen } from 'lucide-vue-next'
         <h3 class="text-2xl font-bold text-black mb-6 font-montserrat">Quick Questions?</h3>
         <div class="space-y-4">
           <div>
-            <p class="font-bold text-gray-900">When is the conference?</p>
-            <p class="text-gray-700">SAMUN: November 13-14, 2026 | JMUN: November 13-14, 2026</p>
-          </div>
-          <div>
             <p class="font-bold text-gray-900">Where is it held?</p>
             <p class="text-gray-700">Colegio Internacional de Caracas, Caracas, Venezuela</p>
           </div>
