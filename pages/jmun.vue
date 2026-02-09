@@ -28,7 +28,7 @@ const isLoading = computed(() => status.value === 'pending')
               <Calendar class="w-6 h-6 text-black flex-shrink-0 mt-1" />
               <div>
                 <p class="font-bold text-gray-900">Date</p>
-                <p class="text-gray-700">November 13-14, 2026</p>
+                <p class="text-gray-700">April 24-25, 2026</p>
               </div>
             </div>
 
