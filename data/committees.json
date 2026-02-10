@@ -10,7 +10,19 @@
     "secretaryName": null,
     "secretaryPhoto": null,
     "topicA": "International Response to the 9/11 Attacks",
-    "topicB": "The 2003 Iraq War"
+    "topicB": "The 2003 Iraq War",
+    "resources": [
+      {
+        "title": "Background Guide",
+        "description": "Comprehensive research and overview for the Security Council topics.",
+        "filename": "sc-background-guide.pdf"
+      },
+      {
+        "title": "Rules of Procedure",
+        "description": "Standard parliamentary procedures for the Security Council session.",
+        "filename": "rules-of-procedure.pdf"
+      }
+    ]
   },
   {
     "id": 2,
@@ -23,7 +35,19 @@
     "secretaryName": null,
     "secretaryPhoto": null,
     "topicA": "Child Labor and the Protection of Minors",
-    "topicB": "Situation in Iran"
+    "topicB": "Situation in Iran",
+    "resources": [
+      {
+        "title": "Background Guide",
+        "description": "Academic guidance for Human Rights council delegates.",
+        "filename": "unhrc-background-guide.pdf"
+      },
+      {
+        "title": "Rules of Procedure",
+        "description": "Standard parliamentary procedures for the UNHRC session.",
+        "filename": "rules-of-procedure.pdf"
+      }
+    ]
   },
   {
     "id": 3,
@@ -36,7 +60,19 @@
     "secretaryName": null,
     "secretaryPhoto": null,
     "topicA": "Deforestation of the Amazon Rainforest",
-    "topicB": "Human Trafficking in South America"
+    "topicB": "Human Trafficking in South America",
+    "resources": [
+      {
+        "title": "Background Guide",
+        "description": "General Assembly research dossier for CICMUN 2026.",
+        "filename": "ga-background-guide.pdf"
+      },
+      {
+        "title": "Rules of Procedure",
+        "description": "Standard parliamentary procedures for the General Assembly session.",
+        "filename": "rules-of-procedure.pdf"
+      }
+    ]
   },
   {
     "id": 4,
@@ -49,7 +85,19 @@
     "secretaryName": null,
     "secretaryPhoto": null,
     "topicA": "Combating State-Sponsored Disinformation",
-    "topicB": null
+    "topicB": null,
+    "resources": [
+      {
+        "title": "Summit Guide",
+        "description": "Strategic brief for G20 leaders and delegates.",
+        "filename": "g20-summit-guide.pdf"
+      },
+      {
+        "title": "Rules of Procedure",
+        "description": "Standard parliamentary procedures for the G20 session.",
+        "filename": "rules-of-procedure.pdf"
+      }
+    ]
   },
   {
     "id": 5,
@@ -62,7 +110,19 @@
     "secretaryName": null,
     "secretaryPhoto": null,
     "topicA": "Use of Biological Weapons by Terrorist Groups",
-    "topicB": "Use of Chemical Weapons in the Middle East"
+    "topicB": "Use of Chemical Weapons in the Middle East",
+    "resources": [
+      {
+        "title": "Background Guide",
+        "description": "Security and disarmament background materials.",
+        "filename": "disec-background-guide.pdf"
+      },
+      {
+        "title": "Rules of Procedure",
+        "description": "Standard parliamentary procedures for the DISEC session.",
+        "filename": "rules-of-procedure.pdf"
+      }
+    ]
   },
   {
     "id": 6,
@@ -75,6 +135,18 @@
     "secretaryName": null,
     "secretaryPhoto": null,
     "topicA": "The Ebola Epidemic",
-    "topicB": null
+    "topicB": null,
+    "resources": [
+      {
+        "title": "Background Guide",
+        "description": "Public health research and epidemic response guide.",
+        "filename": "who-background-guide.pdf"
+      },
+      {
+        "title": "Rules of Procedure",
+        "description": "Standard parliamentary procedures for the WHO session.",
+        "filename": "rules-of-procedure.pdf"
+      }
+    ]
   }
 ]

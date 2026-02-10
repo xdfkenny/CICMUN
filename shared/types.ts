@@ -2,6 +2,12 @@
  * Unified type exports
  */
 
+export interface Resource {
+  title: string;
+  description: string;
+  filename: string;
+}
+
 export interface Committee {
   id: number;
   name: string;
@@ -14,4 +20,5 @@ export interface Committee {
   secretaryPhoto: string | null;
   topicA: string;
   topicB: string;
+  resources?: Resource[];
 }

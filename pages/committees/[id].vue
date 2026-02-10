@@ -15,10 +15,7 @@ const committee = computed(() => {
   return allCommittees.find(c => c.id === committeeId)
 })
 
-const resources = [
-  { title: 'Background Guide', type: 'PDF', size: '1.2 MB' },
-  { title: 'Committee Roster', type: 'PDF', size: '0.4 MB' }
-]
+const resources = computed(() => committee.value?.resources || [])
 </script>
 
 <template>
@@ -50,42 +47,52 @@ const resources = [
           </div>
         </div>
 
-        <!-- Leadership -->
-        <div class="grid md:grid-cols-2 gap-8">
-          <div class="bg-white p-8 rounded-2xl shadow-lg">
+        <!-- Leadership and Resources -->
+        <div class="grid lg:grid-cols-3 gap-8 items-start">
+          <!-- Leadership -->
+          <div class="bg-white p-8 rounded-2xl shadow-lg lg:sticky lg:top-24">
             <h3 class="text-xl font-bold font-montserrat mb-6">Committee Leadership</h3>
-            <div class="space-y-4">
+            <div class="space-y-6">
               <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-bold text-lg">
+                <div class="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center text-red-600 font-bold text-xl border-2 border-red-100 uppercase">
                   {{ committee.chairName.charAt(0) }}
                 </div>
                 <div>
-                  <div class="font-bold text-lg">{{ committee.chairName }}</div>
-                  <div class="text-sm text-gray-500">Chair</div>
+                  <div class="font-bold text-lg leading-tight">{{ committee.chairName }}</div>
+                  <div class="text-sm text-gray-500 font-medium">Chair</div>
                 </div>
               </div>
               <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-bold text-lg">
+                <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 font-bold text-xl border-2 border-gray-100 uppercase">
                   {{ committee.coChairName.charAt(0) }}
                 </div>
                 <div>
-                  <div class="font-bold text-lg">{{ committee.coChairName }}</div>
-                  <div class="text-sm text-gray-500">Co-Chair</div>
+                  <div class="font-bold text-lg leading-tight">{{ committee.coChairName }}</div>
+                  <div class="text-sm text-gray-500 font-medium">Co-Chair</div>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Resources -->
-          <div class="bg-white p-8 rounded-2xl shadow-lg">
-            <h3 class="text-xl font-bold font-montserrat mb-6">Committee Resources</h3>
-            <div class="space-y-4">
-              <div v-for="(res, idx) in resources" :key="idx" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
-                <div class="flex items-center gap-3">
-                  <FileText class="w-5 h-5 text-gray-400 group-hover:text-red-500 transition-colors" />
-                  <span class="font-medium text-gray-700">{{ res.title }}</span>
+          <div class="lg:col-span-2 space-y-6">
+            <h3 class="text-2xl font-bold font-montserrat text-black px-2">Committee Resources</h3>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div v-for="resource in resources" :key="resource.title" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-black group">
+                <div class="flex justify-between items-start mb-4">
+                  <div class="p-2 bg-gray-50 rounded-lg group-hover:bg-red-50 transition-colors">
+                    <FileText class="w-6 h-6 text-black group-hover:text-red-500 transition-colors" />
+                  </div>
+                  <span class="text-[10px] font-bold px-2 py-0.5 bg-gray-100 rounded text-gray-500 uppercase tracking-widest">PDF</span>
                 </div>
-                <Download class="w-4 h-4 text-gray-400 group-hover:text-black transition-colors" />
+                
+                <h4 class="text-lg font-bold mb-1 font-montserrat leading-tight">{{ resource.title }}</h4>
+                <p class="text-gray-500 text-xs mb-4 line-clamp-2 leading-relaxed">{{ resource.description }}</p>
+                
+                <a :href="`/resources/${resource.filename}`" target="_blank" class="inline-flex items-center gap-2 text-sm text-red-600 font-bold hover:text-red-700 transition-colors mt-auto">
+                  Download
+                  <Download class="w-3.5 h-3.5" />
+                </a>
               </div>
             </div>
           </div>
