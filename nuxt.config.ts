@@ -10,6 +10,9 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss(),
     ],
+    build: {
+      sourcemap: false,
+    }
   },
   build: {
     transpile: ['lucide-vue-next']
