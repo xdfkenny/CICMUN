@@ -19,13 +19,13 @@
       },
       {
         "title": "Rules of Procedure",
-        "description": "Standard parliamentary procedures for the Security Council session.",
-        "filename": "rules-of-procedure.pdf"
+        "description": "Standard parliamentary procedures for the session.",
+        "filename": "Rules of procedure.pdf"
       },
       {
-        "title": "TEST",
-        "description": "TEST",
-        "filename": "test.pdf"
+        "title": "CIC MUN Charter",
+        "description": "Official charter for CICMUN 2026.",
+        "filename": "CIC MUN Charter.pdf"
       }
     ]
   },
@@ -49,8 +49,13 @@
       },
       {
         "title": "Rules of Procedure",
-        "description": "Standard parliamentary procedures for the UNHRC session.",
-        "filename": "rules-of-procedure.pdf"
+        "description": "Standard parliamentary procedures for the session.",
+        "filename": "Rules of procedure.pdf"
+      },
+      {
+        "title": "CIC MUN Charter",
+        "description": "Official charter for CICMUN 2026.",
+        "filename": "CIC MUN Charter.pdf"
       }
     ]
   },
@@ -74,8 +79,13 @@
       },
       {
         "title": "Rules of Procedure",
-        "description": "Standard parliamentary procedures for the General Assembly session.",
-        "filename": "rules-of-procedure.pdf"
+        "description": "Standard parliamentary procedures for the session.",
+        "filename": "Rules of procedure.pdf"
+      },
+      {
+        "title": "CIC MUN Charter",
+        "description": "Official charter for CICMUN 2026.",
+        "filename": "CIC MUN Charter.pdf"
       }
     ]
   },
@@ -99,8 +109,13 @@
       },
       {
         "title": "Rules of Procedure",
-        "description": "Standard parliamentary procedures for the G20 session.",
-        "filename": "rules-of-procedure.pdf"
+        "description": "Standard parliamentary procedures for the session.",
+        "filename": "Rules of procedure.pdf"
+      },
+      {
+        "title": "CIC MUN Charter",
+        "description": "Official charter for CICMUN 2026.",
+        "filename": "CIC MUN Charter.pdf"
       }
     ]
   },
@@ -124,8 +139,13 @@
       },
       {
         "title": "Rules of Procedure",
-        "description": "Standard parliamentary procedures for the DISEC session.",
-        "filename": "rules-of-procedure.pdf"
+        "description": "Standard parliamentary procedures for the session.",
+        "filename": "Rules of procedure.pdf"
+      },
+      {
+        "title": "CIC MUN Charter",
+        "description": "Official charter for CICMUN 2026.",
+        "filename": "CIC MUN Charter.pdf"
       }
     ]
   },
@@ -149,8 +169,13 @@
       },
       {
         "title": "Rules of Procedure",
-        "description": "Standard parliamentary procedures for the WHO session.",
-        "filename": "rules-of-procedure.pdf"
+        "description": "Standard parliamentary procedures for the session.",
+        "filename": "Rules of procedure.pdf"
+      },
+      {
+        "title": "CIC MUN Charter",
+        "description": "Official charter for CICMUN 2026.",
+        "filename": "CIC MUN Charter.pdf"
       }
     ]
   }

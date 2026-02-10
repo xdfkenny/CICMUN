@@ -7,11 +7,18 @@
         "filename": "delegate-handbook.pdf"
     },
     {
+        "id": "charter",
+        "title": "CIC MUN Charter",
+        "description": "The official charter governing CICMUN 2026 operations and principles.",
+        "category": "General",
+        "filename": "CIC MUN Charter.pdf"
+    },
+    {
         "id": "rop",
         "title": "Rules of Procedure",
         "description": "Standard rules and procedures for debate and voting in committee.",
         "category": "Academic",
-        "filename": "rules-of-procedure.pdf"
+        "filename": "Rules of procedure.pdf"
     },
     {
         "id": "position-paper",
