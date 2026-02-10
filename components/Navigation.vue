@@ -169,6 +169,7 @@ watch(() => route.path, () => {
 
           <div class="mt-auto pb-10 flex flex-col items-center gap-6">
             <div class="w-full h-px bg-gray-100"></div>
+            
             <a 
               href="https://www.instagram.com/cicmunve/" 
               target="_blank" 
@@ -178,9 +179,26 @@ watch(() => route.path, () => {
               <Instagram class="w-6 h-6" />
               Follow @cicmunve
             </a>
-            <div class="flex items-center gap-2 opacity-30">
-              <img src="/LOGO.png" alt="CICMUN Logo" class="w-8 h-8 grayscale" />
-              <span class="font-bold tracking-widest text-sm">CICMUN</span>
+
+            <div class="flex flex-col items-center gap-4">
+              <div class="flex items-center gap-2 opacity-30">
+                <img src="/LOGO.png" alt="CICMUN Logo" class="w-8 h-8 grayscale" />
+                <span class="font-bold tracking-widest text-sm">CICMUN</span>
+              </div>
+
+              <div class="flex flex-col items-center gap-1">
+                <a 
+                  href="https://github.com/xdfkenny" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="text-xs text-gray-400 font-mono opacity-60 hover:opacity-100 transition-opacity duration-300 cursor-pointer hover:underline"
+                >
+                  made by xdfkenny
+                </a>
+                <p class="text-[10px] text-gray-400 opacity-60">
+                  © {{ new Date().getFullYear() }} Colegio Internacional de Caracas
+                </p>
+              </div>
             </div>
           </div>
         </div>
