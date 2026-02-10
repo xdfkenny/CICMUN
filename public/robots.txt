@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cicmun.org/sitemap.xml
+Sitemap: https://cicmun.qzz.io/sitemap.xml

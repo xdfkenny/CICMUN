@@ -2,43 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Main Pages -->
   <url>
-    <loc>https://cicmun.org/</loc>
+    <loc>https://cicmun.qzz.io/</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://cicmun.org/delegates</loc>
+    <loc>https://cicmun.qzz.io/delegates</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cicmun.org/samun</loc>
+    <loc>https://cicmun.qzz.io/samun</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cicmun.org/jmun</loc>
+    <loc>https://cicmun.qzz.io/jmun</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cicmun.org/gallery</loc>
+    <loc>https://cicmun.qzz.io/gallery</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://cicmun.org/resources</loc>
+    <loc>https://cicmun.qzz.io/resources</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cicmun.org/schedule</loc>
+    <loc>https://cicmun.qzz.io/schedule</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -46,37 +46,37 @@
 
   <!-- Committee Pages -->
   <url>
-    <loc>https://cicmun.org/committees/1</loc>
+    <loc>https://cicmun.qzz.io/committees/1</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://cicmun.org/committees/2</loc>
+    <loc>https://cicmun.qzz.io/committees/2</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://cicmun.org/committees/3</loc>
+    <loc>https://cicmun.qzz.io/committees/3</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://cicmun.org/committees/4</loc>
+    <loc>https://cicmun.qzz.io/committees/4</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://cicmun.org/committees/5</loc>
+    <loc>https://cicmun.qzz.io/committees/5</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://cicmun.org/committees/6</loc>
+    <loc>https://cicmun.qzz.io/committees/6</loc>
     <lastmod>2026-02-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
