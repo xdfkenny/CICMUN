@@ -3,6 +3,9 @@ import { Calendar, MapPin } from 'lucide-vue-next'
 import type { Committee } from '~/shared/types'
 
 const { data: committees, status } = await useFetch<Committee[]>('/api/committees/SAMUN')
+const { data: events } = await useFetch('/api/events')
+
+const eventDetails = computed(() => events.value?.find(e => e.id === 'samun'))
 const isLoading = computed(() => status.value === 'pending')
 </script>
 
@@ -11,9 +14,9 @@ const isLoading = computed(() => status.value === 'pending')
     <div class="container max-w-6xl mx-auto">
       <!-- Header -->
       <div class="mb-12">
-        <h1 class="text-5xl font-bold text-black mb-4 font-montserrat">SAMUN 2026</h1>
+        <h1 class="text-5xl font-bold text-black mb-4 font-montserrat">{{ eventDetails?.name || 'SAMUN 2026' }}</h1>
         <p class="text-xl text-gray-700">
-          South American Model of United Nations
+          {{ eventDetails?.description || 'South American Model of United Nations' }}
         </p>
       </div>
 
@@ -28,7 +31,7 @@ const isLoading = computed(() => status.value === 'pending')
               <Calendar class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
               <div>
                 <p class="font-bold text-gray-900">Date</p>
-                <p class="text-gray-700">November 13-14, 2026</p>
+                <p class="text-gray-700">{{ eventDetails?.date || 'Coming Soon' }}</p>
               </div>
             </div>
 
@@ -36,9 +39,9 @@ const isLoading = computed(() => status.value === 'pending')
               <MapPin class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
               <div>
                 <p class="font-bold text-gray-900">Location</p>
-                <p class="text-gray-700">Colegio Internacional de Caracas</p>
-                <p class="text-sm text-gray-600">Calle Colegio Americano, Minas de Baruta</p>
-                <p class="text-sm text-gray-600">Caracas, Venezuela</p>
+                <p class="text-gray-700">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
+                <p class="text-sm text-gray-600">{{ eventDetails?.address }}</p>
+                <p class="text-sm text-gray-600">{{ eventDetails?.city }}</p>
               </div>
             </div>
           </div>
@@ -53,7 +56,7 @@ const isLoading = computed(() => status.value === 'pending')
             loading="lazy"
             allowfullscreen
             referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3927.5551235847886!2d-66.82417!3d10.48889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c2a5e5e5e5e5e5d%3A0x5e5e5e5e5e5e5e5e!2sColeg%20Internacional%20de%20Caracas!5e0!3m2!1sen!2sve!4v1234567890"
+            :src="eventDetails?.mapUrl"
           ></iframe>
         </div>
       </div>

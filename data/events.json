@@ -1,0 +1,22 @@
+[
+    {
+        "id": "jmun",
+        "name": "JMUN 2026",
+        "description": "Junior Model of United Nations",
+        "date": "April 24-25, 2026",
+        "location": "Colegio Internacional de Caracas",
+        "address": "Calle Colegio Americano, Minas de Baruta",
+        "city": "Caracas, Venezuela",
+        "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.169722425839!2d-66.8617449241595!3d10.45038398968032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c2a58adcd824807%3A0x9483321946006d64!2sColegio%20Internacional%20de%20Caracas!5e0!3m2!1sen!2sve!4v1707500000000!5m2!1sen!2sve"
+    },
+    {
+        "id": "samun",
+        "name": "SAMUN 2026",
+        "description": "South American Model of United Nations",
+        "date": "Coming Soon",
+        "location": "Colegio Internacional de Caracas",
+        "address": "Calle Colegio Americano, Minas de Baruta",
+        "city": "Caracas, Venezuela",
+        "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.169722425839!2d-66.8617449241595!3d10.45038398968032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c2a58adcd824807%3A0x9483321946006d64!2sColegio%20Internacional%20de%20Caracas!5e0!3m2!1sen!2sve!4v1707500000000!5m2!1sen!2sve"
+    }
+]

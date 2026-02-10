@@ -23,7 +23,7 @@ import { Users, BookOpen } from 'lucide-vue-next'
             <Users class="w-16 h-16" />
             <div class="text-center">
               <h2 class="text-3xl font-bold mb-2 font-montserrat">SAMUN 2026</h2>
-              <p class="text-lg font-light">Senior Model of United Nations</p>
+              <p class="text-lg font-light">South American Model United Nations</p>
               <p class="text-sm mt-2 opacity-90">Grades 9-12</p>
             </div>
           </UiButton>
