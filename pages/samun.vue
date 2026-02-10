@@ -42,6 +42,15 @@ const isLoading = computed(() => status.value === 'pending')
                 <p class="text-gray-700">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
                 <p class="text-sm text-gray-600">{{ eventDetails?.address }}</p>
                 <p class="text-sm text-gray-600">{{ eventDetails?.city }}</p>
+                
+                <div v-if="eventDetails?.externalMapUrl" class="mt-4">
+                  <a :href="eventDetails.externalMapUrl" target="_blank" rel="noopener noreferrer">
+                    <UiButton size="sm" class="flex items-center gap-2 bg-black text-white hover:bg-gray-800 transition-colors">
+                      <MapPin class="w-4 h-4" />
+                      Open in Google Maps
+                    </UiButton>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
