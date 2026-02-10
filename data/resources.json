@@ -26,5 +26,12 @@
         "description": "Rules for MUN in JMUN 2026.",
         "category": "Academic",
         "filename": "MUN rules.pdf"
+    },
+    {
+        "id": "test",
+        "title": "TEST",
+        "description": "TEST",
+        "category": "Academic",
+        "filename": "test.pdf"
     }
 ]

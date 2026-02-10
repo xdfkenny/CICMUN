@@ -1,7 +1,18 @@
 <script setup lang="ts">
-import { FileText, Download } from 'lucide-vue-next'
+import { FileText, Download, Eye } from 'lucide-vue-next'
 
 const { data: resources } = await useFetch('/api/resources')
+
+const isViewerOpen = ref(false)
+const selectedPdf = ref({ url: '', title: '' })
+
+const openViewer = (filename: string, title: string) => {
+  selectedPdf.value = {
+    url: `/resources/${filename}`,
+    title: title
+  }
+  isViewerOpen.value = true
+}
 </script>
 
 <template>
@@ -22,12 +33,28 @@ const { data: resources } = await useFetch('/api/resources')
           <h3 class="text-xl font-bold mb-2 font-montserrat">{{ resource.title }}</h3>
           <p class="text-gray-600 mb-6 text-sm">{{ resource.description }}</p>
           
-          <a :href="`/resources/${resource.filename}`" target="_blank" class="inline-flex items-center gap-2 text-red-600 font-bold hover:text-red-700 transition-colors">
-            Download
-            <Download class="w-4 h-4" />
-          </a>
+          <div class="flex items-center gap-6 mt-auto">
+            <button 
+              @click="openViewer(resource.filename, resource.title)"
+              class="inline-flex items-center gap-2 text-black font-bold hover:text-gray-700 transition-colors"
+            >
+              <Eye class="w-4 h-4" />
+              View
+            </button>
+            <a :href="`/resources/${resource.filename}`" target="_blank" download class="inline-flex items-center gap-2 text-red-600 font-bold hover:text-red-700 transition-colors">
+              <Download class="w-4 h-4" />
+              Download
+            </a>
+          </div>
         </div>
       </div>
     </div>
+
+    <PdfViewer 
+      :is-open="isViewerOpen"
+      :pdf-url="selectedPdf.url"
+      :title="selectedPdf.title"
+      @close="isViewerOpen = false"
+    />
   </div>
 </template>

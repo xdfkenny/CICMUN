@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Users, FileText, Download } from 'lucide-vue-next'
+import { Users, FileText, Download, Eye } from 'lucide-vue-next'
 import type { Committee } from '~/shared/types'
 
 const route = useRoute()
@@ -16,6 +16,17 @@ const committee = computed(() => {
 })
 
 const resources = computed(() => committee.value?.resources || [])
+
+const isViewerOpen = ref(false)
+const selectedPdf = ref({ url: '', title: '' })
+
+const openViewer = (filename: string, title: string) => {
+  selectedPdf.value = {
+    url: `/resources/${filename}`,
+    title: title
+  }
+  isViewerOpen.value = true
+}
 </script>
 
 <template>
@@ -27,7 +38,6 @@ const resources = computed(() => committee.value?.resources || [])
           <div class="bg-black text-white p-8 md:p-12 text-center">
             <h1 class="text-4xl md:text-5xl font-bold font-montserrat mb-4">{{ committee.name }}</h1>
             <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full">
-              <Users class="w-5 h-5" />
               <span class="font-bold">{{ committee.type }} Committee</span>
             </div>
           </div>
@@ -78,7 +88,7 @@ const resources = computed(() => committee.value?.resources || [])
           <div class="lg:col-span-2 space-y-6">
             <h3 class="text-2xl font-bold font-montserrat text-black px-2">Committee Resources</h3>
             <div class="grid sm:grid-cols-2 gap-4">
-              <div v-for="resource in resources" :key="resource.title" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-black group">
+              <div v-for="resource in resources" :key="resource.title" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-black group flex flex-col">
                 <div class="flex justify-between items-start mb-4">
                   <div class="p-2 bg-gray-50 rounded-lg group-hover:bg-red-50 transition-colors">
                     <FileText class="w-6 h-6 text-black group-hover:text-red-500 transition-colors" />
@@ -89,10 +99,19 @@ const resources = computed(() => committee.value?.resources || [])
                 <h4 class="text-lg font-bold mb-1 font-montserrat leading-tight">{{ resource.title }}</h4>
                 <p class="text-gray-500 text-xs mb-4 line-clamp-2 leading-relaxed">{{ resource.description }}</p>
                 
-                <a :href="`/resources/${resource.filename}`" target="_blank" class="inline-flex items-center gap-2 text-sm text-red-600 font-bold hover:text-red-700 transition-colors mt-auto">
-                  Download
-                  <Download class="w-3.5 h-3.5" />
-                </a>
+                <div class="flex items-center gap-4 mt-auto pt-2">
+                  <button 
+                    @click="openViewer(resource.filename, resource.title)"
+                    class="inline-flex items-center gap-1.5 text-sm text-black font-bold hover:text-gray-700 transition-colors"
+                  >
+                    <Eye class="w-3.5 h-3.5" />
+                    View
+                  </button>
+                  <a :href="`/resources/${resource.filename}`" target="_blank" download class="inline-flex items-center gap-1.5 text-sm text-red-600 font-bold hover:text-red-700 transition-colors">
+                    <Download class="w-3.5 h-3.5" />
+                    Download
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -110,5 +129,12 @@ const resources = computed(() => committee.value?.resources || [])
         <NuxtLink to="/" class="text-red-600 hover:underline mt-4 inline-block">Return Home</NuxtLink>
       </div>
     </div>
+
+    <PdfViewer 
+      :is-open="isViewerOpen"
+      :pdf-url="selectedPdf.url"
+      :title="selectedPdf.title"
+      @close="isViewerOpen = false"
+    />
   </div>
 </template>
