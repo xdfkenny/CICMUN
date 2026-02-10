@@ -9,8 +9,8 @@
     "coChairPhoto": null,
     "secretaryName": null,
     "secretaryPhoto": null,
-    "topicA": "Respuesta ante 911",
-    "topicB": "IRAK 2003"
+    "topicA": "International Response to the 9/11 Attacks",
+    "topicB": "The 2003 Iraq War"
   },
   {
     "id": 2,
@@ -22,8 +22,8 @@
     "coChairPhoto": null,
     "secretaryName": null,
     "secretaryPhoto": null,
-    "topicA": "Child labour",
-    "topicB": "IRAN"
+    "topicA": "Child Labor and the Protection of Minors",
+    "topicB": "Situation in Iran"
   },
   {
     "id": 3,
@@ -35,8 +35,8 @@
     "coChairPhoto": null,
     "secretaryName": null,
     "secretaryPhoto": null,
-    "topicA": "Deforestacion Amazonas",
-    "topicB": "Human trafficking in South America"
+    "topicA": "Deforestation of the Amazon Rainforest",
+    "topicB": "Human Trafficking in South America"
   },
   {
     "id": 4,
@@ -48,7 +48,7 @@
     "coChairPhoto": null,
     "secretaryName": null,
     "secretaryPhoto": null,
-    "topicA": "Combating state sponsored misinfo",
+    "topicA": "Combating State-Sponsored Disinformation",
     "topicB": null
   },
   {
@@ -61,8 +61,8 @@
     "coChairPhoto": null,
     "secretaryName": null,
     "secretaryPhoto": null,
-    "topicA": "Biological weapons by terrorist groups",
-    "topicB": "Use of chemical weapons ME"
+    "topicA": "Use of Biological Weapons by Terrorist Groups",
+    "topicB": "Use of Chemical Weapons in the Middle East"
   },
   {
     "id": 6,
@@ -74,7 +74,7 @@
     "coChairPhoto": null,
     "secretaryName": null,
     "secretaryPhoto": null,
-    "topicA": "Ebola epidemic",
+    "topicA": "The Ebola Epidemic",
     "topicB": null
   }
 ]
