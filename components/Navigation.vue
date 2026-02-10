@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Home, Users, Calendar, BookOpen, Image } from 'lucide-vue-next'
+import { Home, Users, Calendar, BookOpen, Image, Instagram } from 'lucide-vue-next'
 const route = useRoute()
 const isActive = (path: string) => route.path === path
 </script>
@@ -66,6 +66,21 @@ const isActive = (path: string) => route.path === path
             <span class="hidden md:inline">Gallery</span>
           </UiButton>
         </NuxtLink>
+
+        <div class="h-8 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+
+        <a 
+          href="https://www.instagram.com/cicmunve/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          <UiButton
+            variant="ghost"
+            class="text-black hover:bg-pink-50 hover:text-pink-600 px-3 transition-colors"
+          >
+            <Instagram class="w-5 h-5" />
+          </UiButton>
+        </a>
       </div>
     </div>
   </nav>
