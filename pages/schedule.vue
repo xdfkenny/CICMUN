@@ -1,5 +1,12 @@
 <script setup lang="ts">
 const { data: schedule } = await useFetch('/api/schedule')
+
+useSeoMeta({
+  title: 'Horario de la Conferencia',
+  ogTitle: 'Horario de la Conferencia | CICMUN 2026',
+  description: 'Consulta el cronograma detallado de actividades para CICMUN 2026, incluyendo ceremonias y sesiones de comités.',
+  ogDescription: 'Consulta el cronograma detallado de actividades para CICMUN 2026, incluyendo ceremonias y sesiones de comités.',
+})
 </script>
 
 <template>

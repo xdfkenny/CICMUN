@@ -2,6 +2,13 @@
 import { Calendar, MapPin } from 'lucide-vue-next'
 import type { Committee } from '~/shared/types'
 
+useSeoMeta({
+  title: 'SAMUN 2026',
+  ogTitle: 'SAMUN 2026 - South American Model United Nations',
+  description: 'Explora los comités, temas y recursos para SAMUN 2026. La conferencia insignia de Model UN para estudiantes de secundaria en CIC.',
+  ogDescription: 'Explora los comités, temas y recursos para SAMUN 2026. La conferencia insignia de Model UN para estudiantes de secundaria en CIC.',
+})
+
 const { data: committees, status } = await useFetch<Committee[]>('/api/committees/SAMUN')
 const { data: events } = await useFetch('/api/events')
 

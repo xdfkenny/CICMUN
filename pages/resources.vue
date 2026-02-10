@@ -3,6 +3,13 @@ import { FileText, Download, Eye } from 'lucide-vue-next'
 
 const { data: resources } = await useFetch('/api/resources')
 
+useSeoMeta({
+  title: 'Recursos y Guías',
+  ogTitle: 'Recursos y Guías | CICMUN 2026',
+  description: 'Descarga guías de preparación, reglas de procedimiento y documentos esenciales para CICMUN 2026.',
+  ogDescription: 'Descarga guías de preparación, reglas de procedimiento y documentos esenciales para CICMUN 2026.',
+})
+
 const isViewerOpen = ref(false)
 const selectedPdf = ref({ url: '', title: '' })
 

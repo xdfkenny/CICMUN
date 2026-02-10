@@ -2,6 +2,13 @@
 import { Calendar, MapPin } from 'lucide-vue-next'
 import type { Committee } from '~/shared/types'
 
+useSeoMeta({
+  title: 'JMUN 2026',
+  ogTitle: 'JMUN 2026 - Junior Model of United Nations',
+  description: 'Descubre los comités y temas para JMUN 2026. La introducción perfecta a la diplomacia para estudiantes de secundaria inferior en CIC.',
+  ogDescription: 'Descubre los comités y temas para JMUN 2026. La introducción perfecta a la diplomacia para estudiantes de secundaria inferior en CIC.',
+})
+
 const { data: committees, status } = await useFetch<Committee[]>('/api/committees/JMUN')
 const { data: events } = await useFetch('/api/events')
 

@@ -15,6 +15,13 @@ const committee = computed(() => {
   return allCommittees.find(c => c.id === committeeId)
 })
 
+useSeoMeta({
+  title: () => committee.value ? `${committee.value.name} (${committee.value.type})` : 'Cargando...',
+  ogTitle: () => committee.value ? `${committee.value.name} - CICMUN 2026` : 'Comité - CICMUN 2026',
+  description: () => committee.value ? `Información sobre el comité ${committee.value.name}. Temas: ${committee.value.topicA}${committee.value.topicB ? ' y ' + committee.value.topicB : ''}.` : 'Detalles del comité de CICMUN.',
+  ogDescription: () => committee.value ? `Información sobre el comité ${committee.value.name}. Temas: ${committee.value.topicA}${committee.value.topicB ? ' y ' + committee.value.topicB : ''}.` : 'Detalles del comité de CICMUN.',
+})
+
 const resources = computed(() => committee.value?.resources || [])
 
 const isViewerOpen = ref(false)

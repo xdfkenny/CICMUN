@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { ArrowRight } from 'lucide-vue-next'
 // UiButton is auto-imported
+
+useSeoMeta({
+  title: 'Inicio',
+  ogTitle: 'CICMUN 2026 - Colegio Internacional de Caracas Model United Nations',
+  description: 'Bienvenidos al portal oficial de CICMUN 2026. Liderazgo, diplomacia y ciudadanía global en el Colegio Internacional de Caracas.',
+  ogDescription: 'Bienvenidos al portal oficial de CICMUN 2026. Liderazgo, diplomacia y ciudadanía global en el Colegio Internacional de Caracas.',
+  ogImage: '/images/og-image.jpg', // Placeholder image for social media
+  twitterCard: 'summary_large_image',
+})
 </script>
 
 <template>

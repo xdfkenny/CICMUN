@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import { Camera } from 'lucide-vue-next'
+
+useSeoMeta({
+  title: 'Galería de Fotos',
+  ogTitle: 'Galería de Fotos | CICMUN 2026',
+  description: 'Revive los mejores momentos de las conferencias CICMUN a través de nuestra galería de fotos.',
+  ogDescription: 'Revive los mejores momentos de las conferencias CICMUN a través de nuestra galería de fotos.',
+})
 </script>
 
 <template>

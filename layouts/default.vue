@@ -6,9 +6,9 @@ import Footer from '~/components/Footer.vue'
 <template>
   <div class="min-h-screen bg-background font-sans antialiased flex flex-col">
     <Navigation />
-    <div class="flex-1">
+    <main class="flex-1">
       <slot />
-    </div>
+    </main>
     <Footer />
   </div>
 </template>

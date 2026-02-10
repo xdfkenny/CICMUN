@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import { Users, BookOpen } from 'lucide-vue-next'
+
+useSeoMeta({
+  title: 'Recursos para Delegados',
+  ogTitle: 'Recursos para Delegados | CICMUN 2026',
+  description: 'Información y recursos esenciales para los delegados de SAMUN y JMUN en CICMUN 2026.',
+  ogDescription: 'Información y recursos esenciales para los delegados de SAMUN y JMUN en CICMUN 2026.',
+})
 </script>
 
 <template>
