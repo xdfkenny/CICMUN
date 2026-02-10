@@ -27,10 +27,29 @@ const textAccentColor = computed(() => {
         :class="`bg-${accentColor}`"
       ></div>
 
+      <!-- Committee Image Header -->
+      <div v-if="committee.image" class="relative h-48 overflow-hidden">
+        <img 
+          :src="committee.image" 
+          :alt="committee.name"
+          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        <div class="absolute bottom-4 left-6">
+          <span class="px-2 py-1 rounded bg-white/20 backdrop-blur-md text-[10px] font-bold text-white uppercase tracking-widest border border-white/30">
+            {{ committee.type }}
+          </span>
+        </div>
+      </div>
+
       <UiCardContent class="pt-8 px-6 pb-6">
-        <UiCardTitle class="text-2xl font-bold mb-6 font-montserrat tracking-tight group-hover:text-red-600 transition-colors duration-300">
+        <UiCardTitle class="text-2xl font-bold mb-4 font-montserrat tracking-tight group-hover:text-red-600 transition-colors duration-300">
           {{ committee.name }}
         </UiCardTitle>
+
+        <p v-if="committee.summary" class="text-sm text-gray-600 mb-6 line-clamp-2 leading-relaxed">
+          {{ committee.summary }}
+        </p>
 
         <div class="space-y-6">
           <!-- Staff Section -->

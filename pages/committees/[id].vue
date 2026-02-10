@@ -42,23 +42,43 @@ const openViewer = (filename: string, title: string) => {
       <div v-if="committee" class="space-y-8">
         <!-- Header -->
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div class="bg-black text-white p-8 md:p-12 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold font-montserrat mb-4">{{ committee.name }}</h1>
-            <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full">
-              <span class="font-bold">{{ committee.type }} Committee</span>
+          <!-- Hero Section -->
+          <div class="relative group h-64 md:h-80 overflow-hidden flex items-center justify-center">
+            <!-- Background Image -->
+            <div v-if="committee.image" class="absolute inset-0 z-0">
+              <img 
+                :src="committee.image" 
+                :alt="committee.name"
+                class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+              <div class="absolute inset-0 bg-black/40"></div>
+            </div>
+            <div v-else class="absolute inset-0 bg-black"></div>
+
+            <!-- Hero Content -->
+            <div class="relative z-10 text-white p-8 text-center">
+              <h1 class="text-4xl md:text-6xl font-bold font-montserrat mb-4 drop-shadow-2xl tracking-tight">
+                {{ committee.name }}
+              </h1>
+              <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-6 py-2 rounded-full border border-white/30 shadow-xl">
+                <span class="font-bold tracking-widest uppercase text-xs">
+                  {{ committee.type }} Committee
+                </span>
+              </div>
             </div>
           </div>
           
-          <div class="p-8">
+          <div class="p-8 bg-white relative z-20">
             <h2 class="text-2xl font-bold font-montserrat mb-6 border-b border-gray-100 pb-4">Topics</h2>
             <div class="grid md:grid-cols-2 gap-8">
-              <div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                <span class="text-red-500 font-bold text-sm uppercase tracking-wider mb-2 block">Topic A</span>
-                <p class="text-xl font-medium text-gray-900">{{ committee.topicA }}</p>
+              <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm">
+                <span class="text-red-700 font-bold text-sm uppercase tracking-wider mb-2 block">Topic A</span>
+                <p class="text-xl font-medium text-gray-900 leading-tight">{{ committee.topicA }}</p>
               </div>
-              <div v-if="committee.topicB" class="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                <span class="text-red-500 font-bold text-sm uppercase tracking-wider mb-2 block">Topic B</span>
-                <p class="text-xl font-medium text-gray-900">{{ committee.topicB }}</p>
+              <div v-if="committee.topicB" class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm">
+                <span class="text-red-700 font-bold text-sm uppercase tracking-wider mb-2 block">Topic B</span>
+                <p class="text-xl font-medium text-gray-900 leading-tight">{{ committee.topicB }}</p>
               </div>
             </div>
           </div>

@@ -11,6 +11,8 @@
     "secretaryPhoto": null,
     "topicA": "International Response to the 9/11 Attacks",
     "topicB": "The 2003 Iraq War",
+    "image": "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=2070&auto=format&fit=crop",
+    "summary": "The UN's primary body for maintaining international peace and security through collective action and intervention.",
     "resources": [
       {
         "title": "Background Guide",
@@ -41,6 +43,8 @@
     "secretaryPhoto": null,
     "topicA": "Child Labor and the Protection of Minors",
     "topicB": "Situation in Iran",
+    "image": "https://plus.unsplash.com/premium_photo-1661490331022-629b434cfea9?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "summary": "Dedicated to the promotion and protection of all human rights around the globe, addressing thematic issues and country situations.",
     "resources": [
       {
         "title": "Background Guide",
@@ -71,6 +75,8 @@
     "secretaryPhoto": null,
     "topicA": "Deforestation of the Amazon Rainforest",
     "topicB": "Human Trafficking in South America",
+    "image": "https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=2046&auto=format&fit=crop",
+    "summary": "The main deliberative, policymaking, and representative organ of the UN, providing a forum for multilateral discussion on international issues.",
     "resources": [
       {
         "title": "Background Guide",
@@ -101,6 +107,8 @@
     "secretaryPhoto": null,
     "topicA": "Combating State-Sponsored Disinformation",
     "topicB": null,
+    "image": "https://images.unsplash.com/photo-1572949645841-094f3a9c4c94?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "summary": "The premier forum for international economic cooperation, focusing on global financial stability and sustainable growth.",
     "resources": [
       {
         "title": "Summit Guide",
@@ -131,6 +139,8 @@
     "secretaryPhoto": null,
     "topicA": "Use of Biological Weapons by Terrorist Groups",
     "topicB": "Use of Chemical Weapons in the Middle East",
+    "image": "https://images.unsplash.com/photo-1763656445564-6fef9a9a9443?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "summary": "The First Committee of the General Assembly, focusing on disarmament and international security challenges.",
     "resources": [
       {
         "title": "Background Guide",
@@ -161,6 +171,8 @@
     "secretaryPhoto": null,
     "topicA": "The Ebola Epidemic",
     "topicB": null,
+    "image": "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?q=80&w=2069&auto=format&fit=crop",
+    "summary": "The leading authority on international public health, working to ensure the highest possible level of health for all people.",
     "resources": [
       {
         "title": "Background Guide",
