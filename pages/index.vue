@@ -17,9 +17,14 @@ import { ArrowRight } from 'lucide-vue-next'
           </p>
         </div>
 
-        <p class="text-lg md:text-xl mb-12 text-gray-200 max-w-2xl mx-auto leading-relaxed">
+        <p class="text-lg md:text-xl mb-8 text-gray-200 max-w-2xl mx-auto leading-relaxed">
           Experience diplomacy, leadership, and global citizenship at the Colegio Internacional de Caracas Model United Nations. Join delegates from across South America for an unforgettable conference.
         </p>
+
+        <div class="mb-12">
+          <p class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Counting down to JMUN 2026</p>
+          <CountdownTimer target-date="2026-04-24T09:00:00" />
+        </div>
 
         <!-- Call to Action Button -->
         <NuxtLink to="/delegates">

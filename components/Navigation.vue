@@ -34,6 +34,33 @@ const isActive = (path: string) => route.path === path
           </UiButton>
         </NuxtLink>
 
+        <NuxtLink to="/schedule">
+          <UiButton
+            :variant="isActive('/schedule') ? 'default' : 'ghost'"
+            :class="isActive('/schedule') ? 'bg-red-600 hover:bg-red-700 text-white' : 'text-black hover:bg-gray-100'"
+          >
+            Schedule
+          </UiButton>
+        </NuxtLink>
+
+        <NuxtLink to="/resources">
+          <UiButton
+            :variant="isActive('/resources') ? 'default' : 'ghost'"
+            :class="isActive('/resources') ? 'bg-red-600 hover:bg-red-700 text-white' : 'text-black hover:bg-gray-100'"
+          >
+            Resources
+          </UiButton>
+        </NuxtLink>
+
+        <NuxtLink to="/gallery">
+          <UiButton
+            :variant="isActive('/gallery') ? 'default' : 'ghost'"
+            :class="isActive('/gallery') ? 'bg-red-600 hover:bg-red-700 text-white' : 'text-black hover:bg-gray-100'"
+          >
+            Gallery
+          </UiButton>
+        </NuxtLink>
+
       </div>
     </div>
   </nav>

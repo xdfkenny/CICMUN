@@ -1,0 +1,104 @@
+[
+    {
+        "day": "Day 1",
+        "date": "April 24, 2026",
+        "events": [
+            {
+                "time": "9:20 AM - 10:45 AM",
+                "activity": "Working Session 1 (Opening speeches / Lobbying)",
+                "location": "Main Court"
+            },
+            {
+                "time": "10:45 AM - 11:00 AM",
+                "activity": "Break",
+                "location": "Cafeteria"
+            },
+            {
+                "time": "11:05 AM - 12:45 PM",
+                "activity": "Working Session 2",
+                "location": "Classrooms"
+            },
+            {
+                "time": "12:45 PM - 1:30 PM",
+                "activity": "Lunch",
+                "location": "Cafeteria"
+            },
+            {
+                "time": "1:35 PM - 3:00 PM",
+                "activity": "Working Session 3",
+                "location": "Classrooms"
+            },
+            {
+                "time": "3:00 PM - 3:10 PM",
+                "activity": "Break",
+                "location": "Cafeteria"
+            },
+            {
+                "time": "3:15 PM - 4:30 PM",
+                "activity": "Working Session 4",
+                "location": "Classrooms"
+            },
+            {
+                "time": "4:30 PM - 5:00 PM",
+                "activity": "Dismissal",
+                "location": "Main Entrance"
+            }
+        ]
+    },
+    {
+        "day": "Day 2",
+        "date": "April 25, 2026",
+        "events": [
+            {
+                "time": "7:30 AM - 8:00 AM",
+                "activity": "Arrival",
+                "location": "Main Entrance"
+            },
+            {
+                "time": "8:05 AM - 9:35 AM",
+                "activity": "Working Session 5",
+                "location": "Classrooms"
+            },
+            {
+                "time": "9:35 AM - 9:45 AM",
+                "activity": "Break",
+                "location": "Cafeteria"
+            },
+            {
+                "time": "9:50 AM - 11:00 AM",
+                "activity": "Working Session 6",
+                "location": "Classrooms"
+            },
+            {
+                "time": "11:00 AM - 11:10 AM",
+                "activity": "Break",
+                "location": "Cafeteria"
+            },
+            {
+                "time": "11:15 AM - 12:15 PM",
+                "activity": "Working Session 7",
+                "location": "Classrooms"
+            },
+            {
+                "time": "12:20 PM - 1:15 PM",
+                "activity": "Lunch",
+                "location": "Cafeteria"
+            },
+            {
+                "time": "1:20 PM - 2:00 PM",
+                "activity": "Working Session 8",
+                "location": "Classrooms"
+            },
+            {
+                "time": "2:05 PM - 3:05 PM",
+                "activity": "Closing Ceremony",
+                "location": "Main Court"
+            },
+            {
+                "time": "3:05 PM - 3:30 PM",
+                "activity": "Dismissal",
+                "location": "Main Entrance"
+            }
+        ]
+    }
+]
