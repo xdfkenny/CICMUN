@@ -73,12 +73,15 @@ const isActive = (path: string) => route.path === path
           href="https://www.instagram.com/cicmunve/" 
           target="_blank" 
           rel="noopener noreferrer"
+          class="relative group"
         >
           <UiButton
             variant="ghost"
-            class="text-black hover:bg-pink-50 hover:text-pink-600 px-3 transition-colors"
+            class="text-black hover:text-white px-3 transition-all duration-300 relative overflow-hidden group-hover:shadow-[0_0_15px_rgba(219,39,119,0.3)]"
           >
-            <Instagram class="w-5 h-5" />
+            <!-- Background gradient on hover -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <Instagram class="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300" />
           </UiButton>
         </a>
       </div>

@@ -10,16 +10,6 @@ import { Instagram } from 'lucide-vue-next'
         <span class="text-gray-400 font-bold tracking-widest text-sm">CICMUN</span>
       </div>
 
-      <a 
-        href="https://www.instagram.com/cicmunve/" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        class="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 text-white rounded-full font-bold hover:scale-105 transition-transform shadow-lg hover:shadow-pink-500/20"
-      >
-        <Instagram class="w-5 h-5" />
-        Follow @cicmunve
-      </a>
-
       <div class="flex flex-col items-center gap-2">
         <a 
           href="https://github.com/xdfkenny" 

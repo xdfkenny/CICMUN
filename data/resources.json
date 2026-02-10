@@ -19,5 +19,12 @@
         "description": "Instructions on how to research and write your committee position papers.",
         "category": "Academic",
         "filename": "position-paper-guide.pdf"
+    },
+    {
+        "id": "MUN rules",
+        "title": "MUN Rules",
+        "description": "Rules for MUN in JMUN 2026.",
+        "category": "Academic",
+        "filename": "MUN rules.pdf"
     }
 ]
