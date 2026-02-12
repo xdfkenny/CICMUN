@@ -11,14 +11,6 @@ import { Instagram } from 'lucide-vue-next'
       </div>
 
       <div class="flex flex-col items-center gap-2">
-        <a 
-          href="https://github.com/xdfkenny" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          class="text-xs text-gray-300 font-mono opacity-40 hover:opacity-100 transition-opacity duration-300 cursor-pointer hover:underline"
-        >
-          made by xdfkenny
-        </a>
         <p class="text-[10px] text-gray-300">
           © {{ new Date().getFullYear() }} Colegio Internacional de Caracas
         </p>

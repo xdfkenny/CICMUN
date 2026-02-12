@@ -187,14 +187,6 @@ watch(() => route.path, () => {
               </div>
 
               <div class="flex flex-col items-center gap-1">
-                <a 
-                  href="https://github.com/xdfkenny" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="text-xs text-gray-400 font-mono opacity-60 hover:opacity-100 transition-opacity duration-300 cursor-pointer hover:underline"
-                >
-                  made by xdfkenny
-                </a>
                 <p class="text-[10px] text-gray-400 opacity-60">
                   © {{ new Date().getFullYear() }} Colegio Internacional de Caracas
                 </p>
