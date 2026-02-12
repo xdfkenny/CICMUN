@@ -44,8 +44,8 @@ const operations = [
     name: 'Cesar',
     role: 'Logistics',
     icon: Truck,
-    color: 'text-red-600',
-    bg: 'bg-red-50'
+    color: 'text-black',
+    bg: 'bg-gray-50'
   }
 ]
 
