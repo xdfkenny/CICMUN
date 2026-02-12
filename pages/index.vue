@@ -77,5 +77,7 @@ useSeoMeta({
         </div>
       </div>
     </section>
+    <!-- Team Section -->
+    <TeamSection />
   </div>
 </template>
