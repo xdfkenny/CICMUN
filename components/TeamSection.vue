@@ -36,6 +36,13 @@ const coreTeam = [
     icon: Truck,
     color: 'text-red-600',
     bg: 'bg-red-50'
+  },
+  {
+    name: 'Cesar',
+    role: 'Logistics',
+    icon: Truck,
+    color: 'text-red-600',
+    bg: 'bg-red-50'
   }
 ]
 
