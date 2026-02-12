@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { User, Shield, Megaphone, GraduationCap, Star } from 'lucide-vue-next'
+import { User, Shield, Megaphone, GraduationCap, Star, Truck } from 'lucide-vue-next'
 
 const coreTeam = [
   {
@@ -29,6 +29,13 @@ const coreTeam = [
     icon: Megaphone,
     color: 'text-black',
     bg: 'bg-gray-50'
+  },
+  {
+    name: 'Selene',
+    role: 'Logistic',
+    icon: Truck,
+    color: 'text-red-600',
+    bg: 'bg-red-50'
   }
 ]
 
@@ -50,7 +57,7 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
       </div>
 
       <!-- Core Leadership Grid -->
-      <div class="flex overflow-x-auto pb-8 snap-x snap-mandatory sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-24 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+      <div class="flex overflow-x-auto pb-8 snap-x snap-mandatory sm:grid sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-8 mb-24 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
         <div 
           v-for="member in coreTeam" 
           :key="member.name"
