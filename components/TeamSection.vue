@@ -32,7 +32,7 @@ const coreTeam = [
   },
   {
     name: 'Selene',
-    role: 'Logistic',
+    role: 'Logistics',
     icon: Truck,
     color: 'text-red-600',
     bg: 'bg-red-50'
