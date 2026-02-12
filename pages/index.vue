@@ -61,6 +61,9 @@ useSeoMeta({
       </div>
     </section>
 
+    <!-- Team Section -->
+    <TeamSection />
+
     <!-- CIC Values Section -->
     <section class="bg-gray-50 py-16 md:py-24 px-4">
       <div class="container max-w-4xl mx-auto">
@@ -77,7 +80,5 @@ useSeoMeta({
         </div>
       </div>
     </section>
-    <!-- Team Section -->
-    <TeamSection />
   </div>
 </template>
