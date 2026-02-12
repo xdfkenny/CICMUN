@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { User, Shield, Megaphone, GraduationCap, Star, Truck } from 'lucide-vue-next'
 
-const coreTeam = [
+const leadership = [
   {
     name: 'Caterina',
     role: 'Secretary General',
@@ -22,7 +22,10 @@ const coreTeam = [
     icon: User,
     color: 'text-red-600',
     bg: 'bg-red-50'
-  },
+  }
+]
+
+const operations = [
   {
     name: 'Kenny',
     role: 'Community Manager',
@@ -63,23 +66,45 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
         </p>
       </div>
 
-      <!-- Core Leadership Grid -->
-      <div class="flex overflow-x-auto pb-8 snap-x snap-mandatory sm:grid sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-8 mb-24 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
-        <div 
-          v-for="member in coreTeam" 
-          :key="member.name"
-          class="flex-shrink-0 w-72 sm:w-full snap-center group bg-white rounded-2xl py-8 px-5 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center max-w-[240px] sm:max-w-[280px] mx-auto"
-        >
-          <!-- Icon with micro-animation -->
-          <div :class="['inline-flex p-4 sm:p-5 rounded-3xl mb-6 sm:mb-8 transition-all duration-300 group-hover:rotate-6 group-hover:scale-110', member.bg]">
-            <component :is="member.icon" :class="['w-8 h-8 sm:w-10 sm:h-10 transition-transform duration-300', member.color]" />
+      <!-- Team Rows Container -->
+      <div class="flex flex-col gap-12 mb-24">
+        <!-- Leadership Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div 
+            v-for="member in leadership" 
+            :key="member.name"
+            class="group bg-white rounded-2xl py-8 px-5 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center w-full max-w-[280px] mx-auto"
+          >
+            <div :class="['inline-flex p-4 sm:p-5 rounded-3xl mb-6 sm:mb-8 transition-all duration-300 group-hover:rotate-6 group-hover:scale-110', member.bg]">
+              <component :is="member.icon" :class="['w-8 h-8 sm:w-10 sm:h-10 transition-transform duration-300', member.color]" />
+            </div>
+            
+            <div class="flex flex-col gap-1 sm:gap-2">
+              <h3 class="text-xl sm:text-2xl font-extrabold text-black font-montserrat tracking-tight">{{ member.name }}</h3>
+              <p class="text-red-600 font-bold uppercase tracking-[0.15em] text-[9px] md:text-xs">
+                {{ member.role }}
+              </p>
+            </div>
           </div>
-          
-          <div class="flex flex-col gap-1 sm:gap-2">
-            <h3 class="text-xl sm:text-2xl font-extrabold text-black font-montserrat tracking-tight">{{ member.name }}</h3>
-            <p class="text-red-600 font-bold uppercase tracking-[0.15em] text-[9px] md:text-xs">
-              {{ member.role }}
-            </p>
+        </div>
+
+        <!-- Operations Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div 
+            v-for="member in operations" 
+            :key="member.name"
+            class="group bg-white rounded-2xl py-8 px-5 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center w-full max-w-[280px] mx-auto"
+          >
+            <div :class="['inline-flex p-4 sm:p-5 rounded-3xl mb-6 sm:mb-8 transition-all duration-300 group-hover:rotate-6 group-hover:scale-110', member.bg]">
+              <component :is="member.icon" :class="['w-8 h-8 sm:w-10 sm:h-10 transition-transform duration-300', member.color]" />
+            </div>
+            
+            <div class="flex flex-col gap-1 sm:gap-2">
+              <h3 class="text-xl sm:text-2xl font-extrabold text-black font-montserrat tracking-tight">{{ member.name }}</h3>
+              <p class="text-red-600 font-bold uppercase tracking-[0.15em] text-[9px] md:text-xs">
+                {{ member.role }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
