@@ -36,54 +36,64 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
 </script>
 
 <template>
-  <section class="bg-white py-20 px-4 md:py-32 border-t border-gray-100">
+  <section class="bg-white py-24 px-4 md:py-32 border-t border-gray-100">
     <div class="container max-w-6xl mx-auto">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl md:text-5xl font-extrabold text-black mb-4 font-montserrat tracking-tight uppercase">
+      <!-- Header Section -->
+      <div class="text-center mb-20">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-black mb-6 font-montserrat tracking-tight uppercase leading-tight">
           Meet the Team
         </h2>
-        <div class="h-1.5 w-24 bg-red-600 mx-auto rounded-full mb-6"></div>
-        <p class="text-xl text-gray-500 max-w-2xl mx-auto font-medium">
+        <div class="h-1.5 w-24 bg-red-600 mx-auto rounded-full mb-8"></div>
+        <p class="text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto font-semibold leading-relaxed">
           The dedicated leaders and educators behind CICMUN 2026.
         </p>
       </div>
 
       <!-- Core Leadership Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-24">
         <div 
           v-for="member in coreTeam" 
           :key="member.name"
-          class="group bg-white rounded-2xl p-8 border-2 border-gray-100 transition-all duration-300 hover:border-red-600 hover:shadow-2xl hover:-translate-y-2 text-center"
+          class="group bg-white rounded-2xl py-12 px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center max-w-[280px] mx-auto w-full"
         >
-          <div :class="['inline-flex p-4 rounded-full mb-6 transition-transform duration-300 group-hover:scale-110', member.bg]">
-            <component :is="member.icon" :class="['w-8 h-8', member.color]" />
+          <!-- Icon with micro-animation -->
+          <div :class="['inline-flex p-5 rounded-3xl mb-8 transition-all duration-300 group-hover:rotate-6 group-hover:scale-110', member.bg]">
+            <component :is="member.icon" :class="['w-10 h-10 transition-transform duration-300', member.color]" />
           </div>
-          <h3 class="text-2xl font-bold text-black mb-1 font-montserrat">{{ member.name }}</h3>
-          <p class="text-red-600 font-bold uppercase tracking-wider text-xs">{{ member.role }}</p>
+          
+          <div class="flex flex-col gap-2">
+            <h3 class="text-2xl font-extrabold text-black font-montserrat tracking-tight">{{ member.name }}</h3>
+            <p class="text-red-600 font-bold uppercase tracking-[0.15em] text-[10px] md:text-xs">
+              {{ member.role }}
+            </p>
+          </div>
         </div>
       </div>
 
       <!-- Faculties Section -->
-      <div class="bg-gray-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden">
+      <div class="bg-gray-900 rounded-[2.5rem] p-10 md:p-16 text-white relative overflow-hidden shadow-2xl">
         <!-- Abstract Background Decor -->
-        <div class="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
-        <div class="absolute bottom-0 left-0 w-64 h-64 bg-red-600/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-red-600/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-[100px]"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-red-600/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-[100px]"></div>
 
-        <div class="relative z-10 flex flex-col md:flex-row items-center gap-8 md:gap-16">
-          <div class="flex-shrink-0 bg-red-600 p-5 rounded-2xl shadow-xl shadow-red-900/20">
-            <GraduationCap class="w-12 h-12 text-white" />
+        <div class="relative z-10 flex flex-col md:flex-row items-center gap-10 md:gap-20">
+          <div class="flex-shrink-0 bg-red-600 p-6 rounded-[2rem] shadow-[0_15px_30px_rgba(220,38,38,0.3)] group transition-transform duration-500 hover:rotate-3">
+            <GraduationCap class="w-14 h-14 text-white" />
           </div>
           
           <div class="flex-1 text-center md:text-left">
-            <h3 class="text-3xl font-bold mb-2 font-montserrat">Our Faculties</h3>
-            <p class="text-gray-400 text-lg mb-6 font-light">Guiding and mentoring the next generation of diplomats.</p>
+            <div class="flex flex-col gap-3 mb-8">
+              <h3 class="text-3xl md:text-4xl font-bold font-montserrat tracking-tight leading-tight">Our Faculties</h3>
+              <p class="text-gray-400 text-lg md:text-xl font-medium opacity-80">Guiding and mentoring the next generation of diplomats.</p>
+            </div>
             
-            <div class="flex flex-wrap justify-center md:justify-start gap-4">
+            <div class="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6">
               <div 
                 v-for="faculty in faculties" 
                 :key="faculty"
-                class="px-6 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/10 font-bold text-red-500 hover:bg-white/20 transition-colors"
+                class="group px-8 py-3 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 font-bold text-red-500 transition-all duration-300 hover:bg-white/15 hover:scale-105 hover:shadow-[0_10px_20px_rgba(220,38,38,0.15)] flex items-center gap-3"
               >
+                <div class="w-2 h-2 rounded-full bg-red-600 group-hover:animate-pulse"></div>
                 {{ faculty }}
               </div>
             </div>
