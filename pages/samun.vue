@@ -28,52 +28,61 @@ const isLoading = computed(() => status.value === 'pending')
       </div>
 
       <!-- Event Details -->
-      <div class="grid md:grid-cols-2 gap-8 mb-12">
-        <!-- Date and Location -->
-        <div class="bg-white p-8 rounded-lg border-l-4 border-red-600 shadow-md">
-          <h2 class="text-2xl font-bold text-black mb-6 font-montserrat">Event Details</h2>
+      <div class="max-w-4xl mx-auto mb-12">
+        <!-- Date and Location with Map -->
+        <div class="bg-white p-6 md:p-10 rounded-2xl border-l-8 border-red-600 shadow-xl overflow-hidden">
+          <h2 class="text-3xl font-bold text-black mb-8 font-montserrat">Event Details</h2>
 
-          <div class="space-y-4">
-            <div class="flex items-start gap-4">
-              <Calendar class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
-              <div>
-                <p class="font-bold text-gray-900">Date</p>
-                <p class="text-gray-700">{{ eventDetails?.date || 'Coming Soon' }}</p>
+          <div class="grid md:grid-cols-2 gap-10">
+            <div class="space-y-6">
+              <div class="flex items-start gap-5">
+                <div class="bg-red-50 p-3 rounded-xl">
+                  <Calendar class="w-6 h-6 text-red-600" />
+                </div>
+                <div>
+                  <p class="font-bold text-gray-900 text-lg">Date</p>
+                  <p class="text-gray-700 text-lg">{{ eventDetails?.date || 'Coming Soon' }}</p>
+                </div>
               </div>
-            </div>
 
-            <div class="flex items-start gap-4">
-              <MapPin class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
-              <div>
-                <p class="font-bold text-gray-900">Location</p>
-                <p class="text-gray-700">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
-                <p class="text-sm text-gray-600">{{ eventDetails?.address }}</p>
-                <p class="text-sm text-gray-600">{{ eventDetails?.city }}</p>
-                
-                <div v-if="eventDetails?.externalMapUrl" class="mt-4">
-                  <a :href="eventDetails.externalMapUrl" target="_blank" rel="noopener noreferrer">
-                    <UiButton size="sm" class="flex items-center gap-2 bg-black text-white hover:bg-gray-800 transition-colors">
-                      <MapPin class="w-4 h-4" />
-                      Open in Google Maps
-                    </UiButton>
-                  </a>
+              <div class="flex items-start gap-5">
+                <div class="bg-red-50 p-3 rounded-xl">
+                  <MapPin class="w-6 h-6 text-red-600" />
+                </div>
+                <div class="flex-1">
+                  <p class="font-bold text-gray-900 text-lg">Location</p>
+                  <div class="hidden md:block">
+                    <p class="text-gray-700 font-medium">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
+                    <p class="text-sm text-gray-500 mt-1">{{ eventDetails?.address }}</p>
+                    <p class="text-sm text-gray-500">{{ eventDetails?.city }}</p>
+                    
+                    <div v-if="eventDetails?.externalMapUrl" class="mt-6">
+                      <a :href="eventDetails.externalMapUrl" target="_blank" rel="noopener noreferrer">
+                        <UiButton size="default" class="flex items-center gap-2 bg-red-600 text-white hover:bg-red-700 transition-all shadow-lg hover:shadow-red-600/20">
+                          <MapPin class="w-4 h-4" />
+                          Open in Google Maps
+                        </UiButton>
+                      </a>
+                    </div>
+                  </div>
+                  <!-- Mobile only fallback or just keep it simple -->
+                  <p class="md:hidden text-gray-700 font-medium">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Map -->
-        <div class="bg-white p-4 rounded-lg shadow-md overflow-hidden">
-          <iframe
-            width="100%"
-            height="300"
-            style="border: 0"
-            loading="lazy"
-            allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
-            :src="eventDetails?.mapUrl"
-          ></iframe>
+            <div class="rounded-xl overflow-hidden border border-gray-100 shadow-inner h-[250px] md:h-full min-h-[250px]">
+              <iframe
+                width="100%"
+                height="100%"
+                style="border: 0"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade"
+                :src="eventDetails?.mapUrl"
+              ></iframe>
+            </div>
+          </div>
         </div>
       </div>
 

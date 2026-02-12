@@ -53,35 +53,35 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
 </script>
 
 <template>
-  <section class="bg-white py-24 px-4 md:py-32 border-t border-gray-100">
+  <section class="bg-white py-16 px-4 md:py-32 border-t border-gray-100">
     <div class="container max-w-6xl mx-auto">
       <!-- Header Section -->
-      <div class="text-center mb-20">
-        <h2 class="text-4xl md:text-5xl font-extrabold text-black mb-6 font-montserrat tracking-tight uppercase leading-tight">
+      <div class="text-center mb-16 md:mb-20">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black mb-6 font-montserrat tracking-tight uppercase leading-tight">
           Meet the Team
         </h2>
         <div class="h-1.5 w-24 bg-red-600 mx-auto rounded-full mb-8"></div>
-        <p class="text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto font-semibold leading-relaxed">
+        <p class="text-lg sm:text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto font-semibold leading-relaxed px-4">
           The dedicated leaders and educators behind CICMUN 2026.
         </p>
       </div>
 
       <!-- Team Rows Container -->
-      <div class="flex flex-col gap-12 mb-24">
+      <div class="flex flex-col gap-8 md:gap-12 mb-20 md:mb-24">
         <!-- Leadership Row -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="flex flex-wrap justify-center gap-4 sm:gap-8">
           <div 
             v-for="member in leadership" 
             :key="member.name"
-            class="group bg-white rounded-2xl py-8 px-5 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center w-full max-w-[280px] mx-auto"
+            class="group bg-white rounded-2xl py-6 px-4 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center w-[calc(50%-0.5rem)] sm:w-[280px]"
           >
-            <div :class="['inline-flex p-4 sm:p-5 rounded-3xl mb-6 sm:mb-8 transition-all duration-300 group-hover:rotate-6 group-hover:scale-110', member.bg]">
-              <component :is="member.icon" :class="['w-8 h-8 sm:w-10 sm:h-10 transition-transform duration-300', member.color]" />
+            <div :class="['inline-flex p-3 sm:p-5 rounded-2xl sm:rounded-3xl mb-4 sm:mb-8 transition-all duration-300 group-hover:rotate-6 group-hover:scale-110', member.bg]">
+              <component :is="member.icon" :class="['w-6 h-6 sm:w-10 sm:h-10 transition-transform duration-300', member.color]" />
             </div>
             
             <div class="flex flex-col gap-1 sm:gap-2">
-              <h3 class="text-xl sm:text-2xl font-extrabold text-black font-montserrat tracking-tight">{{ member.name }}</h3>
-              <p class="text-red-600 font-bold uppercase tracking-[0.15em] text-[9px] md:text-xs">
+              <h3 class="text-base sm:text-2xl font-extrabold text-black font-montserrat tracking-tight leading-tight">{{ member.name }}</h3>
+              <p class="text-red-600 font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-[8px] sm:text-xs">
                 {{ member.role }}
               </p>
             </div>
@@ -89,19 +89,19 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
         </div>
 
         <!-- Operations Row -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="flex flex-wrap justify-center gap-4 sm:gap-8">
           <div 
             v-for="member in operations" 
             :key="member.name"
-            class="group bg-white rounded-2xl py-8 px-5 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center w-full max-w-[280px] mx-auto"
+            class="group bg-white rounded-2xl py-6 px-4 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center w-[calc(50%-0.5rem)] sm:w-[280px]"
           >
-            <div :class="['inline-flex p-4 sm:p-5 rounded-3xl mb-6 sm:mb-8 transition-all duration-300 group-hover:rotate-6 group-hover:scale-110', member.bg]">
-              <component :is="member.icon" :class="['w-8 h-8 sm:w-10 sm:h-10 transition-transform duration-300', member.color]" />
+            <div :class="['inline-flex p-3 sm:p-5 rounded-2xl sm:rounded-3xl mb-4 sm:mb-8 transition-all duration-300 group-hover:rotate-6 group-hover:scale-110', member.bg]">
+              <component :is="member.icon" :class="['w-6 h-6 sm:w-10 sm:h-10 transition-transform duration-300', member.color]" />
             </div>
             
             <div class="flex flex-col gap-1 sm:gap-2">
-              <h3 class="text-xl sm:text-2xl font-extrabold text-black font-montserrat tracking-tight">{{ member.name }}</h3>
-              <p class="text-red-600 font-bold uppercase tracking-[0.15em] text-[9px] md:text-xs">
+              <h3 class="text-base sm:text-2xl font-extrabold text-black font-montserrat tracking-tight leading-tight">{{ member.name }}</h3>
+              <p class="text-red-600 font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-[8px] sm:text-xs">
                 {{ member.role }}
               </p>
             </div>
@@ -110,14 +110,14 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
       </div>
 
       <!-- Faculties Section -->
-      <div class="bg-gray-900 rounded-[2.5rem] p-10 md:p-16 text-white relative overflow-hidden shadow-2xl">
+      <div class="bg-gray-900 rounded-[2rem] md:rounded-[2.5rem] p-8 md:p-16 text-white relative overflow-hidden shadow-2xl">
         <!-- Abstract Background Decor -->
         <div class="absolute top-0 right-0 w-96 h-96 bg-red-600/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-[100px]"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-red-600/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-[100px]"></div>
 
-        <div class="relative z-10 flex flex-col md:flex-row items-center gap-10 md:gap-20">
-          <div class="flex-shrink-0 bg-red-600 p-6 rounded-[2rem] shadow-[0_15px_30px_rgba(220,38,38,0.3)] group transition-transform duration-500 hover:rotate-3">
-            <GraduationCap class="w-14 h-14 text-white" />
+        <div class="relative z-10 flex flex-col md:flex-row items-center gap-8 md:gap-20">
+          <div class="flex-shrink-0 bg-red-600 p-5 md:p-6 rounded-2xl md:rounded-[2rem] shadow-[0_15px_30px_rgba(220,38,38,0.3)] group transition-transform duration-500 hover:rotate-3">
+            <GraduationCap class="w-12 h-12 md:w-14 md:h-14 text-white" />
           </div>
           
           <div class="flex-1 text-center md:text-left">
