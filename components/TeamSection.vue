@@ -6,22 +6,25 @@ const leadership = [
     name: 'Caterina',
     role: 'Secretary General',
     icon: Star,
-    color: 'text-red-600',
-    bg: 'bg-red-50'
+    color: 'text-white',
+    bg: 'bg-red-600',
+    image: '/TEAM PHOTOS/Caterina.png'
   },
   {
     name: 'Oriana',
     role: 'Deputy Secretary',
     icon: Shield,
-    color: 'text-black',
-    bg: 'bg-gray-50'
+    color: 'text-white',
+    bg: 'bg-black',
+    image: '/TEAM PHOTOS/Oriana.png'
   },
   {
     name: 'Santiago',
     role: 'Head Delegate',
     icon: User,
-    color: 'text-red-600',
-    bg: 'bg-red-50'
+    color: 'text-white',
+    bg: 'bg-red-600',
+    image: '/TEAM PHOTOS/Santiago.png'
   }
 ]
 
@@ -30,22 +33,25 @@ const operations = [
     name: 'Kenny',
     role: 'Community Manager',
     icon: Megaphone,
-    color: 'text-black',
-    bg: 'bg-gray-50'
+    color: 'text-white',
+    bg: 'bg-black',
+    image: '/TEAM PHOTOS/Kenny.png'
   },
   {
     name: 'Selene',
     role: 'Logistics',
     icon: Truck,
-    color: 'text-red-600',
-    bg: 'bg-red-50'
+    color: 'text-white',
+    bg: 'bg-red-600',
+    image: '/TEAM PHOTOS/Selene.png'
   },
   {
     name: 'Cesar',
     role: 'Logistics',
     icon: Truck,
-    color: 'text-black',
-    bg: 'bg-gray-50'
+    color: 'text-white',
+    bg: 'bg-black',
+    image: '/TEAM PHOTOS/Cesar.png'
   }
 ]
 
@@ -75,9 +81,22 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
             :key="member.name"
             class="group bg-white rounded-2xl py-6 px-4 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center w-[calc(50%-0.5rem)] sm:w-[280px]"
           >
-            <div :class="['inline-flex p-3 sm:p-5 rounded-2xl sm:rounded-3xl mb-4 sm:mb-8 transition-all duration-300 group-hover:rotate-6 group-hover:scale-110', member.bg]">
-              <component :is="member.icon" :class="['w-6 h-6 sm:w-10 sm:h-10 transition-transform duration-300', member.color]" />
+            <div class="relative inline-flex mb-4 sm:mb-8 mx-auto">
+              <!-- Team Member Image -->
+              <div class="w-24 h-24 sm:w-40 sm:h-40 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-gray-100 transition-all duration-300 group-hover:scale-105">
+                <img 
+                  :src="member.image" 
+                  :alt="member.name"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              
+              <!-- Icon Badge -->
+              <div :class="['absolute -bottom-2 -right-2 p-2 sm:p-3 rounded-xl sm:rounded-2xl transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 shadow-lg', member.bg]">
+                <component :is="member.icon" :class="['w-4 h-4 sm:w-6 sm:h-6', member.color]" />
+              </div>
             </div>
+
             
             <div class="flex flex-col gap-1 sm:gap-2">
               <h3 class="text-base sm:text-2xl font-extrabold text-black font-montserrat tracking-tight leading-tight">{{ member.name }}</h3>
@@ -95,9 +114,22 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
             :key="member.name"
             class="group bg-white rounded-2xl py-6 px-4 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center w-[calc(50%-0.5rem)] sm:w-[280px]"
           >
-            <div :class="['inline-flex p-3 sm:p-5 rounded-2xl sm:rounded-3xl mb-4 sm:mb-8 transition-all duration-300 group-hover:rotate-6 group-hover:scale-110', member.bg]">
-              <component :is="member.icon" :class="['w-6 h-6 sm:w-10 sm:h-10 transition-transform duration-300', member.color]" />
+            <div class="relative inline-flex mb-4 sm:mb-8 mx-auto">
+              <!-- Team Member Image -->
+              <div class="w-24 h-24 sm:w-40 sm:h-40 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-gray-100 transition-all duration-300 group-hover:scale-105">
+                <img 
+                  :src="member.image" 
+                  :alt="member.name"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              
+              <!-- Icon Badge -->
+              <div :class="['absolute -bottom-2 -right-2 p-2 sm:p-3 rounded-xl sm:rounded-2xl transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 shadow-lg', member.bg]">
+                <component :is="member.icon" :class="['w-4 h-4 sm:w-6 sm:h-6', member.color]" />
+              </div>
             </div>
+
             
             <div class="flex flex-col gap-1 sm:gap-2">
               <h3 class="text-base sm:text-2xl font-extrabold text-black font-montserrat tracking-tight leading-tight">{{ member.name }}</h3>
