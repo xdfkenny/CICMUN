@@ -87,6 +87,8 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
                 <img 
                   :src="member.image" 
                   :alt="member.name"
+                  loading="lazy"
+                  decoding="async"
                   class="w-full h-full object-cover"
                 />
               </div>
@@ -120,6 +122,8 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
                 <img 
                   :src="member.image" 
                   :alt="member.name"
+                  loading="lazy"
+                  decoding="async"
                   class="w-full h-full object-cover"
                 />
               </div>

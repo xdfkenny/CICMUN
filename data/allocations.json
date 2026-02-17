@@ -1,0 +1,23 @@
+[
+  {
+    "committeeId": 1,
+    "committeeName": "Security Council",
+    "countries": [
+      { "name": "United States", "status": "assigned" },
+      { "name": "France", "status": "available" },
+      { "name": "China", "status": "assigned" },
+      { "name": "United Kingdom", "status": "available" },
+      { "name": "Brazil", "status": "available" }
+    ]
+  },
+  {
+    "committeeId": 2,
+    "committeeName": "UNHRC",
+    "countries": [
+      { "name": "Venezuela", "status": "assigned" },
+      { "name": "Mexico", "status": "available" },
+      { "name": "Canada", "status": "available" },
+      { "name": "Argentina", "status": "assigned" }
+    ]
+  }
+]

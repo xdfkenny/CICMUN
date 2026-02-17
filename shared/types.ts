@@ -24,3 +24,24 @@ export interface Committee {
   summary?: string;
   resources?: Resource[];
 }
+
+export interface CommitteeBrief {
+  committeeId: number;
+  background: string;
+  keyQuestions: string[];
+  recommendedSources: { title: string; url: string }[];
+  positionChecklist: string[];
+}
+
+export interface GlossaryTerm {
+  term: string;
+  definition_en: string;
+  definition_es: string;
+  tags: string[];
+}
+
+export interface AllocationEntry {
+  committeeId: number;
+  committeeName: string;
+  countries: { name: string; status: 'available' | 'assigned' | 'reserved' }[];
+}

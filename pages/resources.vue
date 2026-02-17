@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import { FileText, Download, Eye } from 'lucide-vue-next'
 
-const { data: resources } = await useFetch('/api/resources')
+definePageMeta({
+  middleware: ['role'],
+  auth: {
+    required: true,
+    roles: ['delegate'],
+  },
+})
+
+const { data: resources, pending, error } = await useFetch('/api/resources', {
+  default: () => [],
+})
 
 useSeoMeta({
   title: 'Recursos y Guías',
@@ -13,13 +23,45 @@ useSeoMeta({
 const isViewerOpen = ref(false)
 const selectedPdf = ref({ url: '', title: '' })
 
+const visibleCount = ref(12)
+const loadMoreRef = ref<HTMLElement | null>(null)
+let observer: IntersectionObserver | null = null
+
+const visibleResources = computed(() => (resources.value || []).slice(0, visibleCount.value))
+const hasMore = computed(() => (resources.value || []).length > visibleCount.value)
+
+const loadMore = () => {
+  visibleCount.value = Math.min(visibleCount.value + 12, (resources.value || []).length)
+}
+
+const setupObserver = () => {
+  observer?.disconnect()
+  if (!process.client || !loadMoreRef.value || !hasMore.value) return
+  if (!('IntersectionObserver' in window)) {
+    loadMore()
+    return
+  }
+  observer = new IntersectionObserver((entries) => {
+    if (entries[0]?.isIntersecting) loadMore()
+  }, { rootMargin: '400px 0px' })
+  observer.observe(loadMoreRef.value)
+}
+
+watch(hasMore, () => nextTick(setupObserver))
+watch(loadMoreRef, () => nextTick(setupObserver))
+onMounted(setupObserver)
+onUnmounted(() => observer?.disconnect())
+
 const openViewer = (filename: string, title: string) => {
+  const encoded = encodeURIComponent(filename)
   selectedPdf.value = {
-    url: `/resources/${filename}`,
+    url: `/resources/${encoded}`,
     title: title
   }
   isViewerOpen.value = true
 }
+
+const resourceUrl = (filename: string) => `/resources/${encodeURIComponent(filename)}`
 </script>
 
 <template>
@@ -28,8 +70,12 @@ const openViewer = (filename: string, title: string) => {
       <h1 class="text-4xl md:text-5xl font-bold text-center mb-4 font-montserrat text-black">Resources</h1>
       <p class="text-xl text-center text-gray-600 mb-12">Essential documents for your preparation</p>
 
-      <div class="grid md:grid-cols-2 gap-6">
-        <div v-for="resource in resources" :key="resource.id" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-black">
+      <div v-if="pending" class="text-center text-gray-500 py-12">Loading resources...</div>
+      <div v-else-if="error" class="text-center text-red-600 py-12">Unable to load resources.</div>
+      <div v-else-if="visibleResources.length === 0" class="text-center text-gray-500 py-12">Resources coming soon.</div>
+
+      <div v-else class="grid md:grid-cols-2 gap-6">
+        <div v-for="resource in visibleResources" :key="resource.id" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-black">
           <div class="flex justify-between items-start mb-4">
             <div class="p-3 bg-gray-100 rounded-lg">
               <FileText class="w-8 h-8 text-black" />
@@ -48,12 +94,16 @@ const openViewer = (filename: string, title: string) => {
               <Eye class="w-4 h-4" />
               View
             </button>
-            <a :href="`/resources/${resource.filename}`" target="_blank" download class="inline-flex items-center gap-2 text-red-600 font-bold hover:text-red-700 transition-colors">
+            <a :href="resourceUrl(resource.filename)" :download="resource.filename" class="inline-flex items-center gap-2 text-red-600 font-bold hover:text-red-700 transition-colors">
               <Download class="w-4 h-4" />
               Download
             </a>
           </div>
         </div>
+      </div>
+
+      <div v-if="hasMore && !pending && !error && visibleResources.length > 0" ref="loadMoreRef" class="mt-6 text-center text-sm text-gray-500">
+        Loading more...
       </div>
     </div>
 

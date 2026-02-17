@@ -15,7 +15,7 @@ const timeRemaining = ref({
   seconds: 0
 })
 
-let interval: NodeJS.Timeout
+let interval: ReturnType<typeof setInterval> | null = null
 
 const calculateTimeRemaining = () => {
   const target = new Date(props.targetDate).getTime()
@@ -23,7 +23,7 @@ const calculateTimeRemaining = () => {
   const distance = target - now
 
   if (distance < 0) {
-    clearInterval(interval)
+    if (interval) clearInterval(interval)
     return
   }
 
@@ -39,7 +39,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  clearInterval(interval)
+  if (interval) clearInterval(interval)
 })
 </script>
 

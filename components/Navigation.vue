@@ -1,9 +1,29 @@
 <script setup lang="ts">
-import { Home, Users, Calendar, BookOpen, Image, Instagram } from 'lucide-vue-next'
+import { Home, Users, Calendar, BookOpen, Image, Instagram, LogIn, LogOut } from 'lucide-vue-next'
+import type { AuthRole } from '~/composables/useAuth'
+import { useRoleOverrideStore } from '~/stores/roleOverride'
 const route = useRoute()
+const router = useRouter()
 const isActive = (path: string) => route.path === path
+const { effectiveRole, role, isAuthenticated, logout, ready, setViewAsRole } = useAuth()
+const roleOverrideStore = useRoleOverrideStore()
+const roleOverrideOptions: AuthRole[] = ['public', 'delegate', 'teacher', 'staff', 'admin', 'super_admin']
+const overrideSelection = computed({
+  get: () => roleOverrideStore.overrideRole ?? '',
+  set: (value: string) => {
+    roleOverrideStore.setOverrideRole(value ? (value as AuthRole) : null)
+  },
+})
+
+const canSeeDelegateLinks = computed(() => ready.value && isAuthenticated.value && effectiveRole.value === 'delegate')
+const canSeeTeacher = computed(() => ready.value && isAuthenticated.value && effectiveRole.value === 'teacher')
+const canSeeStaff = computed(() => ready.value && isAuthenticated.value && effectiveRole.value === 'staff')
+const canSeeAdmin = computed(() => ready.value && isAuthenticated.value && (effectiveRole.value === 'admin' || effectiveRole.value === 'super_admin'))
+const isPreviewing = computed(() => role.value === 'super_admin' && effectiveRole.value !== role.value)
 
 const isMenuOpen = ref(false)
+const isAccessOpen = ref(false)
+const accessMenuRef = ref<HTMLElement | null>(null)
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
   if (isMenuOpen.value) {
@@ -18,6 +38,28 @@ watch(() => route.path, () => {
   isMenuOpen.value = false
   document.body.style.overflow = 'auto'
 })
+
+const goLogin = () => {
+  router.push(`/login?redirect=${encodeURIComponent(route.fullPath)}`)
+}
+
+const doLogout = async () => {
+  await logout()
+  router.push('/')
+}
+
+const openAccessMenu = () => {
+  isAccessOpen.value = true
+}
+
+const closeAccessMenu = (event?: FocusEvent) => {
+  const nextTarget = event?.relatedTarget as Node | null
+  if (accessMenuRef.value && nextTarget && accessMenuRef.value.contains(nextTarget)) {
+    return
+  }
+  isAccessOpen.value = false
+}
+
 </script>
 
 <template>
@@ -43,7 +85,7 @@ watch(() => route.path, () => {
           </UiButton>
         </NuxtLink>
 
-        <NuxtLink to="/delegates">
+        <NuxtLink v-if="canSeeDelegateLinks" to="/delegates">
           <UiButton
             :variant="isActive('/delegates') ? 'default' : 'ghost'"
             :class="`${isActive('/delegates') ? 'bg-red-600 hover:bg-red-700 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
@@ -63,7 +105,7 @@ watch(() => route.path, () => {
           </UiButton>
         </NuxtLink>
 
-        <NuxtLink to="/resources">
+        <NuxtLink v-if="canSeeDelegateLinks" to="/resources">
           <UiButton
             :variant="isActive('/resources') ? 'default' : 'ghost'"
             :class="`${isActive('/resources') ? 'bg-red-600 hover:bg-red-700 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
@@ -83,7 +125,125 @@ watch(() => route.path, () => {
           </UiButton>
         </NuxtLink>
 
-        <div class="h-8 w-px bg-gray-200 mx-2"></div>
+        <NuxtLink v-if="canSeeTeacher" to="/teacher">
+          <UiButton
+            :variant="isActive('/teacher') ? 'default' : 'ghost'"
+            :class="`${isActive('/teacher') ? 'bg-black text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          >
+            <Users class="w-5 h-5" />
+            <span class="hidden md:inline">Teacher</span>
+          </UiButton>
+        </NuxtLink>
+
+        <NuxtLink v-if="canSeeStaff" to="/staff/check-in">
+          <UiButton
+            :variant="isActive('/staff/check-in') ? 'default' : 'ghost'"
+            :class="`${isActive('/staff/check-in') ? 'bg-black text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          >
+            <Users class="w-5 h-5" />
+            <span class="hidden md:inline">Staff</span>
+          </UiButton>
+        </NuxtLink>
+
+        <NuxtLink v-if="canSeeAdmin" to="/admin">
+          <UiButton
+            :variant="isActive('/admin') ? 'default' : 'ghost'"
+            :class="`${isActive('/admin') ? 'bg-black text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          >
+            <Users class="w-5 h-5" />
+            <span class="hidden md:inline">Admin</span>
+          </UiButton>
+        </NuxtLink>
+
+        <div
+          ref="accessMenuRef"
+          class="relative group ml-2"
+          @focusin="openAccessMenu"
+          @focusout="closeAccessMenu"
+          @keydown.escape="isAccessOpen = false"
+        >
+          <UiButton
+            type="button"
+            variant="ghost"
+            class="text-black hover:bg-gray-100 flex items-center gap-2 px-3 sm:px-4"
+            aria-haspopup="menu"
+            :aria-expanded="isAccessOpen ? 'true' : 'false'"
+            @click="openAccessMenu"
+            @focus="openAccessMenu"
+          >
+            <Users class="w-5 h-5" />
+            <span class="hidden md:inline">Access</span>
+          </UiButton>
+
+          <div
+            :class="[
+              'absolute right-0 mt-2 w-52 rounded-xl border border-gray-200 bg-white shadow-lg opacity-0 pointer-events-none transition',
+              'group-hover:opacity-100 group-focus-within:opacity-100 group-hover:pointer-events-auto group-focus-within:pointer-events-auto',
+              isAccessOpen ? 'opacity-100 pointer-events-auto' : ''
+            ]"
+            role="menu"
+            aria-label="Access menu"
+          >
+            <NuxtLink
+              to="/register"
+              class="flex items-center gap-2 px-4 py-3 text-sm text-black hover:bg-gray-50 rounded-t-xl"
+              role="menuitem"
+            >
+              <Users class="w-4 h-4" />
+              Register Delegation
+            </NuxtLink>
+            <div v-if="isPreviewing" class="px-4 py-2 text-xs text-gray-500">
+              Previewing as {{ effectiveRole }}
+            </div>
+            <div v-if="ready && isAuthenticated" class="px-4 py-3 border-t border-gray-100">
+              <p class="text-[10px] uppercase tracking-widest text-gray-400">Role override</p>
+              <select
+                v-model="overrideSelection"
+                class="mt-2 w-full rounded-lg border border-gray-200 px-2 py-2 text-xs"
+              >
+                <option value="">No override</option>
+                <option v-for="roleOption in roleOverrideOptions" :key="roleOption" :value="roleOption">
+                  {{ roleOption }}
+                </option>
+              </select>
+              <button
+                v-if="roleOverrideStore.overrideRole"
+                type="button"
+                class="mt-2 text-xs text-red-600 hover:text-red-700"
+                @click="roleOverrideStore.clearOverrideRole()"
+              >
+                Clear override
+              </button>
+            </div>
+            <button
+              v-if="!isAuthenticated"
+              :class="`w-full flex items-center gap-2 px-4 py-3 text-sm text-black hover:bg-gray-50 ${isPreviewing ? '' : 'rounded-b-xl'}`"
+              role="menuitem"
+              @click="goLogin"
+            >
+              <LogIn class="w-4 h-4" />
+              Login
+            </button>
+            <button
+              v-else
+              :class="`w-full flex items-center gap-2 px-4 py-3 text-sm text-black hover:bg-gray-50 ${isPreviewing ? '' : 'rounded-b-xl'}`"
+              role="menuitem"
+              @click="doLogout"
+            >
+              <LogOut class="w-4 h-4" />
+              Logout
+            </button>
+            <button
+              v-if="isPreviewing"
+              class="w-full flex items-center gap-2 px-4 py-3 text-sm text-black hover:bg-gray-50 rounded-b-xl"
+              role="menuitem"
+              @click="setViewAsRole(null)"
+            >
+              <LogIn class="w-4 h-4" />
+              Exit Preview
+            </button>
+          </div>
+        </div>
 
         <a 
           href="https://www.instagram.com/cicmunve/" 
@@ -131,7 +291,7 @@ watch(() => route.path, () => {
             </div>
           </NuxtLink>
 
-          <NuxtLink to="/delegates" class="group">
+          <NuxtLink v-if="canSeeDelegateLinks" to="/delegates" class="group">
             <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/delegates') ? 'bg-red-50 text-red-600 shadow-sm' : 'text-black hover:bg-gray-50'}`">
               <div :class="`p-3 rounded-lg ${isActive('/delegates') ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors'}`">
                 <Users class="w-6 h-6" />
@@ -149,7 +309,64 @@ watch(() => route.path, () => {
             </div>
           </NuxtLink>
 
-          <NuxtLink to="/resources" class="group">
+          <div class="group">
+            <div class="flex items-start gap-4 p-4 rounded-xl transition-all text-black hover:bg-gray-50">
+              <div class="p-3 rounded-lg bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                <Users class="w-6 h-6" />
+              </div>
+              <div class="flex flex-col gap-2">
+                <NuxtLink to="/register" class="text-xl font-bold">
+                  Register Delegation
+                </NuxtLink>
+                <span v-if="isPreviewing" class="text-xs text-gray-500">
+                  Previewing as {{ effectiveRole }}
+                </span>
+                <div v-if="ready && isAuthenticated" class="mt-2">
+                  <p class="text-[10px] uppercase tracking-widest text-gray-400">Role override</p>
+                  <select
+                    v-model="overrideSelection"
+                    class="mt-2 w-full rounded-lg border border-gray-200 px-2 py-2 text-xs"
+                  >
+                    <option value="">No override</option>
+                    <option v-for="roleOption in roleOverrideOptions" :key="roleOption" :value="roleOption">
+                      {{ roleOption }}
+                    </option>
+                  </select>
+                  <button
+                    v-if="roleOverrideStore.overrideRole"
+                    type="button"
+                    class="mt-2 text-xs text-red-600 hover:text-red-700"
+                    @click="roleOverrideStore.clearOverrideRole()"
+                  >
+                    Clear override
+                  </button>
+                </div>
+                <button
+                  v-if="!isAuthenticated"
+                  class="text-sm text-left text-gray-600 hover:text-black"
+                  @click="goLogin"
+                >
+                  Login
+                </button>
+                <button
+                  v-else
+                  class="text-sm text-left text-gray-600 hover:text-black"
+                  @click="doLogout"
+                >
+                  Logout
+                </button>
+                <button
+                  v-if="isPreviewing"
+                  class="text-sm text-left text-gray-600 hover:text-black"
+                  @click="setViewAsRole(null)"
+                >
+                  Exit Preview
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <NuxtLink v-if="canSeeDelegateLinks" to="/resources" class="group">
             <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/resources') ? 'bg-red-50 text-red-600 shadow-sm' : 'text-black hover:bg-gray-50'}`">
               <div :class="`p-3 rounded-lg ${isActive('/resources') ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors'}`">
                 <BookOpen class="w-6 h-6" />
@@ -164,6 +381,33 @@ watch(() => route.path, () => {
                 <Image class="w-6 h-6" />
               </div>
               <span class="text-xl font-bold">Gallery</span>
+            </div>
+          </NuxtLink>
+
+          <NuxtLink v-if="canSeeTeacher" to="/teacher" class="group">
+            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/teacher') ? 'bg-red-50 text-red-600 shadow-sm' : 'text-black hover:bg-gray-50'}`">
+              <div :class="`p-3 rounded-lg ${isActive('/teacher') ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors'}`">
+                <Users class="w-6 h-6" />
+              </div>
+              <span class="text-xl font-bold">Teacher</span>
+            </div>
+          </NuxtLink>
+
+          <NuxtLink v-if="canSeeStaff" to="/staff/check-in" class="group">
+            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/staff/check-in') ? 'bg-red-50 text-red-600 shadow-sm' : 'text-black hover:bg-gray-50'}`">
+              <div :class="`p-3 rounded-lg ${isActive('/staff/check-in') ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors'}`">
+                <Users class="w-6 h-6" />
+              </div>
+              <span class="text-xl font-bold">Staff</span>
+            </div>
+          </NuxtLink>
+
+          <NuxtLink v-if="canSeeAdmin" to="/admin" class="group">
+            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/admin') ? 'bg-red-50 text-red-600 shadow-sm' : 'text-black hover:bg-gray-50'}`">
+              <div :class="`p-3 rounded-lg ${isActive('/admin') ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors'}`">
+                <Users class="w-6 h-6" />
+              </div>
+              <span class="text-xl font-bold">Admin</span>
             </div>
           </NuxtLink>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Users, FileText, Download, Eye } from 'lucide-vue-next'
-import type { Committee } from '~/shared/types'
+import type { Committee, CommitteeBrief, GlossaryTerm, AllocationEntry } from '~/shared/types'
 
 const route = useRoute()
 const committeeId = parseInt(route.params.id as string)
@@ -9,6 +9,10 @@ const committeeId = parseInt(route.params.id as string)
 // In a real app, we'd have a specific endpoint, but filtering on client for now is fine for small data
 const { data: committees } = await useFetch<Committee[]>('/api/committees/JMUN') // Fetch all and filter
 const { data: samunCommittees } = await useFetch<Committee[]>('/api/committees/SAMUN')
+const { data: briefs } = await useFetch<CommitteeBrief[]>('/api/briefs', { default: () => [] })
+const { data: glossary } = await useFetch<GlossaryTerm[]>('/api/glossary', { default: () => [] })
+const { data: allocations } = await useFetch<AllocationEntry[]>('/api/allocations', { default: () => [] })
+
 
 const committee = computed(() => {
   const allCommittees = [...(committees.value || []), ...(samunCommittees.value || [])]
@@ -23,17 +27,27 @@ useSeoMeta({
 })
 
 const resources = computed(() => committee.value?.resources || [])
+const brief = computed(() => briefs.value?.find(b => b.committeeId === committeeId))
+const allocation = computed(() => allocations.value?.find(a => a.committeeId === committeeId))
+const glossaryTerms = computed(() => {
+  if (!committee.value) return []
+  const tag = committee.value.type
+  return (glossary.value || []).filter(term => term.tags?.includes(tag))
+})
 
 const isViewerOpen = ref(false)
 const selectedPdf = ref({ url: '', title: '' })
 
 const openViewer = (filename: string, title: string) => {
+  const encoded = encodeURIComponent(filename)
   selectedPdf.value = {
-    url: `/resources/${filename}`,
+    url: `/resources/${encoded}`,
     title: title
   }
   isViewerOpen.value = true
 }
+
+const resourceUrl = (filename: string) => `/resources/${encodeURIComponent(filename)}`
 </script>
 
 <template>
@@ -134,7 +148,7 @@ const openViewer = (filename: string, title: string) => {
                     <Eye class="w-3.5 h-3.5" />
                     View
                   </button>
-                  <a :href="`/resources/${resource.filename}`" target="_blank" download class="inline-flex items-center gap-1.5 text-sm text-red-600 font-bold hover:text-red-700 transition-colors">
+                  <a :href="resourceUrl(resource.filename)" target="_blank" rel="noopener noreferrer" download class="inline-flex items-center gap-1.5 text-sm text-red-600 font-bold hover:text-red-700 transition-colors">
                     <Download class="w-3.5 h-3.5" />
                     Download
                   </a>
@@ -143,6 +157,49 @@ const openViewer = (filename: string, title: string) => {
             </div>
           </div>
         </div>
+
+        <!-- Topic Brief -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 space-y-6">
+          <h3 class="text-2xl font-bold font-montserrat">Topic brief</h3>
+          <p class="text-gray-700">
+            {{ brief?.background || 'Brief coming soon.' }}
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="text-lg font-bold mb-2">Key questions</h4>
+              <ul class="list-disc list-inside text-gray-700 space-y-1">
+                <li v-for="question in brief?.keyQuestions || []" :key="question">{{ question }}</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold mb-2">Position paper checklist</h4>
+              <ul class="list-disc list-inside text-gray-700 space-y-1">
+                <li v-for="item in brief?.positionChecklist || []" :key="item">{{ item }}</li>
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold mb-2">Recommended sources</h4>
+            <div class="flex flex-col gap-2">
+              <a
+                v-for="source in brief?.recommendedSources || []"
+                :key="source.url"
+                :href="source.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-red-600 font-semibold hover:underline"
+              >
+                {{ source.title }}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <CountryAllocation :allocation="allocation" />
+
+        <GlossaryList :terms="glossaryTerms" />
 
         <div class="text-center pt-8">
           <NuxtLink :to="committee.type === 'JMUN' ? '/jmun' : '/samun'" class="text-gray-500 hover:text-black font-bold transition-colors">

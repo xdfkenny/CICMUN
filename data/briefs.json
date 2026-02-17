@@ -1,0 +1,36 @@
+[
+  {
+    "committeeId": 1,
+    "background": "El Consejo de Seguridad aborda amenazas a la paz y la seguridad internacionales. En este comité se analizan respuestas multilaterales y el rol de los Estados miembros.",
+    "keyQuestions": [
+      "Cuál fue el rol de la ONU y los Estados miembros frente a los hechos del 9/11?",
+      "Qué lecciones dejo la guerra de Iraq sobre seguridad colectiva?"
+    ],
+    "recommendedSources": [
+      { "title": "UN Security Council - About", "url": "https://www.un.org/securitycouncil/" },
+      { "title": "UN Charter", "url": "https://www.un.org/en/about-us/un-charter" }
+    ],
+    "positionChecklist": [
+      "Investigar el tema y la postura oficial del país.",
+      "Definir objetivos claros y posibles soluciones.",
+      "Preparar evidencia y datos confiables.",
+      "Redactar un position paper claro y conciso."
+    ]
+  },
+  {
+    "committeeId": 2,
+    "background": "El Consejo de Derechos Humanos promueve la protección y respeto de los derechos humanos alrededor del mundo.",
+    "keyQuestions": [
+      "Qué mecanismos internacionales existen para proteger a menores?",
+      "Como responder a violaciones sistemáticas en contextos complejos?"
+    ],
+    "recommendedSources": [
+      { "title": "OHCHR", "url": "https://www.ohchr.org/" }
+    ],
+    "positionChecklist": [
+      "Identificar casos recientes y relevantes.",
+      "Investigar tratados firmados por tu pais.",
+      "Proponer medidas realistas y verificables."
+    ]
+  }
+]

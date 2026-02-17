@@ -10,6 +10,7 @@ const props = defineProps<{
 const emit = defineEmits(['close'])
 
 const closeOnEsc = (e: KeyboardEvent) => {
+  if (!props.isOpen) return
   if (e.key === 'Escape') emit('close')
 }
 
@@ -31,7 +32,14 @@ onUnmounted(() => {
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
+    <div
+      v-if="isOpen"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+      role="dialog"
+      aria-modal="true"
+      aria-label="PDF viewer"
+      tabindex="-1"
+    >
       <!-- Backdrop -->
       <div 
         class="absolute inset-0 bg-black/60 backdrop-blur-sm"
@@ -55,6 +63,7 @@ onUnmounted(() => {
             <a 
               :href="pdfUrl" 
               target="_blank" 
+              rel="noopener noreferrer"
               class="p-2 hover:bg-gray-200 rounded-full transition-colors hidden md:flex items-center gap-2 text-xs font-bold text-gray-600"
               title="Open in new tab"
             >
@@ -73,6 +82,7 @@ onUnmounted(() => {
             <button 
               @click="emit('close')"
               class="p-2 hover:bg-gray-200 rounded-full transition-colors ml-2"
+              aria-label="Close PDF viewer"
             >
               <X class="w-6 h-6 text-gray-500" />
             </button>
@@ -87,7 +97,7 @@ onUnmounted(() => {
           <iframe 
             :src="pdfUrl" 
             class="w-full h-full border-none"
-            title="PDF Viewer"
+            :title="title || 'PDF Viewer'"
           ></iframe>
         </div>
 

@@ -3,16 +3,17 @@ import type { Committee } from '~/shared/types'
 
 const props = defineProps<{ committee: Committee }>()
 
-const accentColor = computed(() => {
-  return props.committee.type === 'SAMUN' ? 'red-600' : 'black'
-})
-
-const lightAccentColor = computed(() => {
-  return props.committee.type === 'SAMUN' ? 'red-50' : 'gray-50'
-})
-
-const textAccentColor = computed(() => {
-  return props.committee.type === 'SAMUN' ? 'red-700' : 'gray-900'
+const accent = computed(() => {
+  const isSamun = props.committee.type === 'SAMUN'
+  return {
+    ring: isSamun ? 'hover:ring-red-600' : 'hover:ring-black',
+    bar: isSamun ? 'bg-red-600' : 'bg-black',
+    border: isSamun ? 'border-red-600' : 'border-black',
+    text: isSamun ? 'text-red-600' : 'text-black',
+    lightBg: isSamun ? 'bg-red-50' : 'bg-gray-50',
+    textAccent: isSamun ? 'text-red-700' : 'text-gray-900',
+    titleHover: isSamun ? 'group-hover:text-red-600' : 'group-hover:text-black',
+  }
 })
 </script>
 
@@ -20,11 +21,11 @@ const textAccentColor = computed(() => {
   <NuxtLink :to="`/committees/${committee.id}`" class="block h-full">
     <UiCard 
       class="group overflow-hidden transition-all duration-300 border-0 shadow-sm hover:shadow-xl bg-white h-full"
-      :class="`hover:ring-2 hover:ring-${accentColor}`"
+      :class="['hover:ring-2', accent.ring]"
     >
       <div 
         class="h-2 transition-colors duration-300"
-        :class="`bg-${accentColor}`"
+        :class="accent.bar"
       ></div>
 
       <!-- Committee Image Header -->
@@ -32,6 +33,8 @@ const textAccentColor = computed(() => {
         <img 
           :src="committee.image" 
           :alt="committee.name"
+          loading="lazy"
+          decoding="async"
           class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -43,7 +46,7 @@ const textAccentColor = computed(() => {
       </div>
 
       <UiCardContent class="pt-8 px-6 pb-6">
-        <UiCardTitle class="text-2xl font-bold mb-4 font-montserrat tracking-tight group-hover:text-red-600 transition-colors duration-300">
+        <UiCardTitle class="text-2xl font-bold mb-4 font-montserrat tracking-tight transition-colors duration-300" :class="accent.titleHover">
           {{ committee.name }}
         </UiCardTitle>
 
@@ -58,15 +61,17 @@ const textAccentColor = computed(() => {
             <div class="flex items-center gap-4 p-3 rounded-lg bg-gray-50/50 border border-transparent transition-colors hover:bg-white hover:border-gray-100">
               <div 
                 class="w-12 h-12 rounded-full border-2 flex items-center justify-center flex-shrink-0 bg-white"
-                :class="`border-${accentColor}`"
+                :class="accent.border"
               >
                 <img
                   v-if="committee.chairPhoto"
                   :src="committee.chairPhoto"
                   :alt="committee.chairName"
+                  loading="lazy"
+                  decoding="async"
                   class="w-full h-full rounded-full object-cover"
                 />
-                <span v-else class="font-bold text-xs" :class="`text-${accentColor}`">CH</span>
+                <span v-else class="font-bold text-xs" :class="accent.text">CH</span>
               </div>
               <div>
                 <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Chair</p>
@@ -84,6 +89,8 @@ const textAccentColor = computed(() => {
                   v-if="committee.coChairPhoto"
                   :src="committee.coChairPhoto"
                   :alt="committee.coChairName"
+                  loading="lazy"
+                  decoding="async"
                   class="w-full h-full rounded-full object-cover"
                 />
                 <span v-else class="font-bold text-xs" :class="committee.type === 'SAMUN' ? 'text-blue-600' : 'text-gray-600'">CC</span>
@@ -104,6 +111,8 @@ const textAccentColor = computed(() => {
                   v-if="committee.secretaryPhoto"
                   :src="committee.secretaryPhoto"
                   :alt="committee.secretaryName"
+                  loading="lazy"
+                  decoding="async"
                   class="w-full h-full rounded-full object-cover"
                 />
                 <span v-else class="font-bold text-xs" :class="committee.type === 'SAMUN' ? 'text-green-600' : 'text-gray-400'">SE</span>
@@ -121,9 +130,9 @@ const textAccentColor = computed(() => {
             <div class="space-y-3">
               <div 
                 class="p-4 rounded-xl transition-all duration-300 hover:translate-x-1"
-                :class="[`bg-${lightAccentColor}`, `border-l-4 border-${accentColor}`]"
+                :class="[accent.lightBg, 'border-l-4', accent.border]"
               >
-                <p class="text-[10px] font-bold uppercase mb-1" :class="`text-${textAccentColor}`">Topic A</p>
+                <p class="text-[10px] font-bold uppercase mb-1" :class="accent.textAccent">Topic A</p>
                 <p class="text-sm font-medium text-gray-800 leading-snug">{{ committee.topicA }}</p>
               </div>
               <div 

@@ -7,7 +7,7 @@ useSeoMeta({
   ogTitle: 'CICMUN 2026 - Colegio Internacional de Caracas Model United Nations',
   description: 'Bienvenidos al portal oficial de CICMUN 2026. Liderazgo, diplomacia y ciudadanía global en el Colegio Internacional de Caracas.',
   ogDescription: 'Bienvenidos al portal oficial de CICMUN 2026. Liderazgo, diplomacia y ciudadanía global en el Colegio Internacional de Caracas.',
-  ogImage: '/images/og-image.jpg', // Placeholder image for social media
+  ogImage: '/images/og-image.png',
   twitterCard: 'summary_large_image',
 })
 </script>
@@ -45,6 +45,43 @@ useSeoMeta({
             <ArrowRight class="w-5 h-5" />
           </UiButton>
         </NuxtLink>
+      </div>
+    </section>
+
+    <!-- Intro Video -->
+    <section class="bg-black py-16 px-4">
+      <div class="container max-w-4xl mx-auto text-center text-white">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6 font-montserrat">Welcome to CICMUN 2026</h2>
+        <p class="text-gray-200 mb-8">Watch a short introduction to our conference and community.</p>
+        <div class="aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+          <iframe
+            class="w-full h-full"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="CICMUN Introduction"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Onboarding / Tour -->
+    <section class="bg-white py-16 px-4">
+      <div class="container max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 font-montserrat">New to MUN?</h2>
+        <p class="text-gray-600 mb-8">
+          Explore our quick tour and step-by-step guide. Perfect for JMUN first-timers.
+        </p>
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+          <NuxtLink to="/onboarding">
+            <UiButton class="bg-black text-white hover:bg-gray-900 px-8 py-4">Open Tour</UiButton>
+          </NuxtLink>
+          <NuxtLink to="/register">
+            <UiButton class="bg-red-600 text-white hover:bg-red-700 px-8 py-4">Register Delegation</UiButton>
+          </NuxtLink>
+        </div>
       </div>
     </section>
 

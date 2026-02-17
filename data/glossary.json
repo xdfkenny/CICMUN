@@ -1,0 +1,20 @@
+[
+  {
+    "term": "Resolution",
+    "definition_en": "A formal document proposing actions to solve an issue.",
+    "definition_es": "Documento formal que propone acciones para resolver un tema.",
+    "tags": ["JMUN", "SAMUN"]
+  },
+  {
+    "term": "Caucus",
+    "definition_en": "A meeting where delegates discuss and negotiate informally.",
+    "definition_es": "Reunión informal donde los delegados discuten y negocian.",
+    "tags": ["JMUN", "SAMUN"]
+  },
+  {
+    "term": "Point of Order",
+    "definition_en": "A request to correct a procedural mistake.",
+    "definition_es": "Solicitud para corregir un error de procedimiento.",
+    "tags": ["JMUN", "SAMUN"]
+  }
+]

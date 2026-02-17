@@ -1,10 +1,18 @@
 import tailwindcss from "@tailwindcss/vite";
 
+const parseEmailList = (value?: string) => {
+  if (!value) return []
+  return value
+    .split(',')
+    .map(entry => entry.trim())
+    .filter(Boolean)
+}
+
 export default defineNuxtConfig({
 
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/color-mode'],
+  modules: ['@nuxtjs/color-mode', '@pinia/nuxt'],
   css: ['~/assets/css/main.css'],
   vite: {
     plugins: [
@@ -34,6 +42,24 @@ export default defineNuxtConfig({
     '/api/gallery': {
       swr: 3600,
     },
+    '/api/events': {
+      swr: 3600,
+    },
+    '/api/resources': {
+      swr: 3600,
+    },
+    '/api/announcements': {
+      swr: 300,
+    },
+    '/api/briefs': {
+      swr: 3600,
+    },
+    '/api/glossary': {
+      swr: 3600,
+    },
+    '/api/allocations': {
+      swr: 300,
+    },
   },
   app: {
     head: {
@@ -56,6 +82,28 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500;600&display=swap' }
       ]
+    }
+  },
+  runtimeConfig: {
+    firebaseAdmin: {
+      projectId: '',
+      clientEmail: '',
+      privateKey: '',
+    },
+    superAdminEmails: parseEmailList(process.env.NUXT_SUPER_ADMIN_EMAILS),
+    adminEmails: parseEmailList(process.env.NUXT_ADMIN_EMAILS),
+    public: {
+      firebase: {
+        apiKey: "AIzaSyD3CHM17_kRD9BDe7r9296wB422Fw16SqU",
+        authDomain: "studio-2833367368-d365f.firebaseapp.com",
+        projectId: "studio-2833367368-d365f",
+        storageBucket: "studio-2833367368-d365f.firebasestorage.app",
+        messagingSenderId: "1036862077463",
+        appId: "1:1036862077463:web:93583a34eb9f99ed48fa52"
+      },
+      staffEmails: parseEmailList(process.env.NUXT_PUBLIC_STAFF_EMAILS),
+      adminEmails: parseEmailList(process.env.NUXT_PUBLIC_ADMIN_EMAILS),
+      superAdminEmails: parseEmailList(process.env.NUXT_PUBLIC_SUPER_ADMIN_EMAILS)
     }
   }
 })

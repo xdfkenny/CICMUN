@@ -9,9 +9,10 @@ useSeoMeta({
   ogDescription: 'Revive los mejores momentos de las conferencias CICMUN a través de nuestra galería de fotos.',
 })
 
-const { data: galleryEvents, pending } = await useFetch<GalleryEvent[]>('/api/gallery', {
+const { data: galleryEvents, pending, error: galleryError } = await useFetch<GalleryEvent[]>('/api/gallery', {
   default: () => [],
 })
+const { data: events } = await useFetch('/api/events', { default: () => [] })
 
 const selectedEventId = ref<string>('all')
 
@@ -27,6 +28,27 @@ const filteredImages = computed<GalleryImage[]>(() => {
 const selectEvent = (id: string) => {
   selectedEventId.value = id
 }
+
+const eventMetaById = computed<Record<string, any>>(() => {
+  const map: Record<string, any> = {}
+  for (const item of events.value as any[]) {
+    if (item?.id) map[item.id] = item
+  }
+  return map
+})
+
+const eventDetailsByGalleryId = computed<Record<string, any>>(() => {
+  const map: Record<string, any> = {}
+  for (const event of galleryEvents.value) {
+    const lower = event.name.toLowerCase()
+    if (lower.includes('samun')) {
+      map[event.id] = eventMetaById.value['samun']
+    } else if (lower.includes('jmun')) {
+      map[event.id] = eventMetaById.value['jmun']
+    }
+  }
+  return map
+})
 </script>
 
 <template>
@@ -45,9 +67,41 @@ const selectEvent = (id: string) => {
         </p>
       </div>
 
+      <!-- Event Cards -->
+      <div v-if="galleryEvents.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <button
+          type="button"
+          v-for="event in galleryEvents"
+          :key="event.id"
+          class="group text-left bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:shadow-xl transition-all"
+          @click="selectEvent(event.id)"
+        >
+          <div class="h-40 bg-gray-100 overflow-hidden">
+            <img
+              v-if="event.coverImage"
+              :src="event.coverImage"
+              :alt="event.name"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+          <div class="p-5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-bold font-montserrat">{{ event.name }}</h3>
+              <span class="text-xs font-bold text-gray-500">{{ event.imageCount }} photos</span>
+            </div>
+            <p v-if="eventDetailsByGalleryId[event.id]" class="text-sm text-gray-600 mt-2">
+              {{ eventDetailsByGalleryId[event.id]?.date }}
+            </p>
+          </div>
+        </button>
+      </div>
+
       <!-- Filters Section -->
       <div v-if="galleryEvents.length > 0" class="flex flex-wrap justify-center gap-3 mb-12">
         <button 
+          type="button"
           @click="selectEvent('all')"
           :class="[
             'px-6 py-2.5 rounded-full font-bold transition-all duration-300 border-2',
@@ -59,6 +113,7 @@ const selectEvent = (id: string) => {
           All Photos ({{ allImages.length }})
         </button>
         <button 
+          type="button"
           v-for="event in galleryEvents" 
           :key="event.id"
           @click="selectEvent(event.id)"
@@ -80,6 +135,9 @@ const selectEvent = (id: string) => {
       </div>
 
       <!-- Content Section -->
+      <div v-else-if="galleryError" class="text-center py-20 text-red-600">
+        Unable to load gallery. Please try again.
+      </div>
       <div v-else-if="filteredImages.length > 0">
         <GalleryGrid :images="filteredImages" />
       </div>

@@ -142,6 +142,11 @@
   input[type="radio"]:not(:disabled) {
     @apply cursor-pointer;
   }
+
+  :focus-visible {
+    outline: 2px solid var(--cic-red);
+    outline-offset: 2px;
+  }
 }
 
 @layer components {

@@ -1,0 +1,89 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function role() {
+      return isSignedIn()
+        ? (request.auth.token.role != null
+          ? request.auth.token.role
+          : get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role)
+        : null;
+    }
+    function isAdmin() {
+      return isSignedIn() && role() in ['admin', 'super_admin'];
+    }
+    function isStaff() {
+      return isSignedIn() && role() in ['staff', 'admin', 'super_admin'];
+    }
+    function isTeacher() {
+      return isSignedIn() && role() == 'teacher';
+    }
+    function isDelegate() {
+      return isSignedIn() && role() == 'delegate';
+    }
+    function isValidRegistration() {
+      return request.resource.data.keys().hasAll([
+          'delegationName',
+          'event',
+          'committees',
+          'participants',
+          'supervisorName',
+          'supervisorEmail',
+          'supervisorPhone',
+          'school',
+          'delegationMode',
+          'createdAt',
+          'status'
+        ]) &&
+        request.resource.data.delegationName is string &&
+        request.resource.data.delegationName.size() > 0 &&
+        request.resource.data.delegationName.size() <= 120 &&
+        request.resource.data.event in ['SAMUN', 'JMUN'] &&
+        request.resource.data.committees is string &&
+        request.resource.data.committees.size() > 0 &&
+        request.resource.data.participants is string &&
+        request.resource.data.participants.size() > 0 &&
+        request.resource.data.supervisorName is string &&
+        request.resource.data.supervisorName.size() > 0 &&
+        request.resource.data.supervisorEmail is string &&
+        request.resource.data.supervisorEmail.size() > 0 &&
+        request.resource.data.supervisorPhone is string &&
+        request.resource.data.supervisorPhone.size() <= 30 &&
+        request.resource.data.school is string &&
+        request.resource.data.school.size() > 0 &&
+        request.resource.data.delegationMode in ['existing', 'new'] &&
+        request.resource.data.status in ['pending', 'approved', 'rejected'] &&
+        request.resource.data.createdAt is timestamp;
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow write: if isAdmin();
+    }
+
+    match /registrations/{docId} {
+      allow create: if (request.auth != null || request.app != null) && isValidRegistration();
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /registrationCodes/{code} {
+      allow read: if isSignedIn();
+      allow create: if isTeacher() || isAdmin();
+      allow update, delete: if isTeacher() || isAdmin();
+    }
+
+    match /students/{studentId} {
+      allow read: if isSignedIn() && (request.auth.uid == studentId || isTeacher() || isStaff());
+      allow create: if isDelegate() && request.auth.uid == studentId;
+      allow update: if isTeacher() || isStaff() || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /attendance/{attendanceId} {
+      allow create: if isStaff();
+      allow read: if isStaff();
+    }
+  }
+}

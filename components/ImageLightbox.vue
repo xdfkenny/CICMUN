@@ -43,22 +43,50 @@ const handleImageError = () => {
   isImageLoading.value = false
 }
 
+const preloadAround = () => {
+  const nextIndex = (currentIndex.value + 1) % props.images.length
+  const prevIndex = (currentIndex.value - 1 + props.images.length) % props.images.length
+  const nextSrc = props.images[nextIndex]?.src
+  const prevSrc = props.images[prevIndex]?.src
+
+  if (nextSrc) {
+    const nextImg = new Image()
+    nextImg.src = nextSrc
+  }
+  if (prevSrc) {
+    const prevImg = new Image()
+    prevImg.src = prevSrc
+  }
+}
+
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown)
   document.body.style.overflow = 'hidden'
+  preloadAround()
 })
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown)
   document.body.style.overflow = ''
 })
+
+watch(currentIndex, () => {
+  preloadAround()
+})
 </script>
 
 <template>
-  <div class="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center backdrop-blur-sm">
+  <div
+    class="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center backdrop-blur-sm"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Image viewer"
+    tabindex="-1"
+  >
     <button 
       @click="close"
       class="absolute top-6 right-6 text-white hover:text-red-500 transition-colors z-[110]"
+      aria-label="Close image viewer"
     >
       <X class="w-8 h-8" />
     </button>
@@ -69,6 +97,7 @@ onUnmounted(() => {
         v-if="images.length > 1"
         @click="prev"
         class="absolute left-4 md:left-8 text-white hover:bg-white/10 p-2 rounded-full transition-all z-[110]"
+        aria-label="Previous image"
       >
         <ChevronLeft class="w-10 h-10" />
       </button>
@@ -96,6 +125,7 @@ onUnmounted(() => {
         v-if="images.length > 1"
         @click="next"
         class="absolute right-4 md:right-8 text-white hover:bg-white/10 p-2 rounded-full transition-all z-[110]"
+        aria-label="Next image"
       >
         <ChevronRight class="w-10 h-10" />
       </button>

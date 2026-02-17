@@ -39,5 +39,36 @@ pnpm install
 # Start development server
 pnpm dev
 ```
+
+## Firebase Admin Setup (Server)
+Set these in your environment (not in git):
+```
+NUXT_FIREBASEADMIN_PROJECTID=
+NUXT_FIREBASEADMIN_CLIENTEMAIL=
+NUXT_FIREBASEADMIN_PRIVATEKEY=
+```
+
+## Role Email Lists (Environment Only)
+Define role email lists in your `.env` and keep them out of source control:
+```
+NUXT_PUBLIC_STAFF_EMAILS=teacher1@school.edu,teacher2@school.edu
+NUXT_PUBLIC_ADMIN_EMAILS=admin1@school.edu
+NUXT_PUBLIC_SUPER_ADMIN_EMAILS=superadmin@school.edu
+NUXT_ADMIN_EMAILS=admin1@school.edu
+NUXT_SUPER_ADMIN_EMAILS=superadmin@school.edu
+```
+Public values are exposed to the client (used for client-side role hints). Server-only values are used for admin API access checks.
+
+## Firestore Rules
+Use `firestore.rules` as a starting point for role-based access control.
+
+## Google Auth
+Enable Google sign-in in Firebase Auth. The login page supports Google and email/password.
+
+## Gallery Upload Guidelines
+- Prefer JPG or WebP.
+- Max width: 2500px (larger images slow the gallery).
+- Target file size: < 600 KB when possible.
+- Use clear event folder names inside `public/Gallery/`.
 '''
 # CICMUN

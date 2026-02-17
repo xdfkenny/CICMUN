@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { Users, BookOpen } from 'lucide-vue-next'
 
+definePageMeta({
+  middleware: ['role'],
+  auth: {
+    required: true,
+    roles: ['delegate'],
+  },
+})
+
 useSeoMeta({
   title: 'Recursos para Delegados',
   ogTitle: 'Recursos para Delegados | CICMUN 2026',
@@ -18,6 +26,27 @@ useSeoMeta({
         <p class="text-xl text-gray-700">
           Welcome, delegates! Choose your conference to explore event details, committees, and more.
         </p>
+        <p class="text-sm text-gray-500 mt-3">
+          You must sign in with your delegate account to access this section.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 mb-12">
+        <DelegateProgressTracker />
+        <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 flex flex-col justify-between">
+          <div>
+            <h3 class="text-xl font-bold font-montserrat mb-2">Quick Start</h3>
+            <p class="text-gray-600 mb-6">New to MUN? Use the onboarding guide and your check-in QR.</p>
+          </div>
+          <div class="flex flex-col gap-3">
+            <NuxtLink to="/onboarding">
+              <UiButton class="w-full bg-black hover:bg-gray-900 text-white">Open Onboarding</UiButton>
+            </NuxtLink>
+            <NuxtLink to="/check-in">
+              <UiButton class="w-full bg-red-600 hover:bg-red-700 text-white">My Check-in QR</UiButton>
+            </NuxtLink>
+          </div>
+        </div>
       </div>
 
       <!-- Selection Buttons -->
@@ -60,10 +89,10 @@ useSeoMeta({
             The South American Model United Nations is our flagship conference, bringing together high school delegates from across the region.
           </p>
           <ul class="space-y-2 text-gray-700">
-            <li>✓ Multiple UN committees</li>
-            <li>✓ Challenging topics</li>
-            <li>✓ Experienced chairs and staff</li>
-            <li>✓ Networking opportunities</li>
+            <li>Multiple UN committees</li>
+            <li>Challenging topics</li>
+            <li>Experienced chairs and staff</li>
+            <li>Networking opportunities</li>
           </ul>
         </div>
 
@@ -74,10 +103,10 @@ useSeoMeta({
             The Junior Model United Nations provides middle school students with their first introduction to diplomatic simulation and international affairs.
           </p>
           <ul class="space-y-2 text-gray-700">
-            <li>✓ Beginner-friendly committees</li>
-            <li>✓ Supportive environment</li>
-            <li>✓ Educational focus</li>
-            <li>✓ Fun and engaging activities</li>
+            <li>Beginner-friendly committees</li>
+            <li>Supportive environment</li>
+            <li>Educational focus</li>
+            <li>Fun and engaging activities</li>
           </ul>
         </div>
       </div>

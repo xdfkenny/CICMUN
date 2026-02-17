@@ -1,0 +1,20 @@
+[
+  {
+    "id": "reg-2026-01",
+    "title": "Registro de delegados",
+    "message": "El registro abre el 1 de marzo. Revisa tu correo institucional para instrucciones.",
+    "audience": "public",
+    "startsAt": "2026-03-01T00:00:00-04:00",
+    "endsAt": "2026-04-20T23:59:59-04:00",
+    "priority": 1
+  },
+  {
+    "id": "checkin-2026",
+    "title": "Check-in en sitio",
+    "message": "El check-in inicia a las 7:30 AM. Trae tu credencial o correo de confirmación.",
+    "audience": "delegate",
+    "startsAt": "2026-04-24T06:00:00-04:00",
+    "endsAt": "2026-04-25T12:00:00-04:00",
+    "priority": 2
+  }
+]

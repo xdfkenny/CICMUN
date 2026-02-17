@@ -2,6 +2,14 @@
 import { Calendar, MapPin } from 'lucide-vue-next'
 import type { Committee } from '~/shared/types'
 
+definePageMeta({
+  middleware: ['role'],
+  auth: {
+    required: true,
+    roles: ['delegate', 'staff'],
+  },
+})
+
 useSeoMeta({
   title: 'SAMUN 2026',
   ogTitle: 'SAMUN 2026 - South American Model United Nations',
