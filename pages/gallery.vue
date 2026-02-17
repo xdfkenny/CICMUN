@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Camera, Image as ImageIcon, Filter } from 'lucide-vue-next'
+import { Camera, Image as ImageIcon } from 'lucide-vue-next'
+import type { GalleryEvent, GalleryImage } from '~/shared/gallery'
 
 useSeoMeta({
   title: 'Galería de Fotos',
@@ -8,22 +9,19 @@ useSeoMeta({
   ogDescription: 'Revive los mejores momentos de las conferencias CICMUN a través de nuestra galería de fotos.',
 })
 
-interface GalleryEvent {
-  id: string
-  name: string
-  images: string[]
-}
-
-const { data: galleryEvents, pending } = await useFetch<GalleryEvent[]>('/api/gallery')
+const { data: galleryEvents, pending } = await useFetch<GalleryEvent[]>('/api/gallery', {
+  default: () => [],
+})
 
 const selectedEventId = ref<string>('all')
 
-const filteredImages = computed(() => {
-  if (!galleryEvents.value) return []
+const allImages = computed<GalleryImage[]>(() => galleryEvents.value.flatMap(event => event.images))
+
+const filteredImages = computed<GalleryImage[]>(() => {
   if (selectedEventId.value === 'all') {
-    return galleryEvents.value.flatMap(e => e.images)
+    return allImages.value
   }
-  return galleryEvents.value.find(e => e.id === selectedEventId.value)?.images || []
+  return galleryEvents.value.find(event => event.id === selectedEventId.value)?.images || []
 })
 
 const selectEvent = (id: string) => {
@@ -48,7 +46,7 @@ const selectEvent = (id: string) => {
       </div>
 
       <!-- Filters Section -->
-      <div v-if="galleryEvents && galleryEvents.length > 0" class="flex flex-wrap justify-center gap-3 mb-12">
+      <div v-if="galleryEvents.length > 0" class="flex flex-wrap justify-center gap-3 mb-12">
         <button 
           @click="selectEvent('all')"
           :class="[
@@ -58,7 +56,7 @@ const selectEvent = (id: string) => {
               : 'bg-white border-gray-200 text-gray-600 hover:border-black hover:text-black'
           ]"
         >
-          All Photos
+          All Photos ({{ allImages.length }})
         </button>
         <button 
           v-for="event in galleryEvents" 
@@ -71,7 +69,7 @@ const selectEvent = (id: string) => {
               : 'bg-white border-gray-200 text-gray-600 hover:border-red-600 hover:text-red-600'
           ]"
         >
-          {{ event.name }}
+          {{ event.name }} ({{ event.imageCount }})
         </button>
       </div>
 

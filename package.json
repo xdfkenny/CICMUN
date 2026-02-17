@@ -6,6 +6,7 @@
     "build": "nuxt build",
     "dev": "npm run prebuild && nuxt dev",
     "prebuild": "node scripts/generate-gallery.js",
+    "pregenerate": "npm run prebuild",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

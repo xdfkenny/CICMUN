@@ -1,20 +1,26 @@
 <script setup lang="ts">
 import { X, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import type { GalleryImage } from '~/shared/gallery'
 
 const props = defineProps<{
-  images: string[]
+  images: GalleryImage[]
   initialIndex: number
 }>()
 
 const emit = defineEmits(['close'])
 
 const currentIndex = ref(props.initialIndex)
+const isImageLoading = ref(true)
+
+const currentImage = computed(() => props.images[currentIndex.value])
 
 const next = () => {
+  isImageLoading.value = true
   currentIndex.value = (currentIndex.value + 1) % props.images.length
 }
 
 const prev = () => {
+  isImageLoading.value = true
   currentIndex.value = (currentIndex.value - 1 + props.images.length) % props.images.length
 }
 
@@ -27,6 +33,14 @@ const handleKeydown = (e: KeyboardEvent) => {
   if (e.key === 'Escape') close()
   if (e.key === 'ArrowRight') next()
   if (e.key === 'ArrowLeft') prev()
+}
+
+const handleImageLoaded = () => {
+  isImageLoading.value = false
+}
+
+const handleImageError = () => {
+  isImageLoading.value = false
 }
 
 onMounted(() => {
@@ -60,10 +74,18 @@ onUnmounted(() => {
       </button>
 
       <div class="relative max-w-5xl max-h-full flex flex-col items-center">
+        <div
+          v-if="isImageLoading"
+          class="absolute inset-0 animate-pulse rounded-lg bg-white/10"
+        />
         <img 
-          :src="images[currentIndex]" 
+          :src="currentImage?.src"
+          :alt="currentImage?.alt || 'Gallery image'"
           class="max-w-full max-h-[80vh] object-contain shadow-2xl rounded-lg select-none transition-all duration-300"
-          alt="Gallery Image"
+          :class="isImageLoading ? 'opacity-0' : 'opacity-100'"
+          decoding="async"
+          @load="handleImageLoaded"
+          @error="handleImageError"
         />
         <div class="mt-4 text-white font-medium">
           {{ currentIndex + 1 }} / {{ images.length }}

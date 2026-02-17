@@ -1,5 +1,6 @@
 import galleryData from '../../data/gallery.json'
+import type { GalleryEvent } from '../../shared/gallery'
 
-export default defineEventHandler(async (event) => {
-  return galleryData
+export default defineEventHandler(async () => {
+  return galleryData as GalleryEvent[]
 })

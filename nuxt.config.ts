@@ -17,6 +17,24 @@ export default defineNuxtConfig({
   build: {
     transpile: ['lucide-vue-next']
   },
+  nitro: {
+    compressPublicAssets: true,
+  },
+  routeRules: {
+    '/Gallery/**': {
+      headers: {
+        'cache-control': 'public, max-age=604800, stale-while-revalidate=86400',
+      },
+    },
+    '/Gallery/__thumbs/**': {
+      headers: {
+        'cache-control': 'public, max-age=31536000, immutable',
+      },
+    },
+    '/api/gallery': {
+      swr: 3600,
+    },
+  },
   app: {
     head: {
       title: 'CICMUN Delegate Portal',
