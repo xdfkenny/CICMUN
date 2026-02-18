@@ -10,8 +10,9 @@ const committeeId = parseInt(route.params.id as string)
 const { data: committees } = await useFetch<Committee[]>('/api/committees/JMUN') // Fetch all and filter
 const { data: samunCommittees } = await useFetch<Committee[]>('/api/committees/SAMUN')
 const { data: briefs } = await useFetch<CommitteeBrief[]>('/api/briefs', { default: () => [] })
-const { data: glossary } = await useFetch<GlossaryTerm[]>('/api/glossary', { default: () => [] })
 const { data: allocations } = await useFetch<AllocationEntry[]>('/api/allocations', { default: () => [] })
+
+const { user } = useAuth()
 
 
 const committee = computed(() => {
@@ -27,13 +28,30 @@ useSeoMeta({
 })
 
 const resources = computed(() => committee.value?.resources || [])
-const brief = computed(() => briefs.value?.find(b => b.committeeId === committeeId))
-const allocation = computed(() => allocations.value?.find(a => a.committeeId === committeeId))
-const glossaryTerms = computed(() => {
-  if (!committee.value) return []
-  const tag = committee.value.type
-  return (glossary.value || []).filter(term => term.tags?.includes(tag))
+const brief = computed(() => {
+  if (committeeId === 1) {
+     return {
+        background: "The Security Council addresses threats to international peace and security. This committee analyzes multilateral responses and the role of UN member states.",
+        keyQuestions: [
+          "What was the role of the UN and member states in response to 9/11?",
+          "What lessons did the Iraq War reveal about collective security?"
+        ],
+        positionChecklist: [
+          "Research the topic and the country’s official stance",
+          "Define clear objectives and potential solutions",
+          "Prepare reliable evidence and supporting data",
+          "Write a clear and concise position paper"
+        ],
+        recommendedSources: [
+          { title: "UN Security Council – About", url: "https://www.un.org/securitycouncil/" },
+          { title: "UN Charter", url: "https://www.un.org/en/about-us/un-charter" }
+        ],
+        committeeId: 1
+     }
+  }
+  return briefs.value?.find(b => b.committeeId === committeeId)
 })
+const allocation = computed(() => allocations.value?.find(a => a.committeeId === committeeId))
 
 const isViewerOpen = ref(false)
 const selectedPdf = ref({ url: '', title: '' })
@@ -199,7 +217,7 @@ const resourceUrl = (filename: string) => `/resources/${encodeURIComponent(filen
 
         <CountryAllocation :allocation="allocation" />
 
-        <GlossaryList :terms="glossaryTerms" />
+
 
         <div class="text-center pt-8">
           <NuxtLink :to="committee.type === 'JMUN' ? '/jmun' : '/samun'" class="text-gray-500 hover:text-black font-bold transition-colors">

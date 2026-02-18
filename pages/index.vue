@@ -2,6 +2,8 @@
 import { ArrowRight } from 'lucide-vue-next'
 // UiButton is auto-imported
 
+const { role } = useAuth()
+
 useSeoMeta({
   title: 'Inicio',
   ogTitle: 'CICMUN 2026 - Colegio Internacional de Caracas Model United Nations',
@@ -32,12 +34,12 @@ useSeoMeta({
           </p>
 
           <div class="mt-10 flex flex-col sm:flex-row sm:items-center gap-4">
-            <NuxtLink to="/delegates">
+            <NuxtLink :to="role === 'delegate' ? '/delegates' : '/delegates'">
               <UiButton
                 size="lg"
                 class="bg-white text-red-600 hover:bg-gray-100 font-bold text-lg px-8 py-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform inline-flex items-center gap-2"
               >
-                Delegates Enter Here
+                {{ role === 'delegate' ? 'Go to Delegate Portal' : 'Delegates Enter Here' }}
                 <ArrowRight class="w-5 h-5" />
               </UiButton>
             </NuxtLink>
@@ -87,8 +89,10 @@ useSeoMeta({
           <NuxtLink to="/onboarding">
             <UiButton class="bg-black text-white hover:bg-gray-900 px-8 py-4 w-full sm:w-auto md:w-full">Open Tour</UiButton>
           </NuxtLink>
-          <NuxtLink to="/register">
-            <UiButton class="bg-red-600 text-white hover:bg-red-700 px-8 py-4 w-full sm:w-auto md:w-full">Register Delegation</UiButton>
+          <NuxtLink :to="role === 'teacher' ? '/teacher' : '/register'">
+            <UiButton class="bg-red-600 text-white hover:bg-red-700 px-8 py-4 w-full sm:w-auto md:w-full">
+              {{ role === 'teacher' ? 'Teacher Dashboard' : 'Register Delegation' }}
+            </UiButton>
           </NuxtLink>
         </div>
       </div>

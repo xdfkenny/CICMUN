@@ -68,35 +68,7 @@ const eventDetailsByGalleryId = computed<Record<string, any>>(() => {
       </div>
 
       <!-- Event Cards -->
-      <div v-if="galleryEvents.length > 0 && !galleryError && !pending" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        <button
-          type="button"
-          v-for="event in galleryEvents"
-          :key="event.id"
-          class="group text-left bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:shadow-xl transition-all"
-          @click="selectEvent(event.id)"
-        >
-          <div class="h-40 bg-gray-100 overflow-hidden">
-            <img
-              v-if="event.coverImage"
-              :src="event.coverImage"
-              :alt="event.name"
-              loading="lazy"
-              decoding="async"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          </div>
-          <div class="p-5">
-            <div class="flex items-center justify-between">
-              <h3 class="text-lg font-bold font-montserrat">{{ event.name }}</h3>
-              <span class="text-xs font-bold text-gray-500">{{ event.imageCount }} photos</span>
-            </div>
-            <p v-if="eventDetailsByGalleryId[event.id]" class="text-sm text-gray-600 mt-2">
-              {{ eventDetailsByGalleryId[event.id]?.date }}
-            </p>
-          </div>
-        </button>
-      </div>
+
 
       <!-- Filters Section -->
       <div v-if="galleryEvents.length > 0 && !galleryError && !pending" class="flex flex-wrap justify-center gap-3 mb-12">

@@ -13,16 +13,21 @@ const isAuthRole = (value: unknown): value is AuthRole => {
 }
 
 export const useAuth = () => {
+  const authCookie = useCookie<{ uid: string, role: AuthRole, email?: string | null } | null>('auth-session', {
+    maxAge: 60 * 60 * 24 * 7, // 1 week
+    sameSite: 'lax',
+  })
+
   const user = useState<User | null>('auth:user', () => null)
-  const role = useState<AuthRole>('auth:role', () => 'public')
-  const effectiveRole = useState<AuthRole>('auth:effectiveRole', () => 'public')
-  const ready = useState<boolean>('auth:ready', () => false)
+  const role = useState<AuthRole>('auth:role', () => authCookie.value?.role || 'public')
+  const effectiveRole = useState<AuthRole>('auth:effectiveRole', () => authCookie.value?.role || 'public')
+  const ready = useState<boolean>('auth:ready', () => !!authCookie.value) // Ready if cookie exists
   const error = useState<string | null>('auth:error', () => null)
   const viewAsRole = useState<AuthRole | null>('auth:viewAsRole', () => null)
   const roleOverrideStore = useRoleOverrideStore()
   const listenerAttached = useState<boolean>('auth:listenerAttached', () => false)
 
-  const isAuthenticated = computed(() => !!user.value)
+  const isAuthenticated = computed(() => !!authCookie.value || !!user.value)
   const isStaff = computed(() => effectiveRole.value === 'staff')
   const isDelegate = computed(() => ['delegate', 'staff', 'admin', 'super_admin'].includes(effectiveRole.value))
   const isSuperAdmin = computed(() => effectiveRole.value === 'super_admin')
@@ -44,6 +49,13 @@ export const useAuth = () => {
     applyEffectiveRole()
   })
 
+  // Also watch role changes to update cookie
+  watch(role, (newRole) => {
+    if (authCookie.value) {
+      authCookie.value.role = newRole
+    }
+  })
+
   const resolveRoleFromClaims = (claims: Record<string, unknown> | undefined) => {
     const claimRole = claims?.role
     return isAuthRole(claimRole) ? claimRole : null
@@ -55,13 +67,21 @@ export const useAuth = () => {
     if (!firebaseUser) {
       role.value = 'public'
       viewAsRole.value = null
+      authCookie.value = null
       applyEffectiveRole()
       ready.value = true
       return
     }
 
+    // Default basic cookie update
+    const currentCookie = authCookie.value || { uid: firebaseUser.uid, role: 'public' as AuthRole, email: firebaseUser.email }
+    currentCookie.uid = firebaseUser.uid
+    currentCookie.email = firebaseUser.email
+
     if (firebaseUser.isAnonymous) {
       role.value = 'delegate'
+      currentCookie.role = 'delegate'
+      authCookie.value = currentCookie
       applyEffectiveRole()
       ready.value = true
       return
@@ -93,6 +113,9 @@ export const useAuth = () => {
 
     const nextRole: AuthRole = roleFromClaims || storedRole || 'teacher'
     role.value = nextRole
+    currentCookie.role = nextRole
+    authCookie.value = currentCookie
+
     applyEffectiveRole()
 
     if (firebaseUser.email) {
@@ -127,7 +150,7 @@ export const useAuth = () => {
     try {
       const auth = getAuth(getApp())
       const credential = await signInWithEmailAndPassword(auth, email, password)
-      user.value = credential.user
+      // syncAuthState will be called by onAuthStateChanged, but we call it here to ensure immediate feedback
       await syncAuthState(credential.user)
     } catch (err: any) {
       error.value = err?.message || 'Login failed'
@@ -143,7 +166,6 @@ export const useAuth = () => {
       const auth = getAuth(getApp())
       const provider = new GoogleAuthProvider()
       const credential = await signInWithPopup(auth, provider)
-      user.value = credential.user
       await syncAuthState(credential.user)
     } catch (err: any) {
       error.value = err?.message || 'Google login failed'
@@ -158,7 +180,6 @@ export const useAuth = () => {
     try {
       const auth = getAuth(getApp())
       const credential = await signInAnonymously(auth)
-      user.value = credential.user
       await syncAuthState(credential.user)
     } catch (err: any) {
       error.value = err?.message || 'Student login failed'
@@ -179,6 +200,7 @@ export const useAuth = () => {
     } finally {
       user.value = null
       role.value = 'public'
+      authCookie.value = null
       effectiveRole.value = 'public'
       viewAsRole.value = null
       if (process.client) {
