@@ -6,12 +6,19 @@ const ALLOWED_STATUSES = ['approved', 'rejected', 'pending'] as const
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
   const decoded = await requireAuth(event)
+  const normalizeIdList = (value: unknown) => {
+    if (Array.isArray(value)) return value
+    if (typeof value === 'string') {
+      return value.split(',').map(entry => entry.trim()).filter(Boolean)
+    }
+    return []
+  }
   const allowed = [
-    ...(config.superAdminEmails || []),
-    ...(config.adminEmails || []),
-  ].map((email: string) => email.toLowerCase())
+    ...normalizeIdList(config.superAdminIds),
+    ...normalizeIdList(config.adminIds),
+  ]
 
-  if (!decoded.email || !allowed.includes(decoded.email.toLowerCase())) {
+  if (!decoded.uid || !allowed.includes(decoded.uid)) {
     throw createError({ statusCode: 403, message: 'Forbidden' })
   }
 

@@ -16,7 +16,11 @@ const committees = ref<{ id: string; name: string; type: string }[]>([])
 const updateFeedback = ref<{ type: 'success' | 'error'; message: string } | null>(null)
 
 const generateCode = async () => {
-  const { doc, setDoc, serverTimestamp, getDoc, addDoc, collection } = await import('firebase/firestore')
+  if (!user.value) {
+    updateFeedback.value = { type: 'error', message: 'Please sign in to generate a code.' }
+    return
+  }
+  const { doc, setDoc, serverTimestamp, getDoc } = await import('firebase/firestore')
   let newCode = ''
   let codeRef: ReturnType<typeof doc> | null = null
   let exists = true
@@ -28,19 +32,17 @@ const generateCode = async () => {
     exists = snap.exists()
     attempts += 1
   }
+  if (exists || !codeRef) {
+    updateFeedback.value = { type: 'error', message: 'Unable to generate a unique code. Please try again.' }
+    return
+  }
   const payload = {
-    teacherId: user.value?.uid || null,
+    teacherId: user.value.uid,
     createdAt: serverTimestamp(),
     expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(),
   }
-  if (!exists && codeRef) {
-    code.value = newCode
-    await setDoc(codeRef, { ...payload, code: newCode })
-  } else {
-    newCode = Math.random().toString(36).slice(2, 8).toUpperCase()
-    code.value = newCode
-    await addDoc(collection(db, 'registrationCodes'), { ...payload, code: newCode })
-  }
+  await setDoc(codeRef, { ...payload, code: newCode })
+  code.value = newCode
 }
 
 const loadOrCreateCode = async () => {

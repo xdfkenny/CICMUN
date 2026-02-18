@@ -50,11 +50,12 @@ service cloud.firestore {
         request.resource.data.supervisorEmail is string &&
         request.resource.data.supervisorEmail.size() > 0 &&
         request.resource.data.supervisorPhone is string &&
+        request.resource.data.supervisorPhone.size() > 0 &&
         request.resource.data.supervisorPhone.size() <= 30 &&
         request.resource.data.school is string &&
         request.resource.data.school.size() > 0 &&
         request.resource.data.delegationMode in ['existing', 'new'] &&
-        request.resource.data.status in ['pending', 'approved', 'rejected'] &&
+        request.resource.data.status == 'pending' &&
         request.resource.data.createdAt is timestamp;
     }
 
@@ -64,7 +65,7 @@ service cloud.firestore {
     }
 
     match /registrations/{docId} {
-      allow create: if (request.auth != null || request.app != null) && isValidRegistration();
+      allow create: if request.auth != null && request.app != null && isValidRegistration();
       allow read, update, delete: if isAdmin();
     }
 

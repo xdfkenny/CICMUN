@@ -26,7 +26,6 @@ const payload = computed(() => {
   if (!user.value || !timestamp.value) return ''
   return JSON.stringify({
     uid: user.value.uid,
-    email: user.value.email,
     ts: timestamp.value,
   })
 })

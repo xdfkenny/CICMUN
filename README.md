@@ -48,16 +48,16 @@ NUXT_FIREBASEADMIN_CLIENTEMAIL=
 NUXT_FIREBASEADMIN_PRIVATEKEY=
 ```
 
-## Role Email Lists (Environment Only)
-Define role email lists in your `.env` and keep them out of source control:
+## Role ID Lists (Server Only)
+Define role identifiers (non-PII user IDs/UUIDs) in your `.env` and keep them out of source control:
 ```
-NUXT_PUBLIC_STAFF_EMAILS=teacher1@school.edu,teacher2@school.edu
-NUXT_PUBLIC_ADMIN_EMAILS=admin1@school.edu
-NUXT_PUBLIC_SUPER_ADMIN_EMAILS=superadmin@school.edu
-NUXT_ADMIN_EMAILS=admin1@school.edu
-NUXT_SUPER_ADMIN_EMAILS=superadmin@school.edu
+NUXT_STAFF_IDS=uid_staff_1,uid_staff_2
+NUXT_ADMIN_IDS=uid_admin_1
+NUXT_SUPER_ADMIN_IDS=uid_super_admin_1
 ```
-Public values are exposed to the client (used for client-side role hints). Server-only values are used for admin API access checks.
+Single source of truth: only server-only `NUXT_*_IDS` are used. Do not set any `NUXT_PUBLIC_*` role env vars. The app relies on server-side checks and Firebase custom claims/Firestore roles for UI hints.
+
+Validation: the build will warn if deprecated `NUXT_PUBLIC_*` role env vars are present, so you can remove them before deploy.
 
 ## Firestore Rules
 Use `firestore.rules` as a starting point for role-based access control.

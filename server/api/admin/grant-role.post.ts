@@ -1,16 +1,24 @@
+import { createHash } from 'crypto'
 import { getAdminAuth, getAdminDb } from '../../utils/firebaseAdmin'
 import { requireAuth } from '../../utils/auth'
 
 const ALLOWED_ROLES = ['delegate', 'teacher', 'staff', 'admin', 'super_admin'] as const
+const hashIdentifier = (value: string) => createHash('sha256').update(value).digest('hex').slice(0, 12)
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
   const decoded = await requireAuth(event)
 
-  const superAdminEmails = (config.superAdminEmails || config.public.superAdminEmails || []).map((email: string) => email.toLowerCase())
-  const requesterEmail = decoded.email?.toLowerCase()
+  const normalizeIdList = (value: unknown) => {
+    if (Array.isArray(value)) return value
+    if (typeof value === 'string') {
+      return value.split(',').map(entry => entry.trim()).filter(Boolean)
+    }
+    return []
+  }
+  const superAdminIds = normalizeIdList(config.superAdminIds)
 
-  if (!requesterEmail || !superAdminEmails.includes(requesterEmail)) {
+  if (!decoded.uid || !superAdminIds.includes(decoded.uid)) {
     throw createError({ statusCode: 403, message: 'Forbidden' })
   }
 
@@ -33,13 +41,26 @@ export default defineEventHandler(async (event) => {
     const userRecord = await auth.getUserByEmail(email)
     const existingClaims = userRecord.customClaims || {}
     const mergedClaims = { ...existingClaims, role }
-    await auth.setCustomUserClaims(userRecord.uid, mergedClaims)
+    const userRef = db.collection('users').doc(userRecord.uid)
+    const previousSnap = await userRef.get()
+    const previousData = previousSnap.exists ? previousSnap.data() : null
 
-    await db.collection('users').doc(userRecord.uid).set({
+    await userRef.set({
       email,
       role,
       updatedAt: new Date().toISOString(),
     }, { merge: true })
+
+    try {
+      await auth.setCustomUserClaims(userRecord.uid, mergedClaims)
+    } catch (err) {
+      if (previousData) {
+        await userRef.set(previousData)
+      } else {
+        await userRef.delete()
+      }
+      throw err
+    }
 
     return { ok: true }
   } catch (err: any) {
@@ -52,7 +73,7 @@ export default defineEventHandler(async (event) => {
       }, { merge: true })
       return { ok: true, pending: true }
     }
-    console.error('Failed to grant role', { email, role, error: err })
+    console.error('Failed to grant role', { emailHash: hashIdentifier(email), role, error: err })
     throw createError({ statusCode: 500, message: 'Unable to grant role' })
   }
 })

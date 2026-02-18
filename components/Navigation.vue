@@ -5,7 +5,7 @@ import { useRoleOverrideStore } from '~/stores/roleOverride'
 const route = useRoute()
 const router = useRouter()
 const isActive = (path: string) => route.path === path
-const { effectiveRole, role, isAuthenticated, logout, ready, setViewAsRole } = useAuth()
+const { effectiveRole, role, isAuthenticated, logout, ready, setViewAsRole, isRealSuperAdmin } = useAuth()
 const roleOverrideStore = useRoleOverrideStore()
 const roleOverrideOptions: AuthRole[] = ['public', 'delegate', 'teacher', 'staff', 'admin', 'super_admin']
 const overrideSelection = computed({
@@ -24,6 +24,11 @@ const isPreviewing = computed(() => role.value === 'super_admin' && effectiveRol
 const isMenuOpen = ref(false)
 const isAccessOpen = ref(false)
 const accessMenuRef = ref<HTMLElement | null>(null)
+const closeMenu = () => {
+  if (!isMenuOpen.value) return
+  isMenuOpen.value = false
+  document.body.style.overflow = 'auto'
+}
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
   if (isMenuOpen.value) {
@@ -40,11 +45,13 @@ watch(() => route.path, () => {
 })
 
 const goLogin = () => {
+  closeMenu()
   router.push(`/login?redirect=${encodeURIComponent(route.fullPath)}`)
 }
 
 const doLogout = async () => {
   await logout()
+  closeMenu()
   router.push('/')
 }
 
@@ -58,6 +65,11 @@ const closeAccessMenu = (event?: FocusEvent) => {
     return
   }
   isAccessOpen.value = false
+}
+
+const exitPreview = () => {
+  setViewAsRole(null)
+  closeMenu()
 }
 
 </script>
@@ -195,7 +207,7 @@ const closeAccessMenu = (event?: FocusEvent) => {
             <div v-if="isPreviewing" class="px-4 py-2 text-xs text-gray-500">
               Previewing as {{ effectiveRole }}
             </div>
-            <div v-if="ready && isAuthenticated" class="px-4 py-3 border-t border-gray-100">
+            <div v-if="ready && isAuthenticated && isRealSuperAdmin" class="px-4 py-3 border-t border-gray-100">
               <p class="text-[10px] uppercase tracking-widest text-gray-400">Role override</p>
               <select
                 v-model="overrideSelection"
@@ -237,7 +249,7 @@ const closeAccessMenu = (event?: FocusEvent) => {
               v-if="isPreviewing"
               class="w-full flex items-center gap-2 px-4 py-3 text-sm text-black hover:bg-gray-50 rounded-b-xl"
               role="menuitem"
-              @click="setViewAsRole(null)"
+              @click="exitPreview"
             >
               <LogIn class="w-4 h-4" />
               Exit Preview
@@ -321,7 +333,7 @@ const closeAccessMenu = (event?: FocusEvent) => {
                 <span v-if="isPreviewing" class="text-xs text-gray-500">
                   Previewing as {{ effectiveRole }}
                 </span>
-                <div v-if="ready && isAuthenticated" class="mt-2">
+                <div v-if="ready && isAuthenticated && isRealSuperAdmin" class="mt-2">
                   <p class="text-[10px] uppercase tracking-widest text-gray-400">Role override</p>
                   <select
                     v-model="overrideSelection"
@@ -358,7 +370,7 @@ const closeAccessMenu = (event?: FocusEvent) => {
                 <button
                   v-if="isPreviewing"
                   class="text-sm text-left text-gray-600 hover:text-black"
-                  @click="setViewAsRole(null)"
+                  @click="exitPreview"
                 >
                   Exit Preview
                 </button>

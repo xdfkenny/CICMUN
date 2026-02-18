@@ -169,13 +169,13 @@ const resourceUrl = (filename: string) => `/resources/${encodeURIComponent(filen
             <div>
               <h4 class="text-lg font-bold mb-2">Key questions</h4>
               <ul class="list-disc list-inside text-gray-700 space-y-1">
-                <li v-for="question in brief?.keyQuestions || []" :key="question">{{ question }}</li>
+                <li v-for="(question, index) in brief?.keyQuestions || []" :key="`keyQuestion-${index}`">{{ question }}</li>
               </ul>
             </div>
             <div>
               <h4 class="text-lg font-bold mb-2">Position paper checklist</h4>
               <ul class="list-disc list-inside text-gray-700 space-y-1">
-                <li v-for="item in brief?.positionChecklist || []" :key="item">{{ item }}</li>
+                <li v-for="(item, index) in brief?.positionChecklist || []" :key="`positionChecklist-${index}`">{{ item }}</li>
               </ul>
             </div>
           </div>

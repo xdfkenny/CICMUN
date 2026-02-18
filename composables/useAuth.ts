@@ -1,30 +1,12 @@
-import { getAuth, signInWithEmailAndPassword, signOut, type User, GoogleAuthProvider, signInWithPopup, signInAnonymously } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword, signOut, type User, GoogleAuthProvider, signInWithPopup, signInAnonymously, onAuthStateChanged } from 'firebase/auth'
 import { getApp } from 'firebase/app'
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
 import { useRoleOverrideStore } from '~/stores/roleOverride'
+import { useDb } from '~/composables/useDb'
 
 export type AuthRole = 'public' | 'delegate' | 'teacher' | 'staff' | 'admin' | 'super_admin'
 
 const AUTH_ROLES: AuthRole[] = ['public', 'delegate', 'teacher', 'staff', 'admin', 'super_admin']
-
-const resolveRole = (email: string | null | undefined, staffEmails: string[], adminEmails: string[], superAdminEmails: string[]) => {
-  if (!email) return 'public'
-  const normalized = email.trim().toLowerCase()
-  if (superAdminEmails.map(entry => entry.trim().toLowerCase()).includes(normalized)) return 'super_admin'
-  if (adminEmails.map(entry => entry.trim().toLowerCase()).includes(normalized)) return 'admin'
-  if (staffEmails.map(entry => entry.trim().toLowerCase()).includes(normalized)) return 'staff'
-  return 'teacher'
-}
-
-const normalizeEmailList = (value: unknown): string[] => {
-  if (Array.isArray(value)) return value
-  if (typeof value === 'string') {
-    return value
-      .split(',')
-      .map(entry => entry.trim())
-      .filter(Boolean)
-  }
-  return []
-}
 
 const isAuthRole = (value: unknown): value is AuthRole => {
   return typeof value === 'string' && AUTH_ROLES.includes(value as AuthRole)
@@ -38,11 +20,7 @@ export const useAuth = () => {
   const error = useState<string | null>('auth:error', () => null)
   const viewAsRole = useState<AuthRole | null>('auth:viewAsRole', () => null)
   const roleOverrideStore = useRoleOverrideStore()
-
-  const config = useRuntimeConfig()
-  const staffEmails = normalizeEmailList(config.public.staffEmails)
-  const adminEmails = normalizeEmailList(config.public.adminEmails)
-  const superAdminEmails = normalizeEmailList(config.public.superAdminEmails)
+  const listenerAttached = useState<boolean>('auth:listenerAttached', () => false)
 
   const isAuthenticated = computed(() => !!user.value)
   const isStaff = computed(() => effectiveRole.value === 'staff')
@@ -66,6 +44,82 @@ export const useAuth = () => {
     applyEffectiveRole()
   })
 
+  const resolveRoleFromClaims = (claims: Record<string, unknown> | undefined) => {
+    const claimRole = claims?.role
+    return isAuthRole(claimRole) ? claimRole : null
+  }
+
+  const syncAuthState = async (firebaseUser: User | null) => {
+    user.value = firebaseUser
+
+    if (!firebaseUser) {
+      role.value = 'public'
+      viewAsRole.value = null
+      applyEffectiveRole()
+      ready.value = true
+      return
+    }
+
+    if (firebaseUser.isAnonymous) {
+      role.value = 'delegate'
+      applyEffectiveRole()
+      ready.value = true
+      return
+    }
+
+    let roleFromClaims: AuthRole | null = null
+    try {
+      const tokenResult = await firebaseUser.getIdTokenResult()
+      roleFromClaims = resolveRoleFromClaims(tokenResult?.claims as Record<string, unknown>)
+    } catch {
+      // ignore token errors, fall back to Firestore role
+    }
+
+    let storedRole: AuthRole | null = null
+    let snap: Awaited<ReturnType<typeof getDoc>> | null = null
+    try {
+      const db = useDb()
+      const userRef = doc(db, 'users', firebaseUser.uid)
+      snap = await getDoc(userRef)
+      if (snap.exists()) {
+        const candidate = snap.data()?.role
+        if (isAuthRole(candidate)) {
+          storedRole = candidate
+        }
+      }
+    } catch {
+      // ignore Firestore read errors
+    }
+
+    const nextRole: AuthRole = roleFromClaims || storedRole || 'teacher'
+    role.value = nextRole
+    applyEffectiveRole()
+
+    if (firebaseUser.email) {
+      try {
+        const db = useDb()
+        const userRef = doc(db, 'users', firebaseUser.uid)
+        if (!snap || !snap.exists()) {
+          await setDoc(userRef, {
+            email: firebaseUser.email,
+            role: nextRole,
+            createdAt: serverTimestamp(),
+            provider: firebaseUser.providerData?.[0]?.providerId || 'password',
+          }, { merge: true })
+        } else if (roleFromClaims && storedRole !== roleFromClaims) {
+          await setDoc(userRef, {
+            role: roleFromClaims,
+            updatedAt: serverTimestamp(),
+          }, { merge: true })
+        }
+      } catch {
+        // ignore Firestore write errors
+      }
+    }
+
+    ready.value = true
+  }
+
   const login = async (email: string, password: string) => {
     error.value = null
     if (!process.client) return
@@ -74,8 +128,7 @@ export const useAuth = () => {
       const auth = getAuth(getApp())
       const credential = await signInWithEmailAndPassword(auth, email, password)
       user.value = credential.user
-      role.value = resolveRole(auth.currentUser?.email, staffEmails, adminEmails, superAdminEmails)
-      applyEffectiveRole()
+      await syncAuthState(credential.user)
     } catch (err: any) {
       error.value = err?.message || 'Login failed'
       throw err
@@ -91,8 +144,7 @@ export const useAuth = () => {
       const provider = new GoogleAuthProvider()
       const credential = await signInWithPopup(auth, provider)
       user.value = credential.user
-      role.value = resolveRole(auth.currentUser?.email, staffEmails, adminEmails, superAdminEmails)
-      applyEffectiveRole()
+      await syncAuthState(credential.user)
     } catch (err: any) {
       error.value = err?.message || 'Google login failed'
       throw err
@@ -107,8 +159,7 @@ export const useAuth = () => {
       const auth = getAuth(getApp())
       const credential = await signInAnonymously(auth)
       user.value = credential.user
-      role.value = 'delegate'
-      applyEffectiveRole()
+      await syncAuthState(credential.user)
     } catch (err: any) {
       error.value = err?.message || 'Student login failed'
       throw err
@@ -152,9 +203,18 @@ export const useAuth = () => {
     const saved = localStorage.getItem('cicmun:viewAsRole')
     if (saved && isAuthRole(saved)) {
       viewAsRole.value = saved
+      applyEffectiveRole()
     } else if (saved) {
       localStorage.removeItem('cicmun:viewAsRole')
     }
+  }
+
+  if (process.client && !listenerAttached.value) {
+    listenerAttached.value = true
+    const auth = getAuth(getApp())
+    onAuthStateChanged(auth, (firebaseUser) => {
+      void syncAuthState(firebaseUser)
+    })
   }
 
   return {

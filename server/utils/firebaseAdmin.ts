@@ -4,6 +4,10 @@ let app: admin.app.App | null = null
 
 export const getAdminApp = () => {
   if (app) return app
+  if (admin.apps.length) {
+    app = admin.app()
+    return app
+  }
   const config = useRuntimeConfig()
   const projectId = config.firebaseAdmin.projectId
   const clientEmail = config.firebaseAdmin.clientEmail

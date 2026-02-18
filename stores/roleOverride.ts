@@ -14,22 +14,34 @@ export const useRoleOverrideStore = defineStore('roleOverride', () => {
 
   const load = () => {
     if (!process.client) return
-    const saved = localStorage.getItem(STORAGE_KEY)
-    if (saved && isAuthRole(saved)) {
-      overrideRole.value = saved
-      return
-    }
-    if (saved) {
-      localStorage.removeItem(STORAGE_KEY)
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY)
+      if (saved && isAuthRole(saved)) {
+        overrideRole.value = saved
+        return
+      }
+      if (saved) {
+        try {
+          localStorage.removeItem(STORAGE_KEY)
+        } catch {
+          // ignore removal errors
+        }
+      }
+    } catch {
+      // ignore storage access errors
     }
   }
 
   const persist = () => {
     if (!process.client) return
-    if (overrideRole.value) {
-      localStorage.setItem(STORAGE_KEY, overrideRole.value)
-    } else {
-      localStorage.removeItem(STORAGE_KEY)
+    try {
+      if (overrideRole.value) {
+        localStorage.setItem(STORAGE_KEY, overrideRole.value)
+      } else {
+        localStorage.removeItem(STORAGE_KEY)
+      }
+    } catch {
+      // ignore storage access errors
     }
   }
 

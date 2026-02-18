@@ -68,7 +68,7 @@ const eventDetailsByGalleryId = computed<Record<string, any>>(() => {
       </div>
 
       <!-- Event Cards -->
-      <div v-if="galleryEvents.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+      <div v-if="galleryEvents.length > 0 && !galleryError && !pending" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         <button
           type="button"
           v-for="event in galleryEvents"
@@ -99,7 +99,7 @@ const eventDetailsByGalleryId = computed<Record<string, any>>(() => {
       </div>
 
       <!-- Filters Section -->
-      <div v-if="galleryEvents.length > 0" class="flex flex-wrap justify-center gap-3 mb-12">
+      <div v-if="galleryEvents.length > 0 && !galleryError && !pending" class="flex flex-wrap justify-center gap-3 mb-12">
         <button 
           type="button"
           @click="selectEvent('all')"

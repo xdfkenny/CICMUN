@@ -1,3 +1,4 @@
+import { FieldValue } from 'firebase-admin/firestore'
 import { requireAuth } from '../../utils/auth'
 import { getAdminDb } from '../../utils/firebaseAdmin'
 
@@ -5,14 +6,21 @@ export default defineEventHandler(async (event) => {
   const decoded = await requireAuth(event)
   const role = (decoded as any).role
   const config = useRuntimeConfig()
-  const allowedEmails = [
-    ...(config.public.superAdminEmails || []),
-    ...(config.public.adminEmails || []),
-    ...(config.public.staffEmails || []),
-  ].map((email: string) => email.toLowerCase())
+  const normalizeIdList = (value: unknown) => {
+    if (Array.isArray(value)) return value
+    if (typeof value === 'string') {
+      return value.split(',').map(entry => entry.trim()).filter(Boolean)
+    }
+    return []
+  }
+  const allowedIds = [
+    ...normalizeIdList(config.superAdminIds),
+    ...normalizeIdList(config.adminIds),
+    ...normalizeIdList(config.staffIds),
+  ]
 
   if (!['staff', 'admin', 'super_admin'].includes(role)) {
-    if (!decoded.email || !allowedEmails.includes(decoded.email.toLowerCase())) {
+    if (!decoded.uid || !allowedIds.includes(decoded.uid)) {
       throw createError({ statusCode: 403, message: 'Forbidden' })
     }
   }
@@ -44,11 +52,23 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Invalid QR token' })
   }
 
-  await db.collection('attendance').add({
+  const dateKey = new Date().toISOString().slice(0, 10)
+  const attendanceId = `${parsed.uid}_${dateKey}`
+  const attendanceRef = db.collection('attendance').doc(attendanceId)
+  const existing = await attendanceRef.get()
+  if (existing.exists) {
+    return { ok: true, duplicate: true }
+  }
+
+  await attendanceRef.set({
     studentId: parsed.uid,
     checkedInBy: decoded.uid,
-    checkedInAt: new Date().toISOString(),
+    checkedInAt: FieldValue.serverTimestamp(),
+    dateKey,
   })
 
-  return { ok: true }
+  const userSnap = await db.collection('users').doc(parsed.uid).get()
+  const email = userSnap.exists ? userSnap.data()?.email || null : null
+
+  return { ok: true, email }
 })

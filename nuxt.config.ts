@@ -1,12 +1,25 @@
 import tailwindcss from "@tailwindcss/vite";
 
-const parseEmailList = (value?: string) => {
+const parseIdList = (value?: string) => {
   if (!value) return []
   return value
     .split(',')
     .map(entry => entry.trim())
     .filter(Boolean)
 }
+
+const warnDeprecatedRoleEnv = () => {
+  const deprecated = [
+    'NUXT_PUBLIC_STAFF_EMAILS',
+    'NUXT_PUBLIC_ADMIN_EMAILS',
+    'NUXT_PUBLIC_SUPER_ADMIN_EMAILS',
+  ].filter((key) => !!process.env[key])
+  if (deprecated.length) {
+    console.warn(`[CICMUN] Remove deprecated role env vars: ${deprecated.join(', ')}. Use NUXT_STAFF_IDS, NUXT_ADMIN_IDS, NUXT_SUPER_ADMIN_IDS.`)
+  }
+}
+
+warnDeprecatedRoleEnv()
 
 export default defineNuxtConfig({
 
@@ -90,8 +103,9 @@ export default defineNuxtConfig({
       clientEmail: '',
       privateKey: '',
     },
-    superAdminEmails: parseEmailList(process.env.NUXT_SUPER_ADMIN_EMAILS),
-    adminEmails: parseEmailList(process.env.NUXT_ADMIN_EMAILS),
+    staffIds: parseIdList(process.env.NUXT_STAFF_IDS),
+    adminIds: parseIdList(process.env.NUXT_ADMIN_IDS),
+    superAdminIds: parseIdList(process.env.NUXT_SUPER_ADMIN_IDS),
     public: {
       firebase: {
         apiKey: "AIzaSyD3CHM17_kRD9BDe7r9296wB422Fw16SqU",
@@ -100,10 +114,7 @@ export default defineNuxtConfig({
         storageBucket: "studio-2833367368-d365f.firebasestorage.app",
         messagingSenderId: "1036862077463",
         appId: "1:1036862077463:web:93583a34eb9f99ed48fa52"
-      },
-      staffEmails: parseEmailList(process.env.NUXT_PUBLIC_STAFF_EMAILS),
-      adminEmails: parseEmailList(process.env.NUXT_PUBLIC_ADMIN_EMAILS),
-      superAdminEmails: parseEmailList(process.env.NUXT_PUBLIC_SUPER_ADMIN_EMAILS)
+      }
     }
   }
 })

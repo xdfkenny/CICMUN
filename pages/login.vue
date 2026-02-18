@@ -75,10 +75,47 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 py-12 px-4">
-    <div class="container max-w-md mx-auto">
-      <div class="bg-white border border-gray-200 rounded-2xl shadow-lg p-8">
-        <h1 class="text-3xl font-bold text-black mb-2 font-montserrat">Login</h1>
+  <div class="min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 py-10 sm:py-12 px-4">
+    <div class="container max-w-6xl mx-auto grid gap-6 sm:gap-8 lg:gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start lg:items-center">
+      <div class="relative overflow-hidden rounded-3xl border border-red-200 bg-gradient-to-br from-red-700 via-red-600 to-red-800 text-white p-6 sm:p-8 md:p-12 shadow-2xl">
+        <div class="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-white/10 blur-3xl"></div>
+        <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-black/20 blur-3xl"></div>
+
+        <p class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-white/80 mb-4">CICMUN Delegate Portal</p>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold font-montserrat mb-3 sm:mb-4">Welcome Back</h1>
+        <p class="text-lg text-white/90 max-w-xl">
+          Choose the fastest way to access your resources. Staff and teachers use Google or email.
+          Students enter with a teacher code.
+        </p>
+
+        <div class="mt-6 sm:mt-8 grid gap-4">
+          <div class="flex items-start gap-3">
+            <div class="h-9 w-9 flex items-center justify-center rounded-full bg-white/15 text-sm font-bold">1</div>
+            <div>
+              <p class="font-semibold">Teachers, staff, and admins</p>
+              <p class="text-sm text-white/80">Use Google or your email/password.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="h-9 w-9 flex items-center justify-center rounded-full bg-white/15 text-sm font-bold">2</div>
+            <div>
+              <p class="font-semibold">Students</p>
+              <p class="text-sm text-white/80">Use the code provided by your advisor.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 sm:mt-8 hidden sm:flex flex-wrap gap-3 text-xs uppercase tracking-widest text-white/80">
+          <span class="rounded-full border border-white/30 px-4 py-2">Google Sign-In</span>
+          <span class="rounded-full border border-white/30 px-4 py-2">Student Code</span>
+        </div>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-3xl shadow-xl p-6 sm:p-8 md:p-10">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-3xl font-bold text-black font-montserrat">Login</h2>
+          <span class="text-[10px] uppercase tracking-[0.3em] text-gray-400">Secure Access</span>
+        </div>
         <p class="text-gray-600 mb-6">
           Choose your access type. Teachers, staff, and admins use email. Students use a teacher code.
         </p>
@@ -90,6 +127,7 @@ watchEffect(() => {
           <UiButton type="button" class="w-full bg-gray-100 hover:bg-gray-200 text-black" :disabled="isSubmitting" @click="loginStudent">
             Student Login with Code
           </UiButton>
+          <p class="text-xs text-gray-500 text-center">Need a code? Ask your advisor or committee staff.</p>
         </div>
 
         <div class="flex items-center gap-3 my-4 text-xs text-gray-400">
@@ -121,7 +159,7 @@ watchEffect(() => {
               autocomplete="current-password"
               required
               class="mt-2 w-full rounded-lg border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-600"
-              placeholder="••••••••"
+              placeholder="********"
             />
           </div>
 

@@ -24,19 +24,17 @@ const isValidStep = (item: any): item is { label: string; done: boolean } => {
 const load = () => {
   if (!process.client) return
   const raw = localStorage.getItem(storageKey.value)
-  if (!raw) {
-    steps.value = []
-    return
-  }
+  if (!raw) return
   try {
     const parsed = JSON.parse(raw)
     if (Array.isArray(parsed)) {
-      steps.value = parsed.filter(isValidStep)
-    } else {
-      steps.value = []
+      const validItems = parsed.filter(isValidStep)
+      if (validItems.length) {
+        steps.value = validItems
+      }
     }
   } catch {
-    steps.value = []
+    // keep defaults on parse failure
   }
 }
 

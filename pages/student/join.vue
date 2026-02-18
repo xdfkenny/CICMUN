@@ -68,13 +68,16 @@ const join = async () => {
 
     status.value = 'success'
     message.value = 'Registered successfully.'
-    setTimeout(() => {
-      router.push('/student/me')
+    setTimeout(async () => {
+      try {
+        await router.push('/student/me')
+      } finally {
+        isSubmitting.value = false
+      }
     }, 500)
   } catch (err: any) {
     status.value = 'error'
     message.value = err?.message || 'Registration failed'
-  } finally {
     isSubmitting.value = false
   }
 }

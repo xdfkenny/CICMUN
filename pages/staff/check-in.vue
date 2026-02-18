@@ -51,19 +51,21 @@ const handleCheckIn = async () => {
       return
     }
     const parsed = JSON.parse(input.value)
-    await $fetch('/api/attendance/check-in', {
+    const result = await $fetch<{ ok: boolean; duplicate?: boolean; email?: string | null }>('/api/attendance/check-in', {
       method: 'POST',
       body: { payload: input.value },
       headers: { Authorization: `Bearer ${token}` },
     })
-    checked.value.unshift({ uid: parsed.uid || 'unknown', email: parsed.email || 'delegate', ts: new Date().toISOString() })
+    const displayEmail = result?.email || parsed.email || 'delegate'
+    checked.value.unshift({ uid: parsed.uid || 'unknown', email: displayEmail, ts: new Date().toISOString() })
     save()
     status.value = 'success'
     message.value = 'Check-in recorded'
     input.value = ''
   } catch (err: any) {
     status.value = 'error'
-    message.value = err?.message || 'Invalid QR payload'
+    const detail = err?.data?.message || err?.data || err?.statusMessage || err?.message
+    message.value = typeof detail === 'string' && detail.length ? detail : 'Invalid QR payload'
   }
 }
 
@@ -80,7 +82,7 @@ onMounted(load)
           v-model="input"
           rows="4"
           class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-600"
-          placeholder='{"uid":"...","email":"...","qrToken":"..."}'
+          placeholder='{"uid":"...","qrToken":"..."}'
         />
         <div class="mt-4 flex items-center gap-3">
           <UiButton class="bg-red-600 hover:bg-red-700 text-white" @click="handleCheckIn">
@@ -95,7 +97,7 @@ onMounted(load)
       <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
         <h2 class="text-xl font-bold mb-4 font-montserrat">Checked-in delegates</h2>
         <div v-if="checked.length" class="space-y-2 text-sm">
-          <div v-for="entry in checked" :key="entry.uid + entry.ts" class="flex justify-between border-b border-gray-100 pb-2">
+          <div v-for="(entry, index) in checked" :key="`${entry.uid}-${entry.ts}-${index}`" class="flex justify-between border-b border-gray-100 pb-2">
             <span>{{ entry.email }}</span>
             <span class="text-gray-400">{{ new Date(entry.ts).toLocaleString() }}</span>
           </div>
