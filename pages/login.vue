@@ -77,18 +77,18 @@ watchEffect(() => {
 <template>
   <div class="min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 py-10 sm:py-12 px-4">
     <div class="container max-w-6xl mx-auto grid gap-6 sm:gap-8 lg:gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start lg:items-center">
-      <div class="relative overflow-hidden rounded-3xl border border-red-200 bg-gradient-to-br from-red-700 via-red-600 to-red-800 text-white p-6 sm:p-8 md:p-12 shadow-2xl">
+      <div class="order-2 lg:order-1 relative overflow-hidden rounded-3xl border border-red-200 bg-gradient-to-br from-red-700 via-red-600 to-red-800 text-white p-5 sm:p-8 md:p-12 shadow-2xl">
         <div class="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-white/10 blur-3xl"></div>
         <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-black/20 blur-3xl"></div>
 
         <p class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-white/80 mb-4">CICMUN Delegate Portal</p>
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold font-montserrat mb-3 sm:mb-4">Welcome Back</h1>
-        <p class="text-lg text-white/90 max-w-xl">
+        <p class="text-base sm:text-lg text-white/90 max-w-xl">
           Choose the fastest way to access your resources. Staff and teachers use Google or email.
           Students enter with a teacher code.
         </p>
 
-        <div class="mt-6 sm:mt-8 grid gap-4">
+        <div class="mt-5 sm:mt-8 grid gap-4 hidden sm:grid">
           <div class="flex items-start gap-3">
             <div class="h-9 w-9 flex items-center justify-center rounded-full bg-white/15 text-sm font-bold">1</div>
             <div>
@@ -105,13 +105,18 @@ watchEffect(() => {
           </div>
         </div>
 
+        <div class="mt-5 flex flex-wrap gap-2 text-[11px] uppercase tracking-widest text-white/85 sm:hidden">
+          <span class="rounded-full border border-white/30 px-3 py-1.5">Teachers & Staff</span>
+          <span class="rounded-full border border-white/30 px-3 py-1.5">Student Code</span>
+        </div>
+
         <div class="mt-6 sm:mt-8 hidden sm:flex flex-wrap gap-3 text-xs uppercase tracking-widest text-white/80">
           <span class="rounded-full border border-white/30 px-4 py-2">Google Sign-In</span>
           <span class="rounded-full border border-white/30 px-4 py-2">Student Code</span>
         </div>
       </div>
 
-      <div class="bg-white border border-gray-200 rounded-3xl shadow-xl p-6 sm:p-8 md:p-10">
+      <div class="order-1 lg:order-2 bg-white border border-gray-200 rounded-3xl shadow-xl p-6 sm:p-8 md:p-10">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-3xl font-bold text-black font-montserrat">Login</h2>
           <span class="text-[10px] uppercase tracking-[0.3em] text-gray-400">Secure Access</span>
