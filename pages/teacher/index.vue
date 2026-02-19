@@ -23,6 +23,7 @@ const schoolName = ref('')
 
 type PortalResponse = {
   schoolName: string | null
+  delegationName?: string | null
   code: string | null
   students: { id: string; name: string; committeeId: string | null; status?: string }[]
   pendingStudents: { id: string; name: string; committeeId: string | null; status?: string }[]

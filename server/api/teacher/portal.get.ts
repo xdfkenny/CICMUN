@@ -20,6 +20,7 @@ export default defineEventHandler(async (event) => {
   const db = getAdminDb()
 
   let schoolName: string | null = null
+  let delegationName: string | null = null
   try {
     const registrationsSnap = await db.collection('registrations').where('uid', '==', uid).get()
     if (!registrationsSnap.empty) {
@@ -27,9 +28,23 @@ export default defineEventHandler(async (event) => {
         .map(doc => doc.data())
         .sort((a: any, b: any) => toMillis(b.createdAt) - toMillis(a.createdAt))[0]
       schoolName = latest?.school || null
+      delegationName = latest?.delegationName || null
     }
   } catch {
     schoolName = null
+  }
+
+  if (!schoolName || !delegationName) {
+    try {
+      const userSnap = await db.collection('users').doc(uid).get()
+      if (userSnap.exists) {
+        const data = userSnap.data() || {}
+        schoolName = schoolName || data.school || null
+        delegationName = delegationName || data.delegationName || null
+      }
+    } catch {
+      // ignore fallback errors
+    }
   }
 
   const codesSnap = await db.collection('registrationCodes').where('teacherId', '==', uid).get()
@@ -55,6 +70,7 @@ export default defineEventHandler(async (event) => {
 
   return {
     schoolName,
+    delegationName,
     code: codeData?.code || null,
     students,
     pendingStudents,

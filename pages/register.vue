@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { getAuth } from 'firebase/auth'
+import { getApp } from 'firebase/app'
+
 useSeoMeta({
   title: 'Delegation Registration',
   ogTitle: 'Delegation Registration | CICMUN 2026',
@@ -7,7 +10,6 @@ useSeoMeta({
 })
 
 const { user, role, effectiveRole, loginWithGoogle } = useAuth()
-const db = useDb()
 const isSubmitting = ref(false)
 const submitted = ref(false)
 const submitError = ref('')
@@ -54,13 +56,21 @@ const submit = async () => {
   isSubmitting.value = true
   submitError.value = ''
   try {
-    const { addDoc, collection, serverTimestamp } = await import('firebase/firestore')
-    await addDoc(collection(db, 'registrations'), {
-      ...form,
-      delegationMode: delegationMode.value,
-      uid: user.value?.uid || null,
-      createdAt: serverTimestamp(),
-      status: 'pending',
+    const auth = getAuth(getApp())
+    const currentUser = auth.currentUser
+    if (!currentUser) {
+      throw new Error('Please sign in to submit your registration.')
+    }
+    const token = await currentUser.getIdToken()
+    await $fetch('/api/registrations', {
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+      body: {
+        ...form,
+        delegationMode: delegationMode.value,
+      },
     })
     submitted.value = true
     submitMessage.value = `Registration submitted for ${form.delegationName || 'your delegation'}.`
@@ -70,8 +80,8 @@ const submit = async () => {
       redirecting.value = true
       await navigateTo('/teacher?registered=1')
     }
-  } catch {
-    submitError.value = 'Unable to submit registration. Please try again.'
+  } catch (err: any) {
+    submitError.value = err?.data?.message || err?.message || 'Unable to submit registration. Please try again.'
   } finally {
     isSubmitting.value = false
   }

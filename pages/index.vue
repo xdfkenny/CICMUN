@@ -34,12 +34,12 @@ useSeoMeta({
           </p>
 
           <div class="mt-10 flex flex-col sm:flex-row sm:items-center gap-4">
-            <NuxtLink :to="role === 'delegate' ? '/delegates' : '/delegates'">
+            <NuxtLink to="/delegates">
               <UiButton
                 size="lg"
                 class="bg-white text-red-600 hover:bg-gray-100 font-bold text-lg px-8 py-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform inline-flex items-center gap-2"
               >
-                {{ role === 'delegate' ? 'Go to Delegate Portal' : 'Delegates Enter Here' }}
+                Go to Delegate Portal
                 <ArrowRight class="w-5 h-5" />
               </UiButton>
             </NuxtLink>
