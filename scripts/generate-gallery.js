@@ -6,6 +6,29 @@ const THUMBNAIL_FOLDER = '__thumbs'
 const THUMBNAIL_WIDTHS = { small: 480, medium: 960 }
 const THUMBNAIL_QUALITY = { small: 68, medium: 76 }
 
+const normalizeMode = (value) => {
+  const mode = String(value || '').trim().toLowerCase()
+  return ['off', 'single', 'full'].includes(mode) ? mode : null
+}
+
+const THUMBNAIL_MODE = normalizeMode(process.env.GALLERY_THUMBNAIL_MODE)
+  ?? (process.env.NODE_ENV === 'production' ? 'full' : 'single')
+
+const ENABLE_THUMBNAILS = THUMBNAIL_MODE !== 'off'
+const GENERATE_SRCSET = THUMBNAIL_MODE === 'full'
+const USE_CACHE_TAG = THUMBNAIL_MODE === 'full'
+
+const THUMBNAIL_PRESETS = THUMBNAIL_MODE === 'full'
+  ? [
+      { key: 'small', width: THUMBNAIL_WIDTHS.small, quality: THUMBNAIL_QUALITY.small, suffix: '-sm' },
+      { key: 'medium', width: THUMBNAIL_WIDTHS.medium, quality: THUMBNAIL_QUALITY.medium, suffix: '' },
+    ]
+  : THUMBNAIL_MODE === 'single'
+    ? [
+        { key: 'medium', width: THUMBNAIL_WIDTHS.medium, quality: THUMBNAIL_QUALITY.medium, suffix: '' },
+      ]
+    : []
+
 const galleryPath = path.resolve('public/Gallery')
 const dataDir = path.resolve('data')
 const outputFile = path.join(dataDir, 'gallery.json')
@@ -45,12 +68,14 @@ const loadSharp = async () => {
   }
 }
 
-const createThumbnail = async ({ sharpLib, sourcePath, eventName, filename, stat, width, quality, suffix = '' }) => {
+const createThumbnail = async ({ sharpLib, sourcePath, eventName, filename, stat, width, quality, suffix = '', useCacheTag = false }) => {
   if (!sharpLib) return null
 
   const fileStem = sanitizeFileStem(filename)
-  const cacheTag = `${stat.size}-${Math.trunc(stat.mtimeMs)}`
-  const outputFilename = `${fileStem}-${cacheTag}${suffix}.webp`
+  const cacheTag = useCacheTag ? `${stat.size}-${Math.trunc(stat.mtimeMs)}` : ''
+  const outputFilename = useCacheTag
+    ? `${fileStem}-${cacheTag}${suffix}.webp`
+    : `${fileStem}${suffix}.webp`
   const outputRelativePath = path.join(THUMBNAIL_FOLDER, eventName, outputFilename)
   const outputPath = path.join(galleryPath, outputRelativePath)
 
@@ -81,7 +106,9 @@ if (!fs.existsSync(galleryPath)) {
   process.exit(0)
 }
 
-const sharpLib = await loadSharp()
+console.log(`[gallery] Thumbnail mode: ${THUMBNAIL_MODE}. Set GALLERY_THUMBNAIL_MODE=off|single|full to override.`)
+
+const sharpLib = ENABLE_THUMBNAILS ? await loadSharp() : null
 const dirEntries = fs.readdirSync(galleryPath, { withFileTypes: true })
 
 const eventDirs = dirEntries
@@ -111,32 +138,30 @@ for (const dirent of eventDirs) {
     let thumbnailSmall = null
     let thumbnailMedium = null
 
-    if (sharpLib) {
+    if (sharpLib && THUMBNAIL_PRESETS.length) {
       try {
         const metadata = await sharpLib(sourcePath).metadata()
         width = metadata.width ?? null
         height = metadata.height ?? null
 
-        thumbnailSmall = await createThumbnail({
-          sharpLib,
-          sourcePath,
-          eventName,
-          filename,
-          stat: sourceStat,
-          width: THUMBNAIL_WIDTHS.small,
-          quality: THUMBNAIL_QUALITY.small,
-          suffix: '-sm',
-        })
-
-        thumbnailMedium = await createThumbnail({
-          sharpLib,
-          sourcePath,
-          eventName,
-          filename,
-          stat: sourceStat,
-          width: THUMBNAIL_WIDTHS.medium,
-          quality: THUMBNAIL_QUALITY.medium,
-        })
+        for (const preset of THUMBNAIL_PRESETS) {
+          const generated = await createThumbnail({
+            sharpLib,
+            sourcePath,
+            eventName,
+            filename,
+            stat: sourceStat,
+            width: preset.width,
+            quality: preset.quality,
+            suffix: preset.suffix,
+            useCacheTag: USE_CACHE_TAG,
+          })
+          if (preset.key === 'small') {
+            thumbnailSmall = generated
+          } else if (preset.key === 'medium') {
+            thumbnailMedium = generated
+          }
+        }
       } catch (error) {
         console.warn(`Could not process ${filename} in ${eventName}: ${error.message}`)
       }
@@ -148,7 +173,7 @@ for (const dirent of eventDirs) {
       id: `${eventId}-${index + 1}`,
       src: fullSrc,
       thumbnail,
-      srcSet: thumbnailSmall
+      srcSet: GENERATE_SRCSET && thumbnailSmall
         ? `${thumbnailSmall} ${THUMBNAIL_WIDTHS.small}w, ${thumbnail} ${THUMBNAIL_WIDTHS.medium}w, ${fullSrc} ${Math.max(THUMBNAIL_WIDTHS.medium + 1, width || 1600)}w`
         : undefined,
       sizes: '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',

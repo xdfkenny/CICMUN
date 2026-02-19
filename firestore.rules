@@ -4,11 +4,21 @@ service cloud.firestore {
     function isSignedIn() {
       return request.auth != null;
     }
+    function signInProvider() {
+      return isSignedIn() ? request.auth.token.firebase.sign_in_provider : null;
+    }
+    function isAnonymous() {
+      return isSignedIn() && signInProvider() == 'anonymous';
+    }
     function role() {
       return isSignedIn()
         ? (request.auth.token.role != null
           ? request.auth.token.role
-          : get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role)
+          : (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role != null
+            ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role
+            : (isAnonymous()
+              ? 'delegate'
+              : 'teacher')))
         : null;
     }
     function isAdmin() {
@@ -66,19 +76,31 @@ service cloud.firestore {
 
     match /registrations/{docId} {
       allow create: if request.auth != null && request.app != null && isValidRegistration();
-      allow read, update, delete: if isAdmin();
+      allow read: if isAdmin() || (isSignedIn() && request.auth.uid == resource.data.uid);
+      allow update, delete: if isAdmin();
     }
 
     match /registrationCodes/{code} {
       allow read: if isSignedIn();
-      allow create: if isTeacher() || isAdmin();
-      allow update, delete: if isTeacher() || isAdmin();
+      allow create: if (isTeacher() || isAdmin()) && request.resource.data.teacherId == request.auth.uid;
+      allow update: if isAdmin() || (isTeacher()
+        && resource.data.teacherId == request.auth.uid
+        && request.resource.data.teacherId == resource.data.teacherId);
+      allow delete: if isAdmin() || (isTeacher() && resource.data.teacherId == request.auth.uid);
     }
 
     match /students/{studentId} {
-      allow read: if isSignedIn() && (request.auth.uid == studentId || isTeacher() || isStaff());
+      allow read: if isSignedIn()
+        && (request.auth.uid == studentId
+          || isStaff()
+          || isAdmin()
+          || (isTeacher() && resource.data.teacherId == request.auth.uid));
       allow create: if isDelegate() && request.auth.uid == studentId;
-      allow update: if isTeacher() || isStaff() || isAdmin();
+      allow update: if isAdmin()
+        || isStaff()
+        || (isTeacher()
+          && resource.data.teacherId == request.auth.uid
+          && request.resource.data.teacherId == resource.data.teacherId);
       allow delete: if isAdmin();
     }
 

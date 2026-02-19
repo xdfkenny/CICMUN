@@ -44,6 +44,25 @@ useSeoMeta({
               </UiButton>
             </NuxtLink>
           </div>
+
+          <div class="mt-6 rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-md">
+            <p class="text-sm uppercase tracking-[0.3em] text-white/70 font-semibold">Start Here</p>
+            <p class="mt-2 text-base text-white/90">
+              New to MUN? Take the quick tour. Teachers can register or jump to the dashboard.
+            </p>
+            <div class="mt-4 grid gap-3 sm:grid-cols-2">
+              <NuxtLink to="/onboarding">
+                <UiButton class="w-full bg-white text-red-700 hover:bg-gray-100 px-6 py-3 font-bold">
+                  Open Tour
+                </UiButton>
+              </NuxtLink>
+              <NuxtLink :to="role === 'teacher' ? '/teacher' : '/register'">
+                <UiButton class="w-full bg-red-500 text-white hover:bg-red-400 px-6 py-3 font-bold">
+                  {{ role === 'teacher' ? 'Teacher Dashboard' : 'Register Delegation' }}
+                </UiButton>
+              </NuxtLink>
+            </div>
+          </div>
         </div>
 
         <div class="rounded-3xl border border-white/15 bg-white/10 p-6 md:p-8 text-center shadow-2xl backdrop-blur-md">
@@ -77,9 +96,10 @@ useSeoMeta({
     </section>
 
     <!-- Onboarding / Tour -->
-    <section class="bg-white py-16 px-4">
+    <section id="start-here" class="bg-white py-16 px-4">
       <div class="container max-w-5xl mx-auto grid items-center gap-8 md:grid-cols-[1.1fr_0.9fr]">
         <div class="text-center md:text-left">
+          <p class="text-xs uppercase tracking-[0.3em] text-red-500 font-semibold mb-3">Start Here</p>
           <h2 class="text-3xl md:text-4xl font-bold mb-4 font-montserrat text-slate-900">New to MUN?</h2>
           <p class="text-gray-600">
             Explore our quick tour and step-by-step guide. Perfect for JMUN first-timers.

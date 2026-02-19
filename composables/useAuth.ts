@@ -5,6 +5,12 @@ import { useRoleOverrideStore } from '~/stores/roleOverride'
 import { useDb } from '~/composables/useDb'
 
 export type AuthRole = 'public' | 'delegate' | 'teacher' | 'staff' | 'admin' | 'super_admin'
+export type AuthUser = {
+  uid: string
+  email: string | null
+  displayName: string | null
+  isAnonymous: boolean
+}
 
 const AUTH_ROLES: AuthRole[] = ['public', 'delegate', 'teacher', 'staff', 'admin', 'super_admin']
 
@@ -18,7 +24,7 @@ export const useAuth = () => {
     sameSite: 'lax',
   })
 
-  const user = useState<User | null>('auth:user', () => null)
+  const user = useState<AuthUser | null>('auth:user', () => null)
   const role = useState<AuthRole>('auth:role', () => authCookie.value?.role || 'public')
   const effectiveRole = useState<AuthRole>('auth:effectiveRole', () => authCookie.value?.role || 'public')
   const ready = useState<boolean>('auth:ready', () => !!authCookie.value) // Ready if cookie exists
@@ -63,6 +69,13 @@ export const useAuth = () => {
 
   const syncAuthState = async (firebaseUser: User | null) => {
     user.value = firebaseUser
+      ? {
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          displayName: firebaseUser.displayName,
+          isAnonymous: firebaseUser.isAnonymous,
+        }
+      : null
 
     if (!firebaseUser) {
       role.value = 'public'

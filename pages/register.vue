@@ -6,11 +6,13 @@ useSeoMeta({
   ogDescription: 'Register your delegation for JMUN or SAMUN.',
 })
 
-const { user, role, loginWithGoogle } = useAuth()
+const { user, role, effectiveRole, loginWithGoogle } = useAuth()
 const db = useDb()
 const isSubmitting = ref(false)
 const submitted = ref(false)
 const submitError = ref('')
+const submitMessage = ref('')
+const redirecting = ref(false)
 const { data: delegations } = await useFetch('/api/delegations', { default: () => [] })
 
 const delegationMode = ref<'existing' | 'new'>('existing')
@@ -61,6 +63,13 @@ const submit = async () => {
       status: 'pending',
     })
     submitted.value = true
+    submitMessage.value = `Registration submitted for ${form.delegationName || 'your delegation'}.`
+    if (user.value) {
+      role.value = 'teacher'
+      effectiveRole.value = 'teacher'
+      redirecting.value = true
+      await navigateTo('/teacher?registered=1')
+    }
   } catch {
     submitError.value = 'Unable to submit registration. Please try again.'
   } finally {
@@ -114,7 +123,13 @@ const submit = async () => {
       <section class="order-1 lg:order-2">
         <div v-if="submitted" class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-gray-100">
           <h2 class="text-2xl font-bold mb-2 font-montserrat">Submitted</h2>
-          <p class="text-gray-600">We received your registration. We will contact you soon.</p>
+          <p class="text-gray-600">{{ submitMessage || 'We received your registration. We will contact you soon.' }}</p>
+          <p v-if="redirecting" class="mt-3 text-sm font-semibold text-blue-600">Redirecting to the teacher dashboard...</p>
+          <NuxtLink v-else to="/teacher" class="block mt-4">
+            <UiButton class="w-full bg-black text-white hover:bg-gray-800">
+              Go to Teacher Dashboard
+            </UiButton>
+          </NuxtLink>
         </div>
 
         <div v-else-if="role === 'teacher'" class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-gray-100 text-center">

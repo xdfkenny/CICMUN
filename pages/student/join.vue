@@ -64,6 +64,7 @@ const join = async () => {
       teacherId: codeSnap.data().teacherId || null,
       qrToken,
       createdAt: serverTimestamp(),
+      status: 'pending',
     }, { merge: true })
 
     status.value = 'success'

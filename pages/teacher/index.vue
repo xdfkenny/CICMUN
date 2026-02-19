@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { getAuth } from 'firebase/auth'
+import { getApp } from 'firebase/app'
+
 definePageMeta({
   middleware: ['role'],
   auth: {
@@ -8,7 +11,8 @@ definePageMeta({
 })
 
 const { user } = useAuth()
-const db = useDb()
+const route = useRoute()
+const router = useRouter()
 const code = ref('')
 const students = ref<{ id: string; name: string; committeeId: string | null; status?: string }[]>([])
 const pendingStudents = ref<{ id: string; name: string; committeeId: string | null; status?: string }[]>([])
@@ -17,22 +21,42 @@ const committees = ref<{ id: string; name: string; type: string }[]>([])
 const updateFeedback = ref<{ type: 'success' | 'error'; message: string } | null>(null)
 const schoolName = ref('')
 
-const fetchSchoolName = async () => {
-   if (!user.value) return
-   const { collection, query, where, getDocs, limit } = await import('firebase/firestore')
-   try {
-      // Try to find the school from the registrations collection
-      const q = query(collection(db, 'registrations'), where('uid', '==', user.value.uid), limit(1))
-      const snap = await getDocs(q)
-      if (!snap.empty) {
-        schoolName.value = snap.docs[0].data().school
-      } else {
-        // Fallback: Check user profile? user.value.displayName?
-        schoolName.value = 'My School'
-      }
-   } catch (e) {
-     console.error('Error fetching school name', e)
-   }
+type PortalResponse = {
+  schoolName: string | null
+  code: string | null
+  students: { id: string; name: string; committeeId: string | null; status?: string }[]
+  pendingStudents: { id: string; name: string; committeeId: string | null; status?: string }[]
+}
+
+const consumeRegisteredQuery = () => {
+  if (route.query.registered) {
+    updateFeedback.value = {
+      type: 'success',
+      message: 'Registration submitted. Your teacher dashboard is ready.',
+    }
+    const { registered, ...rest } = route.query
+    router.replace({ query: rest })
+  }
+}
+
+const getAuthToken = async () => {
+  if (!process.client) return null
+  const auth = getAuth(getApp())
+  const current = auth.currentUser
+  if (!current) return null
+  return current.getIdToken()
+}
+
+const authFetch = async <T>(url: string, options: any = {}) => {
+  const token = await getAuthToken()
+  if (!token) {
+    throw new Error('Not authenticated')
+  }
+  const headers = {
+    ...(options.headers || {}),
+    authorization: `Bearer ${token}`,
+  }
+  return await $fetch<T>(url, { ...options, headers })
 }
 
 const generateCode = async () => {
@@ -40,76 +64,34 @@ const generateCode = async () => {
     updateFeedback.value = { type: 'error', message: 'Please sign in to generate a code.' }
     return
   }
-  const { doc, setDoc, serverTimestamp, getDoc } = await import('firebase/firestore')
-  let newCode = ''
-  let codeRef: ReturnType<typeof doc> | null = null
-  let exists = true
-  let attempts = 0
-  while (exists && attempts < 5) {
-    newCode = Math.random().toString(36).slice(2, 8).toUpperCase()
-    codeRef = doc(db, 'registrationCodes', newCode)
-    const snap = await getDoc(codeRef)
-    exists = snap.exists()
-    attempts += 1
+  try {
+    const data = await authFetch<{ code: string }>('/api/teacher/code', { method: 'POST' })
+    code.value = data?.code || ''
+    updateFeedback.value = { type: 'success', message: 'New code generated.' }
+  } catch (e) {
+    console.error('Failed to generate code', e)
+    updateFeedback.value = { type: 'error', message: 'Unable to generate code. Please try again.' }
   }
-  if (exists || !codeRef) {
-    updateFeedback.value = { type: 'error', message: 'Unable to generate a unique code. Please try again.' }
-    return
-  }
-  const payload = {
-    teacherId: user.value.uid,
-    createdAt: serverTimestamp(),
-    expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(),
-  }
-  await setDoc(codeRef, { ...payload, code: newCode })
-  code.value = newCode
 }
 
-const loadOrCreateCode = async () => {
-  if (!user.value) return
-  const { collection, getDocs, query, where, orderBy, limit } = await import('firebase/firestore')
-  const q = query(
-    collection(db, 'registrationCodes'),
-    where('teacherId', '==', user.value?.uid || ''),
-    orderBy('createdAt', 'desc'),
-    limit(1)
-  )
-  const snap = await getDocs(q)
-  const existing = snap.docs[0]
-  if (existing) {
-    const data = existing.data()
-    const expiresAt = data.expiresAt ? new Date(data.expiresAt) : null
-    if (!expiresAt || expiresAt > new Date()) {
-      code.value = data.code || existing.id
-      return
-    }
-  }
-  await generateCode()
-}
-
-const loadStudents = async () => {
+const loadPortal = async () => {
   if (!user.value) return
   loading.value = true
   try {
-    const { collection, getDocs, query, where } = await import('firebase/firestore')
-    const q = query(collection(db, 'students'), where('teacherId', '==', user.value?.uid || ''))
-    const snap = await getDocs(q)
-    
-    const all = snap.docs.map(doc => ({
-      id: doc.id,
-      name: doc.data().name,
-      committeeId: doc.data().committeeId || null,
-      status: doc.data().status || 'approved' // Default to approved if not set for backward compat
-    }))
-
-    students.value = all.filter(s => s.status === 'approved')
-    pendingStudents.value = all.filter(s => s.status === 'pending')
-
-  } catch {
+    const data = await authFetch<PortalResponse>('/api/teacher/portal')
+    schoolName.value = data.schoolName || 'My School'
+    code.value = data.code || ''
+    students.value = data.students || []
+    pendingStudents.value = data.pendingStudents || []
+  } catch (e) {
+    console.error('Failed to load teacher portal', e)
+    updateFeedback.value = { type: 'error', message: 'Unable to load teacher data. Please try again.' }
+    schoolName.value = schoolName.value || 'My School'
     students.value = []
     pendingStudents.value = []
+  } finally {
+    loading.value = false
   }
-  loading.value = false
 }
 
 const loadCommittees = async () => {
@@ -134,13 +116,14 @@ const updateStudent = async (student: { id: string; name: string; committeeId: s
     return
   }
   student.name = trimmedName
-  const { doc, setDoc, serverTimestamp } = await import('firebase/firestore')
   try {
-    await setDoc(doc(db, 'students', student.id), {
-      name: trimmedName,
-      committeeId: student.committeeId,
-      updatedAt: serverTimestamp(),
-    }, { merge: true })
+    await authFetch(`/api/teacher/students/${student.id}`, {
+      method: 'PATCH',
+      body: {
+        name: trimmedName,
+        committeeId: student.committeeId,
+      },
+    })
     updateFeedback.value = { type: 'success', message: 'Student updated successfully.' }
   } catch (err) {
     console.error('Failed to update student', err)
@@ -149,33 +132,35 @@ const updateStudent = async (student: { id: string; name: string; committeeId: s
 }
 
 const approveStudent = async (student: { id: string }) => {
-    const { doc, updateDoc, serverTimestamp } = await import('firebase/firestore')
-    try {
-        await updateDoc(doc(db, 'students', student.id), {
-            status: 'approved',
-            updatedAt: serverTimestamp()
-        })
-        // Refresh local list
-        const idx = pendingStudents.value.findIndex(s => s.id === student.id)
-        if (idx !== -1) {
-            const [moved] = pendingStudents.value.splice(idx, 1)
-            moved.status = 'approved'
-            students.value.push(moved)
-        }
-        updateFeedback.value = { type: 'success', message: 'Student approved.' }
-    } catch (e) {
-        console.error('Error approving', e)
-        updateFeedback.value = { type: 'error', message: 'Failed to approve student.' }
+  try {
+    await authFetch(`/api/teacher/students/${student.id}/approve`, { method: 'POST' })
+    // Refresh local list
+    const idx = pendingStudents.value.findIndex(s => s.id === student.id)
+    if (idx !== -1) {
+      const [moved] = pendingStudents.value.splice(idx, 1)
+      moved.status = 'approved'
+      students.value.push(moved)
     }
+    updateFeedback.value = { type: 'success', message: 'Student approved.' }
+  } catch (e) {
+    console.error('Error approving', e)
+    updateFeedback.value = { type: 'error', message: 'Failed to approve student.' }
+  }
 }
 
 watch(user, async (val) => {
   if (!val) return
-  await loadOrCreateCode()
+  await loadPortal()
   await loadCommittees()
-  await loadStudents()
-  await fetchSchoolName()
 }, { immediate: true })
+
+onMounted(() => {
+  consumeRegisteredQuery()
+})
+
+watch(() => route.query.registered, () => {
+  consumeRegisteredQuery()
+})
 </script>
 
 <template>
@@ -201,6 +186,12 @@ watch(user, async (val) => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div v-if="updateFeedback" class="rounded-2xl border px-4 py-3 text-sm flex items-start justify-between gap-3"
+        :class="updateFeedback.type === 'success' ? 'border-green-200 bg-green-50 text-green-800' : 'border-red-200 bg-red-50 text-red-800'">
+        <span>{{ updateFeedback.message }}</span>
+        <button class="text-xs uppercase tracking-wide font-semibold opacity-70 hover:opacity-100" @click="updateFeedback = null">Dismiss</button>
       </div>
 
       <!-- Pending Students -->
