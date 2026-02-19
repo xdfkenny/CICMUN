@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 
 const props = defineProps({
   targetDate: {
@@ -8,34 +8,37 @@ const props = defineProps({
   }
 })
 
-const timeRemaining = ref({
-  days: 0,
-  hours: 0,
-  minutes: 0,
-  seconds: 0
-})
-
+const now = ref(0)
 let interval: ReturnType<typeof setInterval> | null = null
 
-const calculateTimeRemaining = () => {
+const timeRemaining = computed(() => {
   const target = new Date(props.targetDate).getTime()
-  const now = new Date().getTime()
-  const distance = target - now
+  const distance = Math.max(0, target - now.value)
 
-  if (distance < 0) {
-    if (interval) clearInterval(interval)
-    return
+  return {
+    days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+    minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+    seconds: Math.floor((distance % (1000 * 60)) / 1000)
   }
+})
 
-  timeRemaining.value.days = Math.floor(distance / (1000 * 60 * 60 * 24))
-  timeRemaining.value.hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-  timeRemaining.value.minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-  timeRemaining.value.seconds = Math.floor((distance % (1000 * 60)) / 1000)
+const startTimer = () => {
+  if (interval) clearInterval(interval)
+  now.value = Date.now()
+  interval = setInterval(() => {
+    now.value = Date.now()
+  }, 1000)
 }
 
 onMounted(() => {
-  calculateTimeRemaining()
-  interval = setInterval(calculateTimeRemaining, 1000)
+  startTimer()
+})
+
+watch(() => props.targetDate, () => {
+  if (typeof window !== 'undefined') {
+    startTimer()
+  }
 })
 
 onUnmounted(() => {
