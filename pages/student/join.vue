@@ -127,7 +127,7 @@ const join = async () => {
       </section>
 
       <section class="order-1 lg:order-2">
-        <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-gray-100 space-y-5">
+        <form class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-gray-100 space-y-5" @submit.prevent="join">
           <div>
             <h2 class="text-2xl font-bold font-montserrat text-gray-900">Join Your Delegation</h2>
             <p class="text-sm text-gray-500">Already logged in as a student. Just add your details below.</p>
@@ -153,14 +153,14 @@ const join = async () => {
             <p class="text-xs text-gray-500 mt-2">Use the exact code shared by your advisor.</p>
           </div>
 
-          <UiButton class="w-full bg-red-600 text-white" :disabled="isSubmitting" @click="join">
+          <UiButton type="submit" class="w-full bg-red-600 text-white" :disabled="isSubmitting">
             {{ isSubmitting ? 'Joining...' : 'Join Delegation' }}
           </UiButton>
 
           <p v-if="status !== 'idle'" :class="status === 'success' ? 'text-green-600' : 'text-red-600'" class="text-sm font-semibold">
             {{ message }}
           </p>
-        </div>
+        </form>
       </section>
     </div>
   </div>

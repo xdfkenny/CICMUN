@@ -1,5 +1,6 @@
 import { FieldValue } from 'firebase-admin/firestore'
 import type admin from 'firebase-admin'
+import { randomBytes } from 'node:crypto'
 
 const CODE_TTL_MS = 1000 * 60 * 60 * 24 * 30
 
@@ -37,25 +38,38 @@ export const getLatestValidTeacherCode = (docs: admin.firestore.QueryDocumentSna
   }
 }
 
-const makeCode = () => Math.random().toString(36).slice(2, 8).toUpperCase()
+const CODE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+const makeCode = () => {
+  const bytes = randomBytes(6)
+  let result = ''
+  for (let i = 0; i < 6; i += 1) {
+    result += CODE_CHARS[bytes[i] % CODE_CHARS.length]
+  }
+  return result
+}
 
 export const generateTeacherCode = async (db: admin.firestore.Firestore, uid: string) => {
   let attempts = 0
   while (attempts < 5) {
     const code = makeCode()
     const docRef = db.collection('registrationCodes').doc(code)
-    const snap = await docRef.get()
-    if (!snap.exists) {
-      const payload = {
-        teacherId: uid,
-        createdAt: FieldValue.serverTimestamp(),
-        expiresAt: new Date(Date.now() + CODE_TTL_MS).toISOString(),
-        code,
-      }
-      await docRef.set(payload)
-      return { code, expiresAt: payload.expiresAt }
+    const payload = {
+      teacherId: uid,
+      createdAt: FieldValue.serverTimestamp(),
+      expiresAt: new Date(Date.now() + CODE_TTL_MS).toISOString(),
+      code,
     }
-    attempts += 1
+    try {
+      await docRef.create(payload)
+      return { code, expiresAt: payload.expiresAt }
+    } catch (err: any) {
+      const errorCode = err?.code || err?.errorInfo?.code
+      if (errorCode === 6 || errorCode === 'already-exists') {
+        attempts += 1
+        continue
+      }
+      throw err
+    }
   }
   throw new Error('Unable to generate a unique code.')
 }

@@ -8,7 +8,7 @@ const props = defineProps({
   }
 })
 
-const now = ref(0)
+const now = ref(Date.now())
 let interval: ReturnType<typeof setInterval> | null = null
 
 const timeRemaining = computed(() => {

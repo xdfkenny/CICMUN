@@ -11,8 +11,8 @@ const props = defineProps<{
     <h3 class="text-xl font-bold font-montserrat mb-4">Committee glossary</h3>
     <div class="grid md:grid-cols-2 gap-4">
       <div
-        v-for="term in props.terms"
-        :key="term.term"
+        v-for="(term, index) in props.terms"
+        :key="term.id ?? index"
         class="p-4 rounded-xl border border-gray-100 bg-gray-50"
       >
         <div class="font-bold text-gray-900 mb-2">{{ term.term }}</div>

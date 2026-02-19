@@ -14,6 +14,7 @@ const email = ref('')
 const password = ref('')
 const isSubmitting = ref(false)
 const formError = ref<string | null>(null)
+const hasNavigated = ref(false)
 
 const redirectTo = computed(() => {
   const target = route.query.redirect
@@ -32,6 +33,7 @@ const submit = async () => {
 
   try {
     await login(email.value.trim(), password.value)
+    hasNavigated.value = true
     await router.push(redirectTo.value)
   } catch (err: any) {
     formError.value = err?.message || 'Login failed'
@@ -46,6 +48,7 @@ const loginStudent = async () => {
 
   try {
     await loginAnonymousStudent()
+    hasNavigated.value = true
     await router.push('/student/join')
   } catch (err: any) {
     formError.value = err?.message || 'Student login failed'
@@ -59,6 +62,7 @@ const loginGoogle = async () => {
 
   try {
     await loginWithGoogle()
+    hasNavigated.value = true
     await router.push(redirectTo.value)
   } catch (err: any) {
     formError.value = err?.message || 'Google login failed'
@@ -68,7 +72,7 @@ const loginGoogle = async () => {
 }
 
 watchEffect(() => {
-  if (ready.value && isAuthenticated.value) {
+  if (ready.value && isAuthenticated.value && !hasNavigated.value) {
     router.replace(redirectTo.value)
   }
 })

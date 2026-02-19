@@ -20,6 +20,7 @@ const loading = ref(true)
 const committees = ref<{ id: string; name: string; type: string }[]>([])
 const updateFeedback = ref<{ type: 'success' | 'error'; message: string } | null>(null)
 const schoolName = ref('')
+const canRemoveStudent = false
 
 type PortalResponse = {
   schoolName: string | null
@@ -210,7 +211,7 @@ watch(() => route.query.registered, () => {
               <UiButton class="bg-red-600 text-white hover:bg-red-700 text-xs px-3 py-1" @click="approveStudent(student)">
                 Approve
               </UiButton>
-              <UiButton class="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 text-xs px-3 py-1">
+              <UiButton class="bg-white border border-gray-200 text-gray-400 text-xs px-3 py-1" disabled>
                 Reject
               </UiButton>
             </div>
@@ -250,6 +251,7 @@ watch(() => route.query.registered, () => {
                  <input 
                    v-model="student.name" 
                    class="font-bold text-gray-900 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-black focus:outline-none transition-colors w-full"
+                   @blur="updateStudent(student)"
                  />
                  <div class="text-xs text-gray-400 mt-0.5">Edit name</div>
               </div>
@@ -270,7 +272,7 @@ watch(() => route.query.registered, () => {
                  </select>
               </div>
 
-              <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+              <div v-if="canRemoveStudent" class="opacity-0 group-hover:opacity-100 transition-opacity">
                 <button class="text-gray-400 hover:text-red-600" title="Remove student">
                   <span class="sr-only">Remove</span>
                   &times;

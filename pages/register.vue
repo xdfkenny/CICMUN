@@ -9,7 +9,7 @@ useSeoMeta({
   ogDescription: 'Register your delegation for JMUN or SAMUN.',
 })
 
-const { user, role, effectiveRole, loginWithGoogle } = useAuth()
+const { user, role, loginWithGoogle, refreshAuthState } = useAuth()
 const isSubmitting = ref(false)
 const submitted = ref(false)
 const submitError = ref('')
@@ -75,8 +75,7 @@ const submit = async () => {
     submitted.value = true
     submitMessage.value = `Registration submitted for ${form.delegationName || 'your delegation'}.`
     if (user.value) {
-      role.value = 'teacher'
-      effectiveRole.value = 'teacher'
+      await refreshAuthState()
       redirecting.value = true
       await navigateTo('/teacher?registered=1')
     }

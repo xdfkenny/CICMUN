@@ -14,19 +14,30 @@ const { setViewAsRole, viewAsRole, isRealSuperAdmin } = useAuth()
 const auth = process.client ? getAuth() : null
 const registrations = ref<any[]>([])
 const loading = ref(true)
+const loadError = ref(false)
 const staffEmail = ref('')
 const status = ref('')
+const updateStatusMessage = ref('')
+
+const notifyError = (message: string) => {
+  const nuxtApp = useNuxtApp()
+  nuxtApp.$toast?.error?.(message)
+  updateStatusMessage.value = message
+}
 
 const loadRegistrations = async () => {
   loading.value = true
+  loadError.value = false
   try {
     const token = await auth?.currentUser?.getIdToken()
     const data = await $fetch('/api/admin/registrations', {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
     registrations.value = Array.isArray(data) ? data : []
-  } catch {
+  } catch (err) {
     registrations.value = []
+    loadError.value = true
+    console.error('Failed to load registrations', err)
   }
   loading.value = false
 }
@@ -60,14 +71,17 @@ const updateStatus = async (item: any, newStatus: string) => {
   const token = await auth?.currentUser?.getIdToken()
   const previous = item.status
   item.status = newStatus
+  updateStatusMessage.value = ''
   try {
     await $fetch(`/api/admin/registrations/${item.id}`, {
       method: 'PATCH',
       body: { status: newStatus },
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
-  } catch {
+  } catch (err: any) {
     item.status = previous
+    const detail = err?.data?.message || err?.message || 'Unknown error'
+    notifyError(`Failed to update status: ${detail}`)
   }
 }
 
@@ -117,7 +131,9 @@ onUnmounted(() => {
 
       <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
         <h2 class="text-xl font-bold mb-4 font-montserrat">Delegation Registrations</h2>
+        <p v-if="updateStatusMessage" class="text-sm text-red-600 mb-3">{{ updateStatusMessage }}</p>
         <div v-if="loading" class="text-sm text-gray-500">Loading...</div>
+        <div v-else-if="loadError" class="text-sm text-red-600">Failed to load registrations.</div>
         <div v-else-if="registrations.length === 0" class="text-sm text-gray-500">No submissions yet.</div>
         <div v-else class="space-y-3">
           <div v-for="item in registrations" :key="item.id" class="border-b border-gray-100 pb-3 space-y-2">
@@ -142,4 +158,3 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
-

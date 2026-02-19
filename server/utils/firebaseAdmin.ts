@@ -9,9 +9,9 @@ export const getAdminApp = () => {
     return app
   }
   const config = useRuntimeConfig()
-  const projectId = config.firebaseAdmin.projectId
-  const clientEmail = config.firebaseAdmin.clientEmail
-  const privateKey = config.firebaseAdmin.privateKey?.replace(/\\n/g, '\n')
+  const projectId = config.firebaseAdmin?.projectId
+  const clientEmail = config.firebaseAdmin?.clientEmail
+  const privateKey = config.firebaseAdmin?.privateKey?.replace(/\\n/g, '\n')
 
   if (!projectId || !clientEmail || !privateKey) {
     throw new Error('Firebase Admin SDK is not configured. Set runtimeConfig.firebaseAdmin.')

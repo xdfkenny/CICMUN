@@ -27,7 +27,7 @@ useSeoMeta({
           </div>
           <div class="p-6">
             <div class="space-y-6">
-              <div v-for="event in day.events" :key="`${event.time}-${event.activity}`" class="flex flex-col md:flex-row md:items-center gap-4 border-b border-gray-100 last:border-0 pb-6 last:pb-0">
+              <div v-for="(event, idx) in day.events" :key="`${event.time}-${event.activity}-${idx}`" class="flex flex-col md:flex-row md:items-center gap-4 border-b border-gray-100 last:border-0 pb-6 last:pb-0">
                 <div class="md:w-48 font-bold text-red-600 text-lg">{{ event.time }}</div>
                 <div class="flex-1">
                   <div class="font-bold text-xl text-gray-900">{{ event.activity }}</div>

@@ -32,6 +32,7 @@ export default defineEventHandler(async (event) => {
     }
   } catch {
     schoolName = null
+    delegationName = null
   }
 
   if (!schoolName || !delegationName) {
@@ -61,7 +62,7 @@ export default defineEventHandler(async (event) => {
       id: doc.id,
       name: data.name || 'Unnamed student',
       committeeId: data.committeeId || null,
-      status: data.status || 'approved',
+      status: data.status || 'pending',
     }
   })
 

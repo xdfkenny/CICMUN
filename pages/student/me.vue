@@ -10,7 +10,7 @@ definePageMeta({
 const { user } = useAuth()
 const db = useDb()
 const student = ref<{ qrToken?: string } | null>(null)
-const loading = ref(false)
+const loading = ref(true)
 const error = ref<string | null>(null)
 
 const payload = computed(() => {

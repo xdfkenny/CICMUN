@@ -15,7 +15,7 @@ const { data } = await useFetch<Announcement[]>('/api/announcements', {
 
 const { effectiveRole, isAuthenticated, ready } = useAuth()
 
-const now = ref<number | null>(null)
+const now = ref(Date.now())
 let interval: ReturnType<typeof setInterval> | null = null
 
 onMounted(() => {
@@ -33,7 +33,6 @@ const visibleAnnouncements = computed(() => {
   const list = data.value || []
   return list
     .filter(item => {
-      if (!now.value) return false
       const audience = item.audience || 'public'
       if (
         audience === 'delegate' &&
@@ -47,8 +46,14 @@ const visibleAnnouncements = computed(() => {
       ) {
         return false
       }
-      if (item.startsAt && new Date(item.startsAt).getTime() > now.value) return false
-      if (item.endsAt && new Date(item.endsAt).getTime() < now.value) return false
+      const start = item.startsAt ? new Date(item.startsAt) : null
+      const end = item.endsAt ? new Date(item.endsAt) : null
+      const startValid = start ? !Number.isNaN(start.getTime()) : false
+      const endValid = end ? !Number.isNaN(end.getTime()) : false
+      if (start && !startValid) return false
+      if (end && !endValid) return false
+      if (startValid && start!.getTime() > now.value) return false
+      if (endValid && end!.getTime() < now.value) return false
       return true
     })
     .sort((a, b) => (b.priority || 0) - (a.priority || 0))

@@ -47,13 +47,13 @@ useSeoMeta({
               Take the quick tour, then register your delegation or head to the teacher dashboard.
             </p>
             <div class="mt-5 grid gap-3 sm:grid-cols-2">
-              <NuxtLink to="/onboarding">
-                <UiButton class="w-full bg-white text-red-700 hover:bg-gray-100 px-6 py-3 font-bold">
+              <NuxtLink to="/onboarding" custom v-slot="{ navigate, href }">
+                <UiButton as="a" :href="href" class="w-full bg-white text-red-700 hover:bg-gray-100 px-6 py-3 font-bold" @click="navigate">
                   Open Tour
                 </UiButton>
               </NuxtLink>
-              <NuxtLink :to="role === 'teacher' ? '/teacher' : '/register'">
-                <UiButton class="w-full bg-red-500 text-white hover:bg-red-400 px-6 py-3 font-bold">
+              <NuxtLink :to="role === 'teacher' ? '/teacher' : '/register'" custom v-slot="{ navigate, href }">
+                <UiButton as="a" :href="href" class="w-full bg-red-500 text-white hover:bg-red-400 px-6 py-3 font-bold" @click="navigate">
                   {{ role === 'teacher' ? 'Teacher Dashboard' : 'Register Delegation' }}
                 </UiButton>
               </NuxtLink>

@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "GALLERY_THUMBNAIL_MODE=off npm run prebuild && nuxt dev",
-    "prebuild": "node scripts/generate-gallery.js",
-    "pregenerate": "GALLERY_THUMBNAIL_MODE=full npm run prebuild",
+    "dev": "cross-env GALLERY_THUMBNAIL_MODE=off npm run prebuild && nuxt dev",
+    "prebuild": "cross-env node scripts/generate-gallery.js",
+    "pregenerate": "cross-env GALLERY_THUMBNAIL_MODE=full npm run prebuild",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -31,6 +31,7 @@
     "@nuxtjs/color-mode": "^4.0.0",
     "@tailwindcss/vite": "^4.1.18",
     "@types/node": "^25.2.2",
+    "cross-env": "^7.0.3",
     "tailwindcss": "^4.1.18"
   }
 }

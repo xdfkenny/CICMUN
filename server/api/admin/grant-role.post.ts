@@ -54,10 +54,14 @@ export default defineEventHandler(async (event) => {
     try {
       await auth.setCustomUserClaims(userRecord.uid, mergedClaims)
     } catch (err) {
-      if (previousData) {
-        await userRef.set(previousData)
-      } else {
-        await userRef.delete()
+      try {
+        if (previousData) {
+          await userRef.set(previousData)
+        } else {
+          await userRef.delete()
+        }
+      } catch (rollbackError) {
+        console.error('Failed to rollback user role change', { uid: userRecord.uid, error: rollbackError })
       }
       throw err
     }
@@ -66,7 +70,8 @@ export default defineEventHandler(async (event) => {
   } catch (err: any) {
     const errorCode = err?.code || err?.errorInfo?.code
     if (errorCode === 'auth/user-not-found') {
-      await db.collection('roleRequests').doc(email).set({
+      const requestId = createHash('sha256').update(email).digest('hex')
+      await db.collection('roleRequests').doc(requestId).set({
         email,
         role,
         createdAt: new Date().toISOString(),

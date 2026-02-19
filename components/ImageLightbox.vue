@@ -11,6 +11,7 @@ const emit = defineEmits(['close'])
 
 const currentIndex = ref(props.initialIndex)
 const isImageLoading = ref(true)
+const containerRef = ref<HTMLDivElement | null>(null)
 
 const currentImage = computed(() => props.images[currentIndex.value])
 
@@ -63,6 +64,7 @@ onMounted(() => {
   window.addEventListener('keydown', handleKeydown)
   document.body.style.overflow = 'hidden'
   preloadAround()
+  containerRef.value?.focus()
 })
 
 onUnmounted(() => {
@@ -82,6 +84,7 @@ watch(currentIndex, () => {
     aria-modal="true"
     aria-label="Image viewer"
     tabindex="-1"
+    ref="containerRef"
   >
     <button 
       @click="close"

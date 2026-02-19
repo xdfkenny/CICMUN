@@ -12,9 +12,6 @@ const { data: samunCommittees } = await useFetch<Committee[]>('/api/committees/S
 const { data: briefs } = await useFetch<CommitteeBrief[]>('/api/briefs', { default: () => [] })
 const { data: allocations } = await useFetch<AllocationEntry[]>('/api/allocations', { default: () => [] })
 
-const { user } = useAuth()
-
-
 const committee = computed(() => {
   const allCommittees = [...(committees.value || []), ...(samunCommittees.value || [])]
   return allCommittees.find(c => c.id === committeeId)
@@ -166,7 +163,7 @@ const resourceUrl = (filename: string) => `/resources/${encodeURIComponent(filen
                     <Eye class="w-3.5 h-3.5" />
                     View
                   </button>
-                  <a :href="resourceUrl(resource.filename)" target="_blank" rel="noopener noreferrer" download class="inline-flex items-center gap-1.5 text-sm text-red-600 font-bold hover:text-red-700 transition-colors">
+                  <a :href="resourceUrl(resource.filename)" download class="inline-flex items-center gap-1.5 text-sm text-red-600 font-bold hover:text-red-700 transition-colors">
                     <Download class="w-3.5 h-3.5" />
                     Download
                   </a>

@@ -45,7 +45,7 @@ Set these in your environment (not in git):
 ```
 NUXT_FIREBASEADMIN_PROJECTID=
 NUXT_FIREBASEADMIN_CLIENTEMAIL=
-NUXT_FIREBASEADMIN_PRIVATEKEY=
+NUXT_FIREBASEADMIN_PRIVATEKEY= # Firebase Admin private keys include literal newlines; escape them in env vars by replacing newlines with \n, e.g. NUXT_FIREBASEADMIN_PRIVATEKEY="-----BEGIN PRIVATE KEY-----\nABC123...\n-----END PRIVATE KEY-----\n"
 ```
 
 ## Role ID Lists (Server Only)

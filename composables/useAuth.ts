@@ -124,7 +124,7 @@ export const useAuth = () => {
       // ignore Firestore read errors
     }
 
-    const nextRole: AuthRole = roleFromClaims || storedRole || 'teacher'
+    const nextRole: AuthRole = roleFromClaims || storedRole || 'public'
     role.value = nextRole
     currentCookie.role = nextRole
     authCookie.value = currentCookie
@@ -222,6 +222,19 @@ export const useAuth = () => {
     }
   }
 
+  const refreshAuthState = async () => {
+    if (!process.client) return
+    const auth = getAuth(getApp())
+    const currentUser = auth.currentUser
+    if (!currentUser) return
+    try {
+      await currentUser.getIdToken(true)
+    } catch {
+      // ignore token refresh errors
+    }
+    await syncAuthState(currentUser)
+  }
+
   const setViewAsRole = (next: AuthRole | null) => {
     viewAsRole.value = next
     if (process.client) {
@@ -268,6 +281,7 @@ export const useAuth = () => {
     loginWithGoogle,
     loginAnonymousStudent,
     logout,
+    refreshAuthState,
     setViewAsRole,
   }
 }

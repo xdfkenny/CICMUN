@@ -18,7 +18,7 @@ service cloud.firestore {
             ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role
             : (isAnonymous()
               ? 'delegate'
-              : 'teacher')))
+              : 'none')))
         : null;
     }
     function isAdmin() {
@@ -35,6 +35,7 @@ service cloud.firestore {
     }
     function isValidRegistration() {
       return request.resource.data.keys().hasAll([
+          'uid',
           'delegationName',
           'event',
           'committees',
@@ -47,6 +48,9 @@ service cloud.firestore {
           'createdAt',
           'status'
         ]) &&
+        request.resource.data.uid is string &&
+        request.resource.data.uid.size() > 0 &&
+        request.resource.data.uid.size() <= 128 &&
         request.resource.data.delegationName is string &&
         request.resource.data.delegationName.size() > 0 &&
         request.resource.data.delegationName.size() <= 120 &&
@@ -81,7 +85,8 @@ service cloud.firestore {
     }
 
     match /registrationCodes/{code} {
-      allow read: if isSignedIn();
+      allow read: if isAdmin()
+        || (isTeacher() && resource.data.teacherId == request.auth.uid);
       allow create: if (isTeacher() || isAdmin()) && request.resource.data.teacherId == request.auth.uid;
       allow update: if isAdmin() || (isTeacher()
         && resource.data.teacherId == request.auth.uid

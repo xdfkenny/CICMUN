@@ -34,6 +34,7 @@ export interface CommitteeBrief {
 }
 
 export interface GlossaryTerm {
+  id?: string;
   term: string;
   definition_en: string;
   definition_es: string;

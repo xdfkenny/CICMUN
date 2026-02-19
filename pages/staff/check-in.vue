@@ -10,7 +10,7 @@ definePageMeta({
 })
 
 const input = ref('')
-const status = ref<'idle' | 'success' | 'error'>('idle')
+const status = ref<'idle' | 'success' | 'error' | 'warning'>('idle')
 const message = ref('')
 const checked = ref<{ email: string; uid: string; ts: string }[]>([])
 
@@ -57,6 +57,12 @@ const handleCheckIn = async () => {
       headers: { Authorization: `Bearer ${token}` },
     })
     const displayEmail = result?.email || parsed.email || 'delegate'
+    if (result?.duplicate) {
+      status.value = 'warning'
+      message.value = `Duplicate check-in for ${displayEmail}.`
+      input.value = ''
+      return
+    }
     checked.value.unshift({ uid: parsed.uid || 'unknown', email: displayEmail, ts: new Date().toISOString() })
     save()
     status.value = 'success'
@@ -82,13 +88,17 @@ onMounted(load)
           v-model="input"
           rows="4"
           class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-600"
-          placeholder='{"uid":"...","qrToken":"..."}'
+          placeholder='{"uid":"...","ts":"...","sig":"..."}'
         />
         <div class="mt-4 flex items-center gap-3">
           <UiButton class="bg-red-600 hover:bg-red-700 text-white" @click="handleCheckIn">
             Mark check-in
           </UiButton>
-          <span v-if="status !== 'idle'" :class="status === 'success' ? 'text-green-600' : 'text-red-600'" class="text-sm font-semibold">
+          <span
+            v-if="status !== 'idle'"
+            :class="status === 'success' ? 'text-green-600' : status === 'warning' ? 'text-yellow-600' : 'text-red-600'"
+            class="text-sm font-semibold"
+          >
             {{ message }}
           </span>
         </div>

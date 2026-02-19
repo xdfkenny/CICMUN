@@ -103,6 +103,7 @@ export default defineNuxtConfig({
       clientEmail: '',
       privateKey: '',
     },
+    checkInSecret: process.env.NUXT_CHECK_IN_SECRET || '',
     staffIds: parseIdList(process.env.NUXT_STAFF_IDS),
     adminIds: parseIdList(process.env.NUXT_ADMIN_IDS),
     superAdminIds: parseIdList(process.env.NUXT_SUPER_ADMIN_IDS),

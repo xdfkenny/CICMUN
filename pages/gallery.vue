@@ -12,7 +12,6 @@ useSeoMeta({
 const { data: galleryEvents, pending, error: galleryError } = await useFetch<GalleryEvent[]>('/api/gallery', {
   default: () => [],
 })
-const { data: events } = await useFetch('/api/events', { default: () => [] })
 
 const selectedEventId = ref<string>('all')
 
@@ -29,26 +28,6 @@ const selectEvent = (id: string) => {
   selectedEventId.value = id
 }
 
-const eventMetaById = computed<Record<string, any>>(() => {
-  const map: Record<string, any> = {}
-  for (const item of events.value as any[]) {
-    if (item?.id) map[item.id] = item
-  }
-  return map
-})
-
-const eventDetailsByGalleryId = computed<Record<string, any>>(() => {
-  const map: Record<string, any> = {}
-  for (const event of galleryEvents.value) {
-    const lower = event.name.toLowerCase()
-    if (lower.includes('samun')) {
-      map[event.id] = eventMetaById.value['samun']
-    } else if (lower.includes('jmun')) {
-      map[event.id] = eventMetaById.value['jmun']
-    }
-  }
-  return map
-})
 </script>
 
 <template>

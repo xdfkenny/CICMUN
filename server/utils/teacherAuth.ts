@@ -44,5 +44,5 @@ export const requireTeacherAccess = async (event: any) => {
     return { uid: decoded.uid, role: storedRole, decoded }
   }
 
-  return { uid: decoded.uid, role: 'teacher', decoded }
+  throw createError({ statusCode: 403, message: 'Forbidden' })
 }

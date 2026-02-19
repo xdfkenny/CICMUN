@@ -27,11 +27,15 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 403, message: 'Forbidden' })
   }
 
-  await studentRef.set({
+  const update: Record<string, unknown> = {
     name: trimmedName,
-    committeeId: body?.committeeId ?? null,
     updatedAt: FieldValue.serverTimestamp(),
-  }, { merge: true })
+  }
+  if (body && Object.prototype.hasOwnProperty.call(body, 'committeeId')) {
+    update.committeeId = body?.committeeId ?? null
+  }
+
+  await studentRef.set(update, { merge: true })
 
   return { ok: true }
 })

@@ -19,7 +19,7 @@ const canSeeDelegateLinks = computed(() => ready.value && isAuthenticated.value 
 const canSeeTeacher = computed(() => ready.value && isAuthenticated.value && effectiveRole.value === 'teacher')
 const canSeeStaff = computed(() => ready.value && isAuthenticated.value && effectiveRole.value === 'staff')
 const canSeeAdmin = computed(() => ready.value && isAuthenticated.value && (effectiveRole.value === 'admin' || effectiveRole.value === 'super_admin'))
-const isPreviewing = computed(() => role.value === 'super_admin' && effectiveRole.value !== role.value)
+const isPreviewing = computed(() => ready.value && role.value === 'super_admin' && effectiveRole.value !== role.value)
 
 const isMenuOpen = ref(false)
 const isAccessOpen = ref(false)

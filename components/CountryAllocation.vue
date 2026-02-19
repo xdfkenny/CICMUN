@@ -22,8 +22,8 @@ const statusStyles = (status: string) => {
     <h3 class="text-xl font-bold font-montserrat mb-4">Country allocation</h3>
     <div v-if="allocation?.countries?.length" class="grid sm:grid-cols-2 gap-3">
       <div
-        v-for="country in allocation.countries"
-        :key="country.name"
+        v-for="(country, idx) in allocation.countries"
+        :key="`${country.name}-${country.status}-${idx}`"
         class="flex items-center justify-between rounded-lg border px-3 py-2"
         :class="statusStyles(country.status)"
       >

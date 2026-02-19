@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { getAuth } from 'firebase/auth'
+import { getApp } from 'firebase/app'
+
 definePageMeta({
   middleware: ['role'],
   auth: {
@@ -9,7 +12,9 @@ definePageMeta({
 
 const { user } = useAuth()
 const timestamp = ref('')
+const payload = ref('')
 let interval: ReturnType<typeof setInterval> | null = null
+const auth = process.client ? getAuth(getApp()) : null
 
 onMounted(() => {
   timestamp.value = new Date().toISOString()
@@ -22,13 +27,32 @@ onUnmounted(() => {
   if (interval) clearInterval(interval)
 })
 
-const payload = computed(() => {
-  if (!user.value || !timestamp.value) return ''
-  return JSON.stringify({
-    uid: user.value.uid,
-    ts: timestamp.value,
-  })
-})
+const refreshPayload = async () => {
+  if (!user.value || !timestamp.value) {
+    payload.value = ''
+    return
+  }
+  try {
+    const token = await auth?.currentUser?.getIdToken()
+    const response = await $fetch<{ token: string }>('/api/check-in/token', {
+      method: 'POST',
+      body: { uid: user.value.uid, ts: timestamp.value },
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+    payload.value = JSON.stringify({
+      uid: user.value.uid,
+      ts: timestamp.value,
+      sig: response.token,
+    })
+  } catch (err) {
+    payload.value = ''
+    console.error('Failed to fetch check-in token', err)
+  }
+}
+
+watch([user, timestamp], () => {
+  void refreshPayload()
+}, { immediate: true })
 </script>
 
 <template>

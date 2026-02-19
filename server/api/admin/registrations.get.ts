@@ -27,9 +27,10 @@ export default defineEventHandler(async (event) => {
   let registrationsQuery = db.collection('registrations').orderBy('createdAt', 'desc').limit(pageSize)
   if (typeof query.cursor === 'string' && query.cursor) {
     const cursorSnap = await db.collection('registrations').doc(query.cursor).get()
-    if (cursorSnap.exists) {
-      registrationsQuery = registrationsQuery.startAfter(cursorSnap)
+    if (!cursorSnap.exists) {
+      throw createError({ statusCode: 400, message: 'Invalid cursor' })
     }
+    registrationsQuery = registrationsQuery.startAfter(cursorSnap)
   }
   const snapshot = await registrationsQuery.get()
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))

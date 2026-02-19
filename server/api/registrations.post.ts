@@ -8,6 +8,8 @@ const isNonEmptyString = (value: unknown) =>
 const normalizeString = (value: unknown) =>
   typeof value === 'string' ? value.trim() : ''
 
+const isValidEmail = (value: string) => /^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(value)
+
 export default defineEventHandler(async (event) => {
   const decoded = await requireAuth(event)
   if (!decoded.uid) {
@@ -48,6 +50,9 @@ export default defineEventHandler(async (event) => {
   if (!isNonEmptyString(supervisorEmail)) {
     throw createError({ statusCode: 400, message: 'Invalid supervisor email' })
   }
+  if (!isValidEmail(supervisorEmail)) {
+    throw createError({ statusCode: 400, message: 'Invalid supervisor email format' })
+  }
   if (!isNonEmptyString(supervisorPhone) || supervisorPhone.length > 30) {
     throw createError({ statusCode: 400, message: 'Invalid supervisor phone' })
   }
@@ -74,15 +79,33 @@ export default defineEventHandler(async (event) => {
     status: 'pending',
   })
 
-  await db.collection('users').doc(decoded.uid).set({
+  const userRef = db.collection('users').doc(decoded.uid)
+  const userSnap = await userRef.get()
+  const existingRole = userSnap.exists && typeof userSnap.data()?.role === 'string'
+    ? userSnap.data()?.role
+    : null
+  const rolePriority: Record<string, number> = {
+    public: 0,
+    delegate: 1,
+    teacher: 2,
+    staff: 3,
+    admin: 4,
+    super_admin: 5,
+  }
+  const shouldSetRole = !existingRole || (existingRole in rolePriority && rolePriority[existingRole] < rolePriority.teacher)
+  const userUpdate: Record<string, unknown> = {
     email: decoded.email || supervisorEmail || null,
-    role: 'teacher',
     delegationName,
     school,
     event: eventName,
     updatedAt: FieldValue.serverTimestamp(),
     lastRegistrationId: registrationRef.id,
-  }, { merge: true })
+  }
+  if (shouldSetRole) {
+    userUpdate.role = 'teacher'
+  }
+
+  await userRef.set(userUpdate, { merge: true })
 
   return { ok: true, id: registrationRef.id }
 })

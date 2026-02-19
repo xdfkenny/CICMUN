@@ -39,11 +39,15 @@ useSeoMeta({
             <p class="text-gray-600 mb-6">New to MUN? Use the onboarding guide and your check-in QR.</p>
           </div>
           <div class="flex flex-col gap-3">
-            <NuxtLink to="/onboarding">
-              <UiButton class="w-full bg-black hover:bg-gray-900 text-white">Open Onboarding</UiButton>
+            <NuxtLink to="/onboarding" custom v-slot="{ navigate, href }">
+              <UiButton as="a" :href="href" class="w-full bg-black hover:bg-gray-900 text-white" @click="navigate">
+                Open Onboarding
+              </UiButton>
             </NuxtLink>
-            <NuxtLink to="/check-in">
-              <UiButton class="w-full bg-red-600 hover:bg-red-700 text-white">My Check-in QR</UiButton>
+            <NuxtLink to="/check-in" custom v-slot="{ navigate, href }">
+              <UiButton as="a" :href="href" class="w-full bg-red-600 hover:bg-red-700 text-white" @click="navigate">
+                My Check-in QR
+              </UiButton>
             </NuxtLink>
           </div>
         </div>
