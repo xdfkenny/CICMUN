@@ -1,7 +1,7 @@
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
-
+  srcDir: 'app',
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   modules: ['@nuxtjs/color-mode', '@nuxt/image'],
@@ -21,12 +21,12 @@ export default defineNuxtConfig({
     compressPublicAssets: true,
   },
   routeRules: {
-    '/Gallery/**': {
+    '/gallery/**': {
       headers: {
         'cache-control': 'public, max-age=604800, stale-while-revalidate=86400',
       },
     },
-    '/Gallery/__thumbs/**': {
+    '/gallery/__thumbs/**': {
       headers: {
         'cache-control': 'public, max-age=31536000, immutable',
       },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Camera, Image as ImageIcon } from 'lucide-vue-next'
-import type { GalleryResponse, GalleryImage } from '~/shared/gallery'
+import type { GalleryResponse, GalleryImage } from '~~/shared/gallery'
 
 useSeoMeta({
   title: 'Photo Gallery',

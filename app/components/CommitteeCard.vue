@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Committee } from '~/shared/types'
+import type { Committee } from '~~/shared/types'
 
 const props = defineProps<{ committee: Committee }>()
 

@@ -6,7 +6,7 @@ const THUMBNAIL_FOLDER = '__thumbs'
 const THUMBNAIL_WIDTHS = { small: 480, medium: 960 }
 const THUMBNAIL_QUALITY = { small: 68, medium: 76 }
 
-const galleryPath = path.resolve('public/Gallery')
+const galleryPath = path.resolve('public/gallery')
 const dataDir = path.resolve('data')
 const outputFile = path.join(dataDir, 'gallery.json')
 
@@ -70,7 +70,7 @@ const createThumbnail = async ({ sharpLib, sourcePath, eventName, filename, stat
       .toFile(outputPath)
   }
 
-  return encodeUrlPath('Gallery', THUMBNAIL_FOLDER, eventName, outputFilename)
+  return encodeUrlPath('gallery', THUMBNAIL_FOLDER, eventName, outputFilename)
 }
 
 ensureDir(dataDir)
@@ -104,7 +104,7 @@ for (const dirent of eventDirs) {
   for (const [index, filename] of imageFiles.entries()) {
     const sourcePath = path.join(eventPath, filename)
     const sourceStat = fs.statSync(sourcePath)
-    const fullSrc = encodeUrlPath('Gallery', eventName, filename)
+    const fullSrc = encodeUrlPath('gallery', eventName, filename)
 
     let width = null
     let height = null

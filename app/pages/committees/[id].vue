@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Users, FileText, Download, Eye, AlertCircle } from 'lucide-vue-next'
-import type { Committee } from '~/shared/types'
+import type { Committee } from '~~/shared/types'
 
 const route = useRoute()
 const committeeId = parseInt(route.params.id as string)

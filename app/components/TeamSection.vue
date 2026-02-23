@@ -8,7 +8,7 @@ const leadership = [
     icon: Star,
     color: 'text-white',
     bg: 'bg-red-600',
-    image: '/TEAM PHOTOS/Caterina.png'
+    image: '/team-photos/Caterina.png'
   },
   {
     name: 'Oriana',
@@ -16,7 +16,7 @@ const leadership = [
     icon: Shield,
     color: 'text-white',
     bg: 'bg-black',
-    image: '/TEAM PHOTOS/Oriana.png'
+    image: '/team-photos/Oriana.png'
   },
   {
     name: 'Santiago',
@@ -24,7 +24,7 @@ const leadership = [
     icon: User,
     color: 'text-white',
     bg: 'bg-red-600',
-    image: '/TEAM PHOTOS/Santiago.png'
+    image: '/team-photos/Santiago.png'
   }
 ]
 
@@ -35,7 +35,7 @@ const operations = [
     icon: Megaphone,
     color: 'text-white',
     bg: 'bg-black',
-    image: '/TEAM PHOTOS/Kenny.png'
+    image: '/team-photos/Kenny.png'
   },
   {
     name: 'Selene',
@@ -43,7 +43,7 @@ const operations = [
     icon: Truck,
     color: 'text-white',
     bg: 'bg-red-600',
-    image: '/TEAM PHOTOS/Selene.png'
+    image: '/team-photos/Selene.png'
   },
   {
     name: 'Cesar',
@@ -51,7 +51,7 @@ const operations = [
     icon: Truck,
     color: 'text-white',
     bg: 'bg-black',
-    image: '/TEAM PHOTOS/Cesar.png'
+    image: '/team-photos/Cesar.png'
   }
 ]
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { X, ChevronLeft, ChevronRight } from 'lucide-vue-next'
-import type { GalleryImage } from '~/shared/gallery'
+import type { GalleryImage } from '~~/shared/gallery'
 
 const props = defineProps<{
   images: GalleryImage[]
