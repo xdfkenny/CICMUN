@@ -100,7 +100,7 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
             
             <div class="flex flex-col gap-1 sm:gap-2">
               <h3 class="text-base sm:text-2xl font-extrabold text-black font-montserrat tracking-tight leading-tight">{{ member.name }}</h3>
-              <p class="text-red-600 font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-[8px] sm:text-xs">
+              <p class="text-red-600 font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-xs sm:text-xs">
                 {{ member.role }}
               </p>
             </div>
@@ -133,7 +133,7 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
             
             <div class="flex flex-col gap-1 sm:gap-2">
               <h3 class="text-base sm:text-2xl font-extrabold text-black font-montserrat tracking-tight leading-tight">{{ member.name }}</h3>
-              <p class="text-red-600 font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-[8px] sm:text-xs">
+              <p class="text-red-600 font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-xs sm:text-xs">
                 {{ member.role }}
               </p>
             </div>

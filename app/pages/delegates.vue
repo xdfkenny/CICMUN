@@ -47,7 +47,7 @@ useSeoMeta({
             <BookOpen class="w-16 h-16" />
             <div class="text-center">
               <h2 class="text-3xl font-bold mb-2 font-montserrat">JMUN 2026</h2>
-              <p class="text-lg font-light">Junior Model of United Nations</p>
+              <p class="text-lg font-light">Junior Model United Nations</p>
               <p class="text-sm mt-2 opacity-90">Grades 6-8</p>
             </div>
           </NuxtLink>

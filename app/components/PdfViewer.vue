@@ -45,7 +45,7 @@ const handleTab = (e: KeyboardEvent) => {
       e.preventDefault()
     }
   } else {
-    if (document.activeElement === lastElement) {
+    if (document.activeElement === lastElement || document.activeElement === modalRef.value) {
       firstElement.focus()
       e.preventDefault()
     }
@@ -120,6 +120,8 @@ onUnmounted(() => {
             <button 
               @click="emit('close')"
               class="p-2 hover:bg-gray-200 rounded-full transition-colors ml-2"
+              aria-label="Close"
+              title="Close"
             >
               <X class="w-6 h-6 text-gray-500" />
             </button>

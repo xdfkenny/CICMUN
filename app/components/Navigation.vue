@@ -1,22 +1,33 @@
 <script setup lang="ts">
 import { Home, Users, Calendar, BookOpen, Image, Instagram } from 'lucide-vue-next'
+import { onBeforeUnmount } from 'vue'
 const route = useRoute()
 const isActive = (path: string) => route.path === path
 
 const isMenuOpen = ref(false)
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
-  if (isMenuOpen.value) {
-    document.body.style.overflow = 'hidden'
-  } else {
-    document.body.style.overflow = 'auto'
+  if (typeof window !== 'undefined') {
+    if (isMenuOpen.value) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
   }
 }
 
 // Close menu when route changes
 watch(() => route.path, () => {
   isMenuOpen.value = false
-  document.body.style.overflow = 'auto'
+  if (typeof window !== 'undefined') {
+    document.body.style.overflow = 'auto'
+  }
+})
+
+onBeforeUnmount(() => {
+  if (typeof window !== 'undefined' && isMenuOpen.value) {
+    document.body.style.overflow = 'auto'
+  }
 })
 </script>
 

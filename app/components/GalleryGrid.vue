@@ -14,6 +14,7 @@ const showLightbox = ref(false)
 const selectedImageIndex = ref(0)
 const loadMoreRef = ref<HTMLElement | null>(null)
 let loadMoreObserver: IntersectionObserver | null = null
+const fallbackLoadEmitted = ref(false)
 
 const openLightbox = (index: number) => {
   selectedImageIndex.value = index
@@ -33,7 +34,10 @@ const setupLoadMoreObserver = () => {
   }
 
   if (!('IntersectionObserver' in window)) {
-    emit('load-more')
+    if (props.hasMore && !fallbackLoadEmitted.value) {
+      emit('load-more')
+      fallbackLoadEmitted.value = true
+    }
     return
   }
 
@@ -51,6 +55,10 @@ watch(loadMoreRef, () => {
 })
 
 watch(() => props.hasMore, () => {
+  // reset fallback flag when no more items or when re-enabled
+  if (!props.hasMore) {
+    fallbackLoadEmitted.value = false
+  }
   nextTick(() => setupLoadMoreObserver())
 })
 

@@ -26,6 +26,10 @@ const lightBgClass = computed(() => {
 const darkTextClass = computed(() => {
   return props.committee.type === 'SAMUN' ? 'text-red-700' : 'text-gray-900'
 })
+
+const hoverTextClass = computed(() => {
+  return props.committee.type === 'SAMUN' ? 'group-hover:text-red-600' : 'group-hover:text-black'
+})
 </script>
 
 <template>
@@ -58,7 +62,7 @@ const darkTextClass = computed(() => {
       </div>
 
       <UiCardContent class="pt-8 px-6 pb-6">
-        <UiCardTitle class="text-2xl font-bold mb-4 font-montserrat tracking-tight group-hover:text-red-600 transition-colors duration-300">
+        <UiCardTitle :class="['text-2xl font-bold mb-4 font-montserrat tracking-tight transition-colors duration-300', hoverTextClass]">
           {{ committee.name }}
         </UiCardTitle>
 

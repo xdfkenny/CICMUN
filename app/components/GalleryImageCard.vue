@@ -60,6 +60,12 @@ const setupObserver = () => {
     return
   }
 
+  // If eager, reveal immediately and skip IntersectionObserver entirely
+  if (props.eager) {
+    revealImage()
+    return
+  }
+
   if (!('IntersectionObserver' in window)) {
     revealImage()
     return

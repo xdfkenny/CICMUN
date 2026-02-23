@@ -14,6 +14,8 @@ const selectedEventId = ref<string>('all')
 const currentPage = ref(1)
 const currentLimit = ref(24) // Base desktop
 const isInitialized = ref(false)
+const isFetching = ref(false)
+const fetchError = ref<string | null>(null)
 
 // Fetch available events metadata first
 const { data: galleryMeta } = await useFetch<GalleryResponse>('/api/gallery', {
@@ -33,25 +35,40 @@ const hasMore = computed(() => allImages.value.length < totalImages.value)
 
 // Lazy fetch the image page
 const fetchImages = async (page: number, event: string) => {
-  const response = await $fetch<GalleryResponse>('/api/gallery', {
-    query: {
-      event,
-      page,
-      limit: currentLimit.value
+  isFetching.value = true
+  fetchError.value = null
+  try {
+    const response = await $fetch<GalleryResponse>('/api/gallery', {
+      query: {
+        event,
+        page,
+        limit: currentLimit.value
+      }
+    })
+
+    if (!response || !response.images) {
+      throw new Error('Invalid response from gallery API')
     }
-  })
-  
-  if (response) {
+
     if (page === 1) {
       allImages.value = response.images
     } else {
       allImages.value.push(...response.images)
     }
+
+    return true
+  } catch (err: any) {
+    console.error('Failed to fetch gallery images', err)
+    fetchError.value = err?.message || 'Failed to load images'
+    if (page === 1) allImages.value = []
+    return false
+  } finally {
+    isFetching.value = false
   }
 }
 
 onMounted(async () => {
-  if (window.innerWidth < 768) {
+  if (process.client && window.innerWidth < 768) {
     currentLimit.value = 12 // Mobile optimal
   }
   await fetchImages(1, 'all')
@@ -66,9 +83,12 @@ const selectEvent = async (id: string) => {
 }
 
 const loadMore = async () => {
-  if (hasMore.value) {
-    currentPage.value++
-    await fetchImages(currentPage.value, selectedEventId.value)
+  if (!hasMore.value || isFetching.value) return
+
+  const nextPage = currentPage.value + 1
+  const success = await fetchImages(nextPage, selectedEventId.value)
+  if (success) {
+    currentPage.value = nextPage
   }
 }
 
@@ -162,7 +182,7 @@ const refreshPage = () => {
           class="px-4 py-2 text-xs font-semibold uppercase tracking-wide rounded-full border border-gray-200 text-gray-600 bg-white hover:border-black hover:text-black transition-colors"
           @click="refreshPage"
         >
-          Load all images
+          Refresh Gallery
         </button>
       </div>
     </div>

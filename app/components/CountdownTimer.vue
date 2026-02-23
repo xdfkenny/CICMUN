@@ -20,10 +20,20 @@ let interval: NodeJS.Timeout
 const calculateTimeRemaining = () => {
   const target = new Date(props.targetDate).getTime()
   const now = new Date().getTime()
+
+  // Validate target date
+  if (Number.isNaN(target)) {
+    if (interval) clearInterval(interval)
+    timeRemaining.value = { days: 0, hours: 0, minutes: 0, seconds: 0 }
+    return
+  }
+
   const distance = target - now
 
+  // Countdown ended
   if (distance < 0) {
-    clearInterval(interval)
+    timeRemaining.value = { days: 0, hours: 0, minutes: 0, seconds: 0 }
+    if (interval) clearInterval(interval)
     return
   }
 

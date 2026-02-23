@@ -112,16 +112,23 @@ const formattedDate = computed(() => {
             </div>
 
             <div class="rounded-xl overflow-hidden border border-gray-100 shadow-inner h-[250px] md:h-full min-h-[250px]">
-              <iframe
-                title="Google Maps Location"
-                width="100%"
-                height="100%"
-                style="border: 0"
-                loading="lazy"
-                allowfullscreen
-                referrerpolicy="no-referrer-when-downgrade"
-                :src="eventDetails?.mapUrl"
-              ></iframe>
+              <template v-if="eventDetails?.mapUrl">
+                <iframe
+                  title="Google Maps Location"
+                  width="100%"
+                  height="100%"
+                  style="border: 0"
+                  loading="lazy"
+                  allowfullscreen
+                  referrerpolicy="no-referrer-when-downgrade"
+                  :src="eventDetails?.mapUrl"
+                ></iframe>
+              </template>
+              <template v-else>
+                <div class="flex items-center justify-center h-full p-4 text-center text-gray-500">
+                  <p class="max-w-xs">Map unavailable for this event.</p>
+                </div>
+              </template>
             </div>
           </div>
         </div>

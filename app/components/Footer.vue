@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import { Instagram } from 'lucide-vue-next'
-</script>
-
 <template>
   <footer class="bg-gray-50 py-10 mt-auto border-t border-gray-100">
     <div class="container mx-auto px-4 flex flex-col items-center justify-center gap-6">
