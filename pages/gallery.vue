@@ -71,6 +71,12 @@ const loadMore = async () => {
     await fetchImages(currentPage.value, selectedEventId.value)
   }
 }
+
+const refreshPage = () => {
+  if (process.client) {
+    window.location.reload()
+  }
+}
 </script>
 
 <template>
@@ -148,6 +154,16 @@ const loadMore = async () => {
         <NuxtLink to="/" class="inline-flex items-center gap-2 text-red-600 font-bold hover:underline">
           Return to Home
         </NuxtLink>
+      </div>
+
+      <div class="mt-12 flex justify-center">
+        <button
+          type="button"
+          class="px-4 py-2 text-xs font-semibold uppercase tracking-wide rounded-full border border-gray-200 text-gray-600 bg-white hover:border-black hover:text-black transition-colors"
+          @click="refreshPage"
+        >
+          Load all images
+        </button>
       </div>
     </div>
   </div>
