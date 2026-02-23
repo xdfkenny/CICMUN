@@ -44,8 +44,17 @@ export default defineEventHandler((event): GalleryResponse => {
   // Actually, we'll keep `src` but we could strip it if we strictly separated thumbnails.
   const paginatedImages = allImages.slice(startIndex, endIndex)
 
+  // Include event metadata alongside images so callers and serverless platforms
+  // receive consistent payloads regardless of query flags.
+  const eventsMeta = eventsList.map(e => ({
+    id: e.id,
+    name: e.name,
+    imageCount: e.imageCount,
+    coverImage: e.coverImage
+  }))
+
   return {
-    events: [],
+    events: eventsMeta,
     images: paginatedImages,
     total,
     page,
