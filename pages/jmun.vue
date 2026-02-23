@@ -5,15 +5,49 @@ import type { Committee } from '~/shared/types'
 useSeoMeta({
   title: 'JMUN 2026',
   ogTitle: 'JMUN 2026 - Junior Model of United Nations',
-  description: 'Descubre los comités y temas para JMUN 2026. La introducción perfecta a la diplomacia para estudiantes de secundaria inferior en CIC.',
-  ogDescription: 'Descubre los comités y temas para JMUN 2026. La introducción perfecta a la diplomacia para estudiantes de secundaria inferior en CIC.',
+  description: 'Discover the committees and topics for JMUN 2026. The perfect introduction to diplomacy for middle school students at CIC.',
+  ogDescription: 'Discover the committees and topics for JMUN 2026. The perfect introduction to diplomacy for middle school students at CIC.',
 })
 
 const { data: committees, status } = await useFetch<Committee[]>('/api/committees/JMUN')
 const { data: events } = await useFetch('/api/events')
 
-const eventDetails = computed(() => events.value?.find(e => e.id === 'jmun'))
+const eventDetails = computed(() => events.value?.find((e: any) => e.id === 'jmun'))
 const isLoading = computed(() => status.value === 'pending')
+
+const formatEventDateRange = (startDate: string, endDate: string, timeZone = 'UTC') => {
+  const start = new Date(startDate)
+  const end = new Date(endDate)
+
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return 'Coming Soon'
+
+  const startMonth = start.toLocaleDateString('en-US', { month: 'long', timeZone })
+  const endMonth = end.toLocaleDateString('en-US', { month: 'long', timeZone })
+  const startDay = parseInt(start.toLocaleDateString('en-US', { day: 'numeric', timeZone }), 10)
+  const endDay = parseInt(end.toLocaleDateString('en-US', { day: 'numeric', timeZone }), 10)
+  const year = parseInt(start.toLocaleDateString('en-US', { year: 'numeric', timeZone }), 10)
+
+  if (startMonth === endMonth) {
+    if (startDay === endDay) return `${startMonth} ${startDay}, ${year}`
+    return `${startMonth} ${startDay}-${endDay}, ${year}`
+  }
+
+  return `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${year}`
+}
+
+const formattedDate = computed(() => {
+  if (!eventDetails.value) return 'Coming Soon'
+  
+  if (eventDetails.value.startDate && eventDetails.value.endDate) {
+    return formatEventDateRange(
+      eventDetails.value.startDate,
+      eventDetails.value.endDate,
+      eventDetails.value.timezone || 'UTC'
+    )
+  }
+  
+  return 'Coming Soon'
+})
 </script>
 
 <template>
@@ -21,7 +55,7 @@ const isLoading = computed(() => status.value === 'pending')
     <div class="container max-w-6xl mx-auto">
       <!-- Header -->
       <div class="mb-12">
-        <h1 class="text-5xl font-bold text-black mb-4 font-montserrat">{{ eventDetails?.name || 'JMUN 2026' }}</h1>
+        <h1 class="text-5xl md:text-6xl font-bold text-black mb-4 font-montserrat tracking-tight">{{ eventDetails?.name || 'JMUN 2026' }}</h1>
         <p class="text-xl text-gray-700">
           {{ eventDetails?.description || 'Junior Model of United Nations' }}
         </p>
@@ -41,7 +75,7 @@ const isLoading = computed(() => status.value === 'pending')
                 </div>
                 <div>
                   <p class="font-bold text-gray-900 text-lg">Date</p>
-                  <p class="text-gray-700 text-lg">{{ eventDetails?.date || 'Coming Soon' }}</p>
+                  <p class="text-gray-700 text-lg">{{ formattedDate }}</p>
                 </div>
               </div>
 
@@ -73,6 +107,7 @@ const isLoading = computed(() => status.value === 'pending')
 
             <div class="rounded-xl overflow-hidden border border-gray-100 shadow-inner h-[250px] md:h-full min-h-[250px]">
               <iframe
+                title="Google Maps Location"
                 width="100%"
                 height="100%"
                 style="border: 0"
@@ -90,7 +125,12 @@ const isLoading = computed(() => status.value === 'pending')
       <div>
         <h2 class="text-3xl font-bold text-black mb-8 font-montserrat">JMUN Committees</h2>
 
-        <div v-if="isLoading" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-if="status === 'error'" class="bg-red-50 text-red-700 p-8 rounded-xl text-center border border-red-200 mb-8">
+          <p class="text-xl font-bold mb-2">Notice</p>
+          <p>Committees are temporarily unavailable. Please try again later.</p>
+        </div>
+
+        <div v-else-if="isLoading" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="i in 6" :key="i" class="bg-white p-6 rounded-lg shadow-md">
             <UiSkeleton class="h-8 w-3/4 mb-4" />
             <UiSkeleton class="h-4 w-full mb-3" />
@@ -107,7 +147,7 @@ const isLoading = computed(() => status.value === 'pending')
           />
         </div>
 
-        <div v-else class="bg-white p-8 rounded-lg text-center">
+        <div v-else class="bg-white p-8 rounded-lg text-center shadow-sm border border-gray-100">
           <p class="text-gray-700 text-lg">
             Committees coming soon. Check back for updates!
           </p>

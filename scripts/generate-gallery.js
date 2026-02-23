@@ -142,6 +142,17 @@ for (const dirent of eventDirs) {
       }
     }
 
+    let thumbWidth = width
+    let thumbHeight = height
+
+    if (width && height) {
+      if (width > THUMBNAIL_WIDTHS.medium) {
+        const ratio = height / width
+        thumbWidth = THUMBNAIL_WIDTHS.medium
+        thumbHeight = Math.round(thumbWidth * ratio)
+      }
+    }
+
     const thumbnail = thumbnailMedium || fullSrc
 
     images.push({
@@ -155,8 +166,8 @@ for (const dirent of eventDirs) {
       alt: `${eventName} photo ${index + 1}`,
       eventId,
       eventName,
-      width,
-      height,
+      width: thumbWidth,
+      height: thumbHeight,
     })
   }
 

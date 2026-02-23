@@ -4,34 +4,53 @@
         "title": "Delegate Handbook",
         "description": "The essential guide for all delegates attending CICMUN 2026.",
         "category": "General",
-        "filename": "delegate-handbook.pdf"
+        "filename": "delegate-handbook.pdf",
+        "conferences": [
+            "JMUN",
+            "SAMUN"
+        ]
     },
     {
         "id": "charter",
         "title": "CIC MUN Charter",
         "description": "The official charter governing CICMUN 2026 operations and principles.",
         "category": "General",
-        "filename": "CIC MUN Charter.pdf"
+        "filename": "CIC MUN Charter.pdf",
+        "conferences": [
+            "JMUN",
+            "SAMUN"
+        ]
     },
     {
         "id": "rop",
         "title": "Rules of Procedure",
         "description": "Standard rules and procedures for debate and voting in committee.",
         "category": "Academic",
-        "filename": "Rules of procedure.pdf"
+        "filename": "Rules of procedure.pdf",
+        "conferences": [
+            "JMUN",
+            "SAMUN"
+        ]
     },
     {
         "id": "position-paper",
         "title": "Position Paper Guide",
         "description": "Instructions on how to research and write your committee position papers.",
         "category": "Academic",
-        "filename": "position-paper-guide.pdf"
+        "filename": "position-paper-guide.pdf",
+        "conferences": [
+            "JMUN",
+            "SAMUN"
+        ]
     },
     {
         "id": "MUN rules",
         "title": "MUN Rules",
         "description": "Rules for MUN in JMUN 2026.",
         "category": "Academic",
-        "filename": "MUN rules.pdf"
+        "filename": "MUN rules.pdf",
+        "conferences": [
+            "JMUN"
+        ]
     }
 ]

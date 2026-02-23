@@ -18,3 +18,16 @@ export interface GalleryEvent {
   coverImage: string | null
   images: GalleryImage[]
 }
+
+export interface GalleryResponse {
+  events: {
+    id: string
+    name: string
+    imageCount: number
+    coverImage: string | null
+  }[]
+  images: GalleryImage[]
+  total: number
+  page: number
+  limit: number
+}

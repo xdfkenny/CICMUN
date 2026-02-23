@@ -2,6 +2,10 @@
     {
         "day": "Day 1",
         "date": "April 24, 2026",
+        "conferences": [
+            "JMUN",
+            "SAMUN"
+        ],
         "events": [
             {
                 "time": "9:20 AM - 10:45 AM",
@@ -48,6 +52,10 @@
     {
         "day": "Day 2",
         "date": "April 25, 2026",
+        "conferences": [
+            "JMUN",
+            "SAMUN"
+        ],
         "events": [
             {
                 "time": "7:30 AM - 8:00 AM",

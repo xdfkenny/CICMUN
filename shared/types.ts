@@ -12,11 +12,11 @@ export interface Committee {
   id: number;
   name: string;
   type: 'SAMUN' | 'JMUN';
-  chairName: string;
+  chairName: string | null;
   chairPhoto: string | null;
-  coChairName: string;
+  coChairName: string | null;
   coChairPhoto: string | null;
-  secretaryName: string;
+  secretaryName: string | null;
   secretaryPhoto: string | null;
   topicA: string;
   topicB: string | null;

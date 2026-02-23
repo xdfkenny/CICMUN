@@ -1,31 +1,43 @@
 <script setup lang="ts">
-import { Users, FileText, Download, Eye } from 'lucide-vue-next'
+import { Users, FileText, Download, Eye, AlertCircle } from 'lucide-vue-next'
 import type { Committee } from '~/shared/types'
 
 const route = useRoute()
 const committeeId = parseInt(route.params.id as string)
 
-// Fetch committee data based on ID
-// In a real app, we'd have a specific endpoint, but filtering on client for now is fine for small data
-const { data: committees } = await useFetch<Committee[]>('/api/committees/JMUN') // Fetch all and filter
-const { data: samunCommittees } = await useFetch<Committee[]>('/api/committees/SAMUN')
+// Fetch specific committee data directly
+const { data: committee, status, error } = await useFetch<Committee>(`/api/committees/${committeeId}`)
 
-const committee = computed(() => {
-  const allCommittees = [...(committees.value || []), ...(samunCommittees.value || [])]
-  return allCommittees.find(c => c.id === committeeId)
-})
+const isLoading = computed(() => status.value === 'pending')
+const hasError = computed(() => !!error.value || !committee.value)
 
 useSeoMeta({
-  title: () => committee.value ? `${committee.value.name} (${committee.value.type})` : 'Cargando...',
-  ogTitle: () => committee.value ? `${committee.value.name} - CICMUN 2026` : 'Comité - CICMUN 2026',
-  description: () => committee.value ? `Información sobre el comité ${committee.value.name}. Temas: ${committee.value.topicA}${committee.value.topicB ? ' y ' + committee.value.topicB : ''}.` : 'Detalles del comité de CICMUN.',
-  ogDescription: () => committee.value ? `Información sobre el comité ${committee.value.name}. Temas: ${committee.value.topicA}${committee.value.topicB ? ' y ' + committee.value.topicB : ''}.` : 'Detalles del comité de CICMUN.',
+  title: () => committee.value ? `${committee.value.name} (${committee.value.type})` : 'Loading...',
+  ogTitle: () => committee.value ? `${committee.value.name} - CICMUN 2026` : 'Committee - CICMUN 2026',
+  description: () => committee.value ? `Information about the ${committee.value.name} committee. Topics: ${committee.value.topicA}${committee.value.topicB ? ' and ' + committee.value.topicB : ''}.` : 'CICMUN committee details.',
+  ogDescription: () => committee.value ? `Information about the ${committee.value.name} committee. Topics: ${committee.value.topicA}${committee.value.topicB ? ' and ' + committee.value.topicB : ''}.` : 'CICMUN committee details.',
+  ogImage: '/LOGO.png',
 })
+
+const accentColor = computed(() => committee.value?.type === 'SAMUN' ? 'red-600' : 'black')
+const bgLightColor = computed(() => committee.value?.type === 'SAMUN' ? 'bg-red-50' : 'bg-gray-50')
+const bgAccentColor = computed(() => committee.value?.type === 'SAMUN' ? 'bg-red-600' : 'bg-black')
+const borderAccentColor = computed(() => committee.value?.type === 'SAMUN' ? 'border-red-100' : 'border-gray-200')
+const textAccentColor = computed(() => committee.value?.type === 'SAMUN' ? 'text-red-600' : 'text-black')
+const textDarkColor = computed(() => committee.value?.type === 'SAMUN' ? 'text-red-700' : 'text-gray-900')
+const groupHoverTextAccentColor = computed(() => committee.value?.type === 'SAMUN' ? 'group-hover:text-red-500' : 'group-hover:text-black')
+const groupHoverBgLightColor = computed(() => committee.value?.type === 'SAMUN' ? 'group-hover:bg-red-50' : 'group-hover:bg-gray-100')
+const hoverTextDarkColor = computed(() => committee.value?.type === 'SAMUN' ? 'hover:text-red-700' : 'hover:text-gray-900')
 
 const resources = computed(() => committee.value?.resources || [])
 
 const isViewerOpen = ref(false)
 const selectedPdf = ref({ url: '', title: '' })
+
+const getInitial = (name?: string | null) => {
+  const trimmed = typeof name === 'string' ? name.trim() : ''
+  return trimmed ? trimmed.charAt(0).toUpperCase() : '?'
+}
 
 const openViewer = (filename: string, title: string) => {
   selectedPdf.value = {
@@ -39,7 +51,26 @@ const openViewer = (filename: string, title: string) => {
 <template>
   <div class="min-h-screen bg-gray-50 py-12 px-4">
     <div class="container max-w-4xl mx-auto">
-      <div v-if="committee" class="space-y-8">
+      <div v-if="isLoading" class="space-y-8 animate-pulse">
+        <div class="bg-gray-200 h-64 md:h-80 rounded-2xl w-full"></div>
+        <div class="grid lg:grid-cols-3 gap-8 items-start">
+          <div class="bg-white p-8 rounded-2xl shadow-lg h-48 w-full"></div>
+          <div class="lg:col-span-2 space-y-4">
+            <div class="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
+            <div class="h-32 bg-white rounded-xl shadow-md w-full"></div>
+            <div class="h-32 bg-white rounded-xl shadow-md w-full"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div v-else-if="hasError" class="bg-red-50 text-red-700 p-12 rounded-2xl text-center border border-red-200">
+        <AlertCircle class="w-16 h-16 mx-auto mb-4 text-red-500" />
+        <h2 class="text-2xl font-bold mb-2">Error Loading Committee</h2>
+        <p class="text-lg">We couldn't load the details for this committee. Please try again later.</p>
+        <NuxtLink to="/" class="inline-block mt-6 px-6 py-2 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition-colors">Return Home</NuxtLink>
+      </div>
+
+      <div v-else-if="committee" class="space-y-8">
         <!-- Header -->
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
           <!-- Hero Section -->
@@ -58,7 +89,7 @@ const openViewer = (filename: string, title: string) => {
 
             <!-- Hero Content -->
             <div class="relative z-10 text-white p-8 text-center">
-              <h1 class="text-4xl md:text-6xl font-bold font-montserrat mb-4 drop-shadow-2xl tracking-tight">
+              <h1 class="text-5xl md:text-6xl font-bold font-montserrat mb-4 drop-shadow-2xl tracking-tight">
                 {{ committee.name }}
               </h1>
               <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-6 py-2 rounded-full border border-white/30 shadow-xl">
@@ -73,11 +104,11 @@ const openViewer = (filename: string, title: string) => {
             <h2 class="text-2xl font-bold font-montserrat mb-6 border-b border-gray-100 pb-4">Topics</h2>
             <div class="grid md:grid-cols-2 gap-8">
               <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm">
-                <span class="text-red-700 font-bold text-sm uppercase tracking-wider mb-2 block">Topic A</span>
+                <span class="font-bold text-sm uppercase tracking-wider mb-2 block" :class="textDarkColor">Topic A</span>
                 <p class="text-xl font-medium text-gray-900 leading-tight">{{ committee.topicA }}</p>
               </div>
               <div v-if="committee.topicB" class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm">
-                <span class="text-red-700 font-bold text-sm uppercase tracking-wider mb-2 block">Topic B</span>
+                <span class="font-bold text-sm uppercase tracking-wider mb-2 block" :class="textDarkColor">Topic B</span>
                 <p class="text-xl font-medium text-gray-900 leading-tight">{{ committee.topicB }}</p>
               </div>
             </div>
@@ -90,21 +121,21 @@ const openViewer = (filename: string, title: string) => {
           <div class="bg-white p-8 rounded-2xl shadow-lg lg:sticky lg:top-24">
             <h3 class="text-xl font-bold font-montserrat mb-6">Committee Leadership</h3>
             <div class="space-y-6">
-              <div class="flex items-center gap-4">
-                <div class="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center text-red-600 font-bold text-xl border-2 border-red-100 uppercase">
-                  {{ committee.chairName.charAt(0) }}
+                <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-full flex items-center justify-center font-bold text-xl border-2 uppercase" :class="[bgLightColor, textAccentColor, borderAccentColor]">
+                  {{ getInitial(committee.chairName) }}
                 </div>
                 <div>
-                  <div class="font-bold text-lg leading-tight">{{ committee.chairName }}</div>
+                  <div class="font-bold text-lg leading-tight">{{ committee.chairName || 'TBA' }}</div>
                   <div class="text-sm text-gray-500 font-medium">Chair</div>
                 </div>
               </div>
               <div class="flex items-center gap-4">
                 <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 font-bold text-xl border-2 border-gray-100 uppercase">
-                  {{ committee.coChairName.charAt(0) }}
+                  {{ getInitial(committee.coChairName) }}
                 </div>
                 <div>
-                  <div class="font-bold text-lg leading-tight">{{ committee.coChairName }}</div>
+                  <div class="font-bold text-lg leading-tight">{{ committee.coChairName || 'TBA' }}</div>
                   <div class="text-sm text-gray-500 font-medium">Co-Chair</div>
                 </div>
               </div>
@@ -117,8 +148,8 @@ const openViewer = (filename: string, title: string) => {
             <div class="grid sm:grid-cols-2 gap-4">
               <div v-for="resource in resources" :key="resource.title" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-black group flex flex-col">
                 <div class="flex justify-between items-start mb-4">
-                  <div class="p-2 bg-gray-50 rounded-lg group-hover:bg-red-50 transition-colors">
-                    <FileText class="w-6 h-6 text-black group-hover:text-red-500 transition-colors" />
+                  <div class="p-2 rounded-lg transition-colors" :class="groupHoverBgLightColor">
+                    <FileText class="w-6 h-6 text-black transition-colors" :class="groupHoverTextAccentColor" />
                   </div>
                   <span class="text-[10px] font-bold px-2 py-0.5 bg-gray-100 rounded text-gray-500 uppercase tracking-widest">PDF</span>
                 </div>
@@ -134,7 +165,7 @@ const openViewer = (filename: string, title: string) => {
                     <Eye class="w-3.5 h-3.5" />
                     View
                   </button>
-                  <a :href="`/resources/${resource.filename}`" target="_blank" download class="inline-flex items-center gap-1.5 text-sm text-red-600 font-bold hover:text-red-700 transition-colors">
+                  <a :href="`/resources/${resource.filename}`" target="_blank" download class="inline-flex items-center gap-1.5 text-sm font-bold transition-colors" :class="[textAccentColor, hoverTextDarkColor]">
                     <Download class="w-3.5 h-3.5" />
                     Download
                   </a>

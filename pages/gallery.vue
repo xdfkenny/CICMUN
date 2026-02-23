@@ -1,31 +1,75 @@
 <script setup lang="ts">
 import { Camera, Image as ImageIcon } from 'lucide-vue-next'
-import type { GalleryEvent, GalleryImage } from '~/shared/gallery'
+import type { GalleryResponse, GalleryImage } from '~/shared/gallery'
 
 useSeoMeta({
-  title: 'Galería de Fotos',
-  ogTitle: 'Galería de Fotos | CICMUN 2026',
-  description: 'Revive los mejores momentos de las conferencias CICMUN a través de nuestra galería de fotos.',
-  ogDescription: 'Revive los mejores momentos de las conferencias CICMUN a través de nuestra galería de fotos.',
-})
-
-const { data: galleryEvents, pending } = await useFetch<GalleryEvent[]>('/api/gallery', {
-  default: () => [],
+  title: 'Photo Gallery',
+  ogTitle: 'Photo Gallery | CICMUN 2026',
+  description: 'Relive the best moments of CICMUN conferences through our photo gallery.',
+  ogDescription: 'Relive the best moments of CICMUN conferences through our photo gallery.',
+  ogImage: '/LOGO.png',
 })
 
 const selectedEventId = ref<string>('all')
+const currentPage = ref(1)
+const currentLimit = ref(24) // Base desktop
+const isInitialized = ref(false)
 
-const allImages = computed<GalleryImage[]>(() => galleryEvents.value.flatMap(event => event.images))
-
-const filteredImages = computed<GalleryImage[]>(() => {
-  if (selectedEventId.value === 'all') {
-    return allImages.value
-  }
-  return galleryEvents.value.find(event => event.id === selectedEventId.value)?.images || []
+// Fetch available events metadata first
+const { data: galleryMeta } = await useFetch<GalleryResponse>('/api/gallery', {
+  query: { metaOnly: true }
 })
 
-const selectEvent = (id: string) => {
+const galleryEvents = computed(() => galleryMeta.value?.events || [])
+const totalImages = computed(() => {
+  if (selectedEventId.value === 'all') {
+    return galleryEvents.value.reduce((sum, e) => sum + e.imageCount, 0)
+  }
+  return galleryEvents.value.find(e => e.id === selectedEventId.value)?.imageCount || 0
+})
+
+const allImages = ref<GalleryImage[]>([])
+const hasMore = computed(() => allImages.value.length < totalImages.value)
+
+// Lazy fetch the image page
+const fetchImages = async (page: number, event: string) => {
+  const response = await $fetch<GalleryResponse>('/api/gallery', {
+    query: {
+      event,
+      page,
+      limit: currentLimit.value
+    }
+  })
+  
+  if (response) {
+    if (page === 1) {
+      allImages.value = response.images
+    } else {
+      allImages.value.push(...response.images)
+    }
+  }
+}
+
+onMounted(async () => {
+  if (window.innerWidth < 768) {
+    currentLimit.value = 12 // Mobile optimal
+  }
+  await fetchImages(1, 'all')
+  isInitialized.value = true
+})
+
+const selectEvent = async (id: string) => {
   selectedEventId.value = id
+  currentPage.value = 1
+  allImages.value = []
+  await fetchImages(1, id)
+}
+
+const loadMore = async () => {
+  if (hasMore.value) {
+    currentPage.value++
+    await fetchImages(currentPage.value, selectedEventId.value)
+  }
 }
 </script>
 
@@ -37,7 +81,7 @@ const selectEvent = (id: string) => {
         <div class="mb-6 inline-flex bg-red-100 p-6 rounded-full">
           <Camera class="w-12 h-12 text-red-600" />
         </div>
-        <h1 class="text-4xl md:text-6xl font-extrabold mb-4 font-montserrat text-black tracking-tight uppercase">
+        <h1 class="text-5xl md:text-6xl font-extrabold mb-4 font-montserrat text-black tracking-tight uppercase">
           Photo Gallery
         </h1>
         <p class="text-xl text-gray-500 max-w-2xl mx-auto font-medium">
@@ -56,7 +100,7 @@ const selectEvent = (id: string) => {
               : 'bg-white border-gray-200 text-gray-600 hover:border-black hover:text-black'
           ]"
         >
-          All Photos ({{ allImages.length }})
+          All Photos
         </button>
         <button 
           v-for="event in galleryEvents" 
@@ -73,15 +117,23 @@ const selectEvent = (id: string) => {
         </button>
       </div>
 
-      <!-- Loading State -->
-      <div v-if="pending" class="flex flex-col items-center py-20">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-red-600 mb-4"></div>
-        <p class="text-gray-500 font-medium">Loading gallery...</p>
+      <!-- Content Section -->
+      <div v-if="!isInitialized" class="text-center py-20 bg-white rounded-3xl shadow-sm border border-gray-100">
+        <div class="mb-6 inline-flex bg-gray-100 p-6 rounded-full animate-pulse">
+          <ImageIcon class="w-16 h-16 text-gray-400" />
+        </div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-2">Loading photos...</h3>
+        <p class="text-gray-500 max-w-md mx-auto mb-2">
+          Preparing the gallery for you.
+        </p>
       </div>
 
-      <!-- Content Section -->
-      <div v-else-if="filteredImages.length > 0">
-        <GalleryGrid :images="filteredImages" />
+      <div v-else-if="allImages.length > 0">
+        <GalleryGrid 
+          :images="allImages"
+          :has-more="hasMore"
+          @load-more="loadMore"
+        />
       </div>
 
       <!-- Empty State -->

@@ -2,11 +2,12 @@
 import { Users, BookOpen } from 'lucide-vue-next'
 
 useSeoMeta({
-  title: 'Recursos para Delegados',
-  ogTitle: 'Recursos para Delegados | CICMUN 2026',
-  description: 'Información y recursos esenciales para los delegados de SAMUN y JMUN en CICMUN 2026.',
-  ogDescription: 'Información y recursos esenciales para los delegados de SAMUN y JMUN en CICMUN 2026.',
+  title: 'Delegate Resources',
+  ogTitle: 'Delegate Resources | CICMUN 2026',
+  description: 'Essential information and resources for SAMUN and JMUN delegates at CICMUN 2026.',
+  ogDescription: 'Essential information and resources for SAMUN and JMUN delegates at CICMUN 2026.',
 })
+
 </script>
 
 <template>
@@ -14,7 +15,7 @@ useSeoMeta({
     <div class="container max-w-4xl mx-auto">
       <!-- Header -->
       <div class="text-center mb-16">
-        <h1 class="text-5xl font-bold text-black mb-4 font-montserrat">Delegate Resources</h1>
+        <h1 class="text-5xl md:text-6xl font-bold text-black mb-4 font-montserrat tracking-tight">Delegate Resources</h1>
         <p class="text-xl text-gray-700">
           Welcome, delegates! Choose your conference to explore event details, committees, and more.
         </p>
@@ -23,32 +24,34 @@ useSeoMeta({
       <!-- Selection Buttons -->
       <div class="grid md:grid-cols-2 gap-8">
         <!-- SAMUN Button -->
-        <NuxtLink to="/samun">
-          <UiButton
-            class="w-full h-auto p-8 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center justify-center gap-4"
-          >
+        <UiButton
+          asChild
+          class="w-full h-auto p-8 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center justify-center gap-4"
+        >
+          <NuxtLink to="/samun">
             <Users class="w-16 h-16" />
             <div class="text-center">
               <h2 class="text-3xl font-bold mb-2 font-montserrat">SAMUN 2026</h2>
               <p class="text-lg font-light">South American Model United Nations</p>
               <p class="text-sm mt-2 opacity-90">Grades 9-12</p>
             </div>
-          </UiButton>
-        </NuxtLink>
+          </NuxtLink>
+        </UiButton>
 
         <!-- JMUN Button -->
-        <NuxtLink to="/jmun">
-          <UiButton
-            class="w-full h-auto p-8 bg-black hover:bg-gray-900 text-white rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center justify-center gap-4"
-          >
+        <UiButton
+          asChild
+          class="w-full h-auto p-8 bg-black hover:bg-gray-900 text-white rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center justify-center gap-4"
+        >
+          <NuxtLink to="/jmun">
             <BookOpen class="w-16 h-16" />
             <div class="text-center">
               <h2 class="text-3xl font-bold mb-2 font-montserrat">JMUN 2026</h2>
               <p class="text-lg font-light">Junior Model of United Nations</p>
               <p class="text-sm mt-2 opacity-90">Grades 6-8</p>
             </div>
-          </UiButton>
-        </NuxtLink>
+          </NuxtLink>
+        </UiButton>
       </div>
 
       <!-- Information Cards -->
@@ -82,20 +85,6 @@ useSeoMeta({
         </div>
       </div>
 
-      <!-- FAQ Section -->
-      <div class="mt-16 bg-white p-8 rounded-lg shadow-md">
-        <h3 class="text-2xl font-bold text-black mb-6 font-montserrat">Quick Questions?</h3>
-        <div class="space-y-4">
-          <div>
-            <p class="font-bold text-gray-900">Where is it held?</p>
-            <p class="text-gray-700">Colegio Internacional de Caracas, Caracas, Venezuela</p>
-          </div>
-          <div>
-            <p class="font-bold text-gray-900">Do I need experience?</p>
-            <p class="text-gray-700">No! Both conferences welcome delegates of all experience levels.</p>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { X, ExternalLink, Download } from 'lucide-vue-next'
+import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps<{
   isOpen: boolean
@@ -9,16 +10,56 @@ const props = defineProps<{
 
 const emit = defineEmits(['close'])
 
+const previousFocus = ref<HTMLElement | null>(null)
+const modalRef = ref<HTMLElement | null>(null)
+
+watch(() => props.isOpen, (isOpen) => {
+  if (isOpen) {
+    previousFocus.value = document.activeElement as HTMLElement
+    nextTick(() => {
+      modalRef.value?.focus()
+    })
+  } else {
+    previousFocus.value?.focus()
+  }
+})
+
 const closeOnEsc = (e: KeyboardEvent) => {
-  if (e.key === 'Escape') emit('close')
+  if (e.key === 'Escape' && props.isOpen) emit('close')
+}
+
+const handleTab = (e: KeyboardEvent) => {
+  if (!props.isOpen || e.key !== 'Tab' || !modalRef.value) return
+  
+  const focusableElements = modalRef.value.querySelectorAll<HTMLElement>(
+    'a[href], button, iframe, [tabindex]:not([tabindex="-1"])'
+  )
+  if (!focusableElements.length) return
+  
+  const firstElement = focusableElements[0] as HTMLElement
+  const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement
+
+  if (e.shiftKey) {
+    if (document.activeElement === firstElement || document.activeElement === modalRef.value) {
+      lastElement.focus()
+      e.preventDefault()
+    }
+  } else {
+    if (document.activeElement === lastElement) {
+      firstElement.focus()
+      e.preventDefault()
+    }
+  }
 }
 
 onMounted(() => {
   window.addEventListener('keydown', closeOnEsc)
+  window.addEventListener('keydown', handleTab)
 })
 
 onUnmounted(() => {
   window.removeEventListener('keydown', closeOnEsc)
+  window.removeEventListener('keydown', handleTab)
 })
 </script>
 
@@ -31,7 +72,13 @@ onUnmounted(() => {
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
+    <div v-if="isOpen" 
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+         role="dialog"
+         aria-modal="true"
+         :aria-label="title"
+         ref="modalRef"
+         tabindex="-1">
       <!-- Backdrop -->
       <div 
         class="absolute inset-0 bg-black/60 backdrop-blur-sm"

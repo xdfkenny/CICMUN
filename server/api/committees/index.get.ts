@@ -1,5 +1,5 @@
-import committees from '../../../data/committees.json'
+import { getCommittees } from '../../utils/data'
 
 export default defineEventHandler(async () => {
-    return committees;
+    return getCommittees()
 });

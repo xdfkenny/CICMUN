@@ -15,8 +15,19 @@ const cardRef = ref<HTMLElement | null>(null)
 const isVisible = ref(false)
 const isLoaded = ref(false)
 const hasError = ref(false)
+const useFallback = ref(false)
 
 let observer: IntersectionObserver | null = null
+
+const resolvedSrc = computed(() => {
+  if (useFallback.value || !props.image.thumbnail) return props.image.src
+  return props.image.thumbnail
+})
+
+const resolvedSrcSet = computed(() => {
+  if (useFallback.value) return undefined
+  return props.image.srcSet || undefined
+})
 
 const revealImage = () => {
   isVisible.value = true
@@ -29,8 +40,19 @@ const onImageLoaded = () => {
 }
 
 const onImageError = () => {
+  const hasDistinctThumbnail = Boolean(
+    props.image.thumbnail && props.image.src && props.image.thumbnail !== props.image.src
+  )
+
+  if (!useFallback.value && hasDistinctThumbnail) {
+    useFallback.value = true
+    isLoaded.value = false
+    hasError.value = false
+    return
+  }
+
   hasError.value = true
-  isLoaded.value = true
+  isLoaded.value = false
 }
 
 const setupObserver = () => {
@@ -64,7 +86,7 @@ onUnmounted(() => {
   <button
     ref="cardRef"
     type="button"
-    class="group relative aspect-video overflow-hidden rounded-xl bg-gray-200 shadow-sm transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-red-600 cursor-pointer"
+    class="group relative aspect-video w-full overflow-hidden rounded-xl bg-gray-200 shadow-sm transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-red-600 cursor-pointer"
     :aria-label="`Open ${image.alt}`"
     @click="emit('select')"
   >
@@ -80,10 +102,12 @@ onUnmounted(() => {
 
     <img
       v-if="isVisible && !hasError"
-      :src="image.thumbnail"
-      :srcset="image.srcSet || undefined"
+      :src="resolvedSrc"
+      :srcset="resolvedSrcSet"
       :sizes="image.sizes || undefined"
       :alt="image.alt"
+      width="800"
+      height="450"
       :loading="eager ? 'eager' : 'lazy'"
       decoding="async"
       class="h-full w-full object-cover transition duration-500 group-hover:scale-110"

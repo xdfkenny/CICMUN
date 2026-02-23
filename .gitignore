@@ -7,3 +7,5 @@ dist
 .idea
 *.log
 .DS_Store
+public/Gallery/__thumbs/
+data/gallery.json

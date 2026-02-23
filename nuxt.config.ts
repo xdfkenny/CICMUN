@@ -4,7 +4,7 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/color-mode'],
+  modules: ['@nuxtjs/color-mode', '@nuxt/image'],
   css: ['~/assets/css/main.css'],
   vite: {
     plugins: [
@@ -32,6 +32,12 @@ export default defineNuxtConfig({
       },
     },
     '/api/gallery': {
+      swr: 3600,
+    },
+    '/api/resources': {
+      swr: 3600,
+    },
+    '/api/schedule': {
       swr: 3600,
     },
   },

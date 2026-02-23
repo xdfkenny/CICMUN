@@ -21,6 +21,8 @@ watch(() => route.path, () => {
 </script>
 
 <template>
+  <div>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white focus:text-black focus:font-bold focus:shadow-md top-0 left-0">Skip to main content</a>
   <nav class="sticky top-0 z-50 bg-white border-b-2 border-black shadow-md">
     <div class="container flex items-center justify-between h-20 px-4 mx-auto">
       <!-- Logo and Brand -->
@@ -33,55 +35,65 @@ watch(() => route.path, () => {
       
       <!-- Desktop Navigation Links -->
       <div class="hidden lg:flex items-center gap-1 sm:gap-2">
-        <NuxtLink to="/">
-          <UiButton
-            :variant="isActive('/') ? 'default' : 'ghost'"
-            :class="`${isActive('/') ? 'bg-red-600 hover:bg-red-700 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
-          >
+        <UiButton
+          asChild
+          :variant="isActive('/') ? 'default' : 'ghost'"
+          :class="`${isActive('/') ? 'bg-black hover:bg-gray-800 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          :aria-current="isActive('/') ? 'page' : undefined"
+        >
+          <NuxtLink to="/">
             <Home class="w-5 h-5" />
             <span class="hidden md:inline">Home</span>
-          </UiButton>
-        </NuxtLink>
+          </NuxtLink>
+        </UiButton>
 
-        <NuxtLink to="/delegates">
-          <UiButton
-            :variant="isActive('/delegates') ? 'default' : 'ghost'"
-            :class="`${isActive('/delegates') ? 'bg-red-600 hover:bg-red-700 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
-          >
+        <UiButton
+          asChild
+          :variant="isActive('/delegates') ? 'default' : 'ghost'"
+          :class="`${isActive('/delegates') ? 'bg-black hover:bg-gray-800 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          :aria-current="isActive('/delegates') ? 'page' : undefined"
+        >
+          <NuxtLink to="/delegates">
             <Users class="w-5 h-5" />
             <span class="hidden md:inline">Delegates</span>
-          </UiButton>
-        </NuxtLink>
+          </NuxtLink>
+        </UiButton>
 
-        <NuxtLink to="/schedule">
-          <UiButton
-            :variant="isActive('/schedule') ? 'default' : 'ghost'"
-            :class="`${isActive('/schedule') ? 'bg-red-600 hover:bg-red-700 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
-          >
+        <UiButton
+          asChild
+          :variant="isActive('/schedule') ? 'default' : 'ghost'"
+          :class="`${isActive('/schedule') ? 'bg-black hover:bg-gray-800 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          :aria-current="isActive('/schedule') ? 'page' : undefined"
+        >
+          <NuxtLink to="/schedule">
             <Calendar class="w-5 h-5" />
             <span class="hidden md:inline">Schedule</span>
-          </UiButton>
-        </NuxtLink>
+          </NuxtLink>
+        </UiButton>
 
-        <NuxtLink to="/resources">
-          <UiButton
-            :variant="isActive('/resources') ? 'default' : 'ghost'"
-            :class="`${isActive('/resources') ? 'bg-red-600 hover:bg-red-700 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
-          >
+        <UiButton
+          asChild
+          :variant="isActive('/resources') ? 'default' : 'ghost'"
+          :class="`${isActive('/resources') ? 'bg-black hover:bg-gray-800 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          :aria-current="isActive('/resources') ? 'page' : undefined"
+        >
+          <NuxtLink to="/resources">
             <BookOpen class="w-5 h-5" />
             <span class="hidden md:inline">Resources</span>
-          </UiButton>
-        </NuxtLink>
+          </NuxtLink>
+        </UiButton>
 
-        <NuxtLink to="/gallery">
-          <UiButton
-            :variant="isActive('/gallery') ? 'default' : 'ghost'"
-            :class="`${isActive('/gallery') ? 'bg-red-600 hover:bg-red-700 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
-          >
+        <UiButton
+          asChild
+          :variant="isActive('/gallery') ? 'default' : 'ghost'"
+          :class="`${isActive('/gallery') ? 'bg-black hover:bg-gray-800 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          :aria-current="isActive('/gallery') ? 'page' : undefined"
+        >
+          <NuxtLink to="/gallery">
             <Image class="w-5 h-5" />
             <span class="hidden md:inline">Gallery</span>
-          </UiButton>
-        </NuxtLink>
+          </NuxtLink>
+        </UiButton>
 
         <div class="h-8 w-px bg-gray-200 mx-2"></div>
 
@@ -107,6 +119,8 @@ watch(() => route.path, () => {
         @click="toggleMenu" 
         class="lg:hidden z-50 p-2 text-black hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-center"
         aria-label="Toggle Menu"
+        :aria-expanded="isMenuOpen"
+        aria-controls="mobile-menu"
       >
         <svg v-if="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M20 17.5a1.5 1.5 0 0 1 .144 2.993L20 20.5H4a1.5 1.5 0 0 1-.144-2.993L4 17.5zm0-7a1.5 1.5 0 0 1 0 3H4a1.5 1.5 0 0 1 0-3zm0-7a1.5 1.5 0 0 1 0 3H4a1.5 1.5 0 1 1 0-3z"/></g></svg>
         <svg v-else xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.9 4.9l4.9-4.9q.275-.275.7-.275t.7.275t.275.7t-.275.7L13.4 12l4.9 4.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275z"/></svg>
@@ -121,46 +135,46 @@ watch(() => route.path, () => {
         leave-from-class="translate-x-0"
         leave-to-class="translate-x-full"
       >
-        <div v-if="isMenuOpen" class="fixed inset-0 z-40 bg-white lg:hidden flex flex-col pt-24 px-6 gap-4 overflow-y-auto">
-          <NuxtLink to="/" class="group">
-            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/') ? 'bg-red-50 text-red-600 shadow-sm' : 'text-black hover:bg-gray-50'}`">
-              <div :class="`p-3 rounded-lg ${isActive('/') ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors'}`">
+        <div v-if="isMenuOpen" id="mobile-menu" class="fixed inset-0 z-40 bg-white lg:hidden flex flex-col pt-24 px-6 gap-4 overflow-y-auto">
+          <NuxtLink to="/" class="group" :aria-current="isActive('/') ? 'page' : undefined">
+            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/') ? 'bg-black text-white shadow-md' : 'text-black hover:bg-gray-50'}`">
+              <div :class="`p-3 rounded-lg ${isActive('/') ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-black group-hover:text-white transition-colors'}`">
                 <Home class="w-6 h-6" />
               </div>
               <span class="text-xl font-bold">Home</span>
             </div>
           </NuxtLink>
 
-          <NuxtLink to="/delegates" class="group">
-            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/delegates') ? 'bg-red-50 text-red-600 shadow-sm' : 'text-black hover:bg-gray-50'}`">
-              <div :class="`p-3 rounded-lg ${isActive('/delegates') ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors'}`">
+          <NuxtLink to="/delegates" class="group" :aria-current="isActive('/delegates') ? 'page' : undefined">
+            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/delegates') ? 'bg-black text-white shadow-md' : 'text-black hover:bg-gray-50'}`">
+              <div :class="`p-3 rounded-lg ${isActive('/delegates') ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-black group-hover:text-white transition-colors'}`">
                 <Users class="w-6 h-6" />
               </div>
               <span class="text-xl font-bold">Delegates</span>
             </div>
           </NuxtLink>
 
-          <NuxtLink to="/schedule" class="group">
-            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/schedule') ? 'bg-red-50 text-red-600 shadow-sm' : 'text-black hover:bg-gray-50'}`">
-              <div :class="`p-3 rounded-lg ${isActive('/schedule') ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors'}`">
+          <NuxtLink to="/schedule" class="group" :aria-current="isActive('/schedule') ? 'page' : undefined">
+            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/schedule') ? 'bg-black text-white shadow-md' : 'text-black hover:bg-gray-50'}`">
+              <div :class="`p-3 rounded-lg ${isActive('/schedule') ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-black group-hover:text-white transition-colors'}`">
                 <Calendar class="w-6 h-6" />
               </div>
               <span class="text-xl font-bold">Schedule</span>
             </div>
           </NuxtLink>
 
-          <NuxtLink to="/resources" class="group">
-            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/resources') ? 'bg-red-50 text-red-600 shadow-sm' : 'text-black hover:bg-gray-50'}`">
-              <div :class="`p-3 rounded-lg ${isActive('/resources') ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors'}`">
+          <NuxtLink to="/resources" class="group" :aria-current="isActive('/resources') ? 'page' : undefined">
+            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/resources') ? 'bg-black text-white shadow-md' : 'text-black hover:bg-gray-50'}`">
+              <div :class="`p-3 rounded-lg ${isActive('/resources') ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-black group-hover:text-white transition-colors'}`">
                 <BookOpen class="w-6 h-6" />
               </div>
               <span class="text-xl font-bold">Resources</span>
             </div>
           </NuxtLink>
 
-          <NuxtLink to="/gallery" class="group">
-            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/gallery') ? 'bg-red-50 text-red-600 shadow-sm' : 'text-black hover:bg-gray-50'}`">
-              <div :class="`p-3 rounded-lg ${isActive('/gallery') ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors'}`">
+          <NuxtLink to="/gallery" class="group" :aria-current="isActive('/gallery') ? 'page' : undefined">
+            <div :class="`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/gallery') ? 'bg-black text-white shadow-md' : 'text-black hover:bg-gray-50'}`">
+              <div :class="`p-3 rounded-lg ${isActive('/gallery') ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-black group-hover:text-white transition-colors'}`">
                 <Image class="w-6 h-6" />
               </div>
               <span class="text-xl font-bold">Gallery</span>
@@ -197,4 +211,5 @@ watch(() => route.path, () => {
       </Transition>
     </div>
   </nav>
+  </div>
 </template>
