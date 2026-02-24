@@ -31,9 +31,6 @@ export default defineNuxtConfig({
         'cache-control': 'public, max-age=31536000, immutable',
       },
     },
-    '/api/gallery': {
-      swr: 3600,
-    },
     '/api/resources': {
       swr: 3600,
     },
