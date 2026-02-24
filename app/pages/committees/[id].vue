@@ -119,14 +119,14 @@ const openViewer = (filename: string, title: string) => {
         <div class="grid lg:grid-cols-3 gap-8 items-start">
           <!-- Leadership -->
           <div class="bg-white p-8 rounded-2xl shadow-lg lg:sticky lg:top-24">
-            <h3 class="text-xl font-bold font-montserrat mb-6">Committee Leadership</h3>
+            <h3 class="text-xl font-bold font-montserrat mb-6 text-black">Committee Leadership</h3>
             <div class="space-y-6">
                 <div class="flex items-center gap-4">
                 <div class="w-14 h-14 rounded-full flex items-center justify-center font-bold text-xl border-2 uppercase" :class="[bgLightColor, textAccentColor, borderAccentColor]">
                   {{ getInitial(committee.chairName) }}
                 </div>
                 <div>
-                  <div class="font-bold text-lg leading-tight">{{ committee.chairName || 'TBA' }}</div>
+                  <div class="font-bold text-lg leading-tight text-black">{{ committee.chairName || 'TBA' }}</div>
                   <div class="text-sm text-black font-medium">Chair</div>
                 </div>
               </div>
@@ -135,7 +135,7 @@ const openViewer = (filename: string, title: string) => {
                   {{ getInitial(committee.coChairName) }}
                 </div>
                 <div>
-                  <div class="font-bold text-lg leading-tight">{{ committee.coChairName || 'TBA' }}</div>
+                  <div class="font-bold text-lg leading-tight text-black">{{ committee.coChairName || 'TBA' }}</div>
                   <div class="text-sm text-black font-medium">Co-Chair</div>
                 </div>
               </div>
