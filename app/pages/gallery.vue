@@ -13,68 +13,60 @@ useSeoMeta({
 const LIMIT = 24
 const selectedEventId = ref<string>('all')
 const currentPage = ref(1)
-
-// Start as loading so SSR → client never flashes "No photos found"
-const isLoading = ref(true)
+const extraImages = ref<GalleryImage[]>([])
 const isFetchingMore = ref(false)
-const allImages = ref<GalleryImage[]>([])
 
-// Events metadata — SSR only
+// Events metadata — SSR
 const { data: metaData } = await useFetch<GalleryResponse>('/api/gallery', {
-  query: { metaOnly: true }
+  query: { metaOnly: true },
 })
 const galleryEvents = computed(() => metaData.value?.events ?? [])
-
 const totalImages = computed(() => {
   if (selectedEventId.value === 'all') {
     return galleryEvents.value.reduce((sum, e) => sum + e.imageCount, 0)
   }
   return galleryEvents.value.find(e => e.id === selectedEventId.value)?.imageCount ?? 0
 })
-const hasMore = computed(() => allImages.value.length < totalImages.value)
 
-// Fetch a page of images for the given event
-const fetchImages = async (eventId: string, page: number) => {
-  try {
-    const response = await $fetch<GalleryResponse>('/api/gallery', {
-      query: { event: eventId, page, limit: LIMIT }
-    })
-    return response?.images ?? []
-  } catch (err) {
-    console.error('Gallery fetch error:', err)
-    return []
-  }
-}
+// Images — URL function makes useFetch auto-refetch when selectedEventId changes.
+// NOT awaited so it doesn't create a blocking Suspense boundary on re-fetches.
+const { data: imageData, pending: isLoading } = useFetch<GalleryResponse>(
+  () => `/api/gallery?event=${encodeURIComponent(selectedEventId.value)}&page=1&limit=${LIMIT}`
+)
 
-// Load images for a given event (replaces current set)
-const loadEvent = async (eventId: string) => {
-  isLoading.value = true
-  allImages.value = []
+// Reset accumulated pages whenever the event filter changes
+watch(selectedEventId, () => {
+  extraImages.value = []
   currentPage.value = 1
-  allImages.value = await fetchImages(eventId, 1)
-  isLoading.value = false
-}
+})
 
-// Load more pages (append)
-const loadMore = async () => {
-  if (!hasMore.value || isFetchingMore.value || isLoading.value) return
-  isFetchingMore.value = true
-  const nextPage = currentPage.value + 1
-  const moreImages = await fetchImages(selectedEventId.value, nextPage)
-  if (moreImages.length) {
-    allImages.value.push(...moreImages)
-    currentPage.value = nextPage
-  }
-  isFetchingMore.value = false
-}
+const allImages = computed<GalleryImage[]>(() => [
+  ...(imageData.value?.images ?? []),
+  ...extraImages.value,
+])
+
+const hasMore = computed(() => allImages.value.length < totalImages.value)
 
 const selectEvent = (id: string) => {
   selectedEventId.value = id
-  loadEvent(id)
 }
 
-// Initial load on client mount
-onMounted(() => loadEvent('all'))
+const loadMore = async () => {
+  if (!hasMore.value || isFetchingMore.value || isLoading.value) return
+  isFetchingMore.value = true
+  try {
+    const nextPage = currentPage.value + 1
+    const response = await $fetch<GalleryResponse>('/api/gallery', {
+      query: { event: selectedEventId.value, page: nextPage, limit: LIMIT }
+    })
+    if (response?.images?.length) {
+      extraImages.value.push(...response.images)
+      currentPage.value = nextPage
+    }
+  } finally {
+    isFetchingMore.value = false
+  }
+}
 
 const refreshPage = () => window.location.reload()
 </script>
