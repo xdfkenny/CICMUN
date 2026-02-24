@@ -8,4 +8,3 @@ dist
 *.log
 .DS_Store
 public/gallery/__thumbs/
-data/gallery.json
