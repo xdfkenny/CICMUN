@@ -131,7 +131,7 @@ const openViewer = (filename: string, title: string) => {
                 </div>
               </div>
               <div class="flex items-center gap-4">
-                <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 font-bold text-xl border-2 border-gray-100 uppercase">
+                <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center text-black font-bold text-xl border-2 border-gray-100 uppercase">
                   {{ getInitial(committee.coChairName) }}
                 </div>
                 <div>
@@ -176,7 +176,7 @@ const openViewer = (filename: string, title: string) => {
         </div>
 
         <div class="text-center pt-8">
-          <NuxtLink :to="committee.type === 'JMUN' ? '/jmun' : '/samun'" class="text-gray-500 hover:text-black font-bold transition-colors">
+          <NuxtLink :to="committee.type === 'JMUN' ? '/jmun' : '/samun'" class="text-black hover:text-gray-700 font-bold transition-colors">
             ← Back to {{ committee.type }}
           </NuxtLink>
         </div>
