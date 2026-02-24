@@ -13,34 +13,17 @@ useSeoMeta({
 const LIMIT = 24
 const selectedEventId = ref<string>('all')
 const currentPage = ref(1)
-const extraImages = ref<GalleryImage[]>([])
+
+// Start as loading so SSR → client never flashes "No photos found"
+const isLoading = ref(true)
 const isFetchingMore = ref(false)
+const allImages = ref<GalleryImage[]>([])
 
-// Events metadata — SSR
-const { data: metaData } = await useAsyncData('gallery-meta', () =>
-  $fetch<GalleryResponse>('/api/gallery', { query: { metaOnly: true } })
-)
-const galleryEvents = computed(() => metaData.value?.events ?? [])
-
-// Images for the selected event — reactive key causes auto-refetch on filter change
-const { data: pageData, pending: isLoading } = await useAsyncData(
-  () => `gallery-${selectedEventId.value}`,
-  () => $fetch<GalleryResponse>('/api/gallery', {
-    query: { event: selectedEventId.value, page: 1, limit: LIMIT }
-  }),
-  { watch: [selectedEventId] }
-)
-
-// Reset pagination when event changes
-watch(selectedEventId, () => {
-  extraImages.value = []
-  currentPage.value = 1
+// Events metadata — SSR only
+const { data: metaData } = await useFetch<GalleryResponse>('/api/gallery', {
+  query: { metaOnly: true }
 })
-
-const allImages = computed<GalleryImage[]>(() => [
-  ...(pageData.value?.images ?? []),
-  ...extraImages.value,
-])
+const galleryEvents = computed(() => metaData.value?.events ?? [])
 
 const totalImages = computed(() => {
   if (selectedEventId.value === 'all') {
@@ -48,29 +31,50 @@ const totalImages = computed(() => {
   }
   return galleryEvents.value.find(e => e.id === selectedEventId.value)?.imageCount ?? 0
 })
-
 const hasMore = computed(() => allImages.value.length < totalImages.value)
 
-const selectEvent = (id: string) => {
-  selectedEventId.value = id
+// Fetch a page of images for the given event
+const fetchImages = async (eventId: string, page: number) => {
+  try {
+    const response = await $fetch<GalleryResponse>('/api/gallery', {
+      query: { event: eventId, page, limit: LIMIT }
+    })
+    return response?.images ?? []
+  } catch (err) {
+    console.error('Gallery fetch error:', err)
+    return []
+  }
 }
 
+// Load images for a given event (replaces current set)
+const loadEvent = async (eventId: string) => {
+  isLoading.value = true
+  allImages.value = []
+  currentPage.value = 1
+  allImages.value = await fetchImages(eventId, 1)
+  isLoading.value = false
+}
+
+// Load more pages (append)
 const loadMore = async () => {
   if (!hasMore.value || isFetchingMore.value || isLoading.value) return
   isFetchingMore.value = true
-  try {
-    const nextPage = currentPage.value + 1
-    const response = await $fetch<GalleryResponse>('/api/gallery', {
-      query: { event: selectedEventId.value, page: nextPage, limit: LIMIT }
-    })
-    if (response?.images?.length) {
-      extraImages.value.push(...response.images)
-      currentPage.value = nextPage
-    }
-  } finally {
-    isFetchingMore.value = false
+  const nextPage = currentPage.value + 1
+  const moreImages = await fetchImages(selectedEventId.value, nextPage)
+  if (moreImages.length) {
+    allImages.value.push(...moreImages)
+    currentPage.value = nextPage
   }
+  isFetchingMore.value = false
 }
+
+const selectEvent = (id: string) => {
+  selectedEventId.value = id
+  loadEvent(id)
+}
+
+// Initial load on client mount
+onMounted(() => loadEvent('all'))
 
 const refreshPage = () => window.location.reload()
 </script>
@@ -119,7 +123,7 @@ const refreshPage = () => window.location.reload()
         </button>
       </div>
 
-      <!-- Loading state while switching events -->
+      <!-- Loading -->
       <div v-if="isLoading" class="text-center py-20 bg-white rounded-3xl shadow-sm border border-gray-100">
         <div class="mb-6 inline-flex bg-gray-100 p-6 rounded-full animate-pulse">
           <ImageIcon class="w-16 h-16 text-gray-400" />
