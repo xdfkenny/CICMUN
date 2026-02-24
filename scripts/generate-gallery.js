@@ -76,9 +76,10 @@ const createThumbnail = async ({ sharpLib, sourcePath, eventName, filename, stat
 ensureDir(dataDir)
 
 if (!fs.existsSync(galleryPath)) {
-  console.log('Gallery directory not found')
+  console.log('Gallery directory not found — creating empty gallery directory')
+  ensureDir(galleryPath)
   fs.writeFileSync(outputFile, JSON.stringify([], null, 2))
-  process.exit(0)
+  // continue: directory created, proceed to generate empty metadata
 }
 
 const sharpLib = await loadSharp()
