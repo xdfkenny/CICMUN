@@ -95,7 +95,7 @@ const filteredResources = computed(() => {
             <span class="text-xs font-bold px-2 py-1 bg-gray-100 rounded text-black">PDF</span>
           </div>
           
-          <h3 class="text-xl font-bold mb-2 font-montserrat">{{ resource.title }}</h3>
+          <h3 class="text-xl font-bold mb-2 font-montserrat text-black">{{ resource.title }}</h3>
           <p class="text-black mb-6 text-sm">{{ resource.description }}</p>
           
           <div class="flex items-center gap-6 mt-auto">
