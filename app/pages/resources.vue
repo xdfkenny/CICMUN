@@ -92,11 +92,11 @@ const filteredResources = computed(() => {
             <div :class="['p-3 rounded-lg', activeTab === 'SAMUN' ? 'bg-red-50' : 'bg-gray-100']">
               <FileText :class="['w-8 h-8', activeTab === 'SAMUN' ? 'text-red-600' : 'text-black']" />
             </div>
-            <span class="text-xs font-bold px-2 py-1 bg-gray-100 rounded text-gray-600">PDF</span>
+            <span class="text-xs font-bold px-2 py-1 bg-gray-100 rounded text-black">PDF</span>
           </div>
           
           <h3 class="text-xl font-bold mb-2 font-montserrat">{{ resource.title }}</h3>
-          <p class="text-gray-600 mb-6 text-sm">{{ resource.description }}</p>
+          <p class="text-black mb-6 text-sm">{{ resource.description }}</p>
           
           <div class="flex items-center gap-6 mt-auto">
             <button 
@@ -117,7 +117,7 @@ const filteredResources = computed(() => {
       <!-- Empty State -->
       <div v-else class="text-center bg-white p-12 rounded-xl border border-gray-100 shadow-sm">
         <FileText class="w-12 h-12 mx-auto text-gray-300 mb-4" />
-        <p class="text-xl text-gray-600 font-medium">Resources for {{ activeTab }} coming soon.</p>
+        <p class="text-xl text-black font-medium">Resources for {{ activeTab }} coming soon.</p>
       </div>
     </div>
 
