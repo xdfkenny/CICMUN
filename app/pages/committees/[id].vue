@@ -101,7 +101,7 @@ const openViewer = (filename: string, title: string) => {
           </div>
           
           <div class="p-8 bg-white relative z-20">
-            <h2 class="text-2xl font-bold font-montserrat mb-6 border-b border-gray-100 pb-4">Topics</h2>
+            <h2 class="text-2xl font-bold font-montserrat mb-6 border-b border-gray-100 pb-4 text-black">Topics</h2>
             <div class="grid md:grid-cols-2 gap-8">
               <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm">
                 <span class="font-bold text-sm uppercase tracking-wider mb-2 block" :class="textDarkColor">Topic A</span>
