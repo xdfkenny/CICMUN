@@ -56,7 +56,7 @@ const formattedDate = computed(() => {
       <!-- Header -->
       <div class="mb-12">
         <h1 class="text-5xl md:text-6xl font-bold text-black mb-4 font-montserrat tracking-tight">{{ eventDetails?.name || 'JMUN 2026' }}</h1>
-        <p class="text-xl text-gray-700">
+        <p class="text-xl text-black">
           {{ eventDetails?.description || 'Junior Model of United Nations' }}
         </p>
       </div>
@@ -74,8 +74,8 @@ const formattedDate = computed(() => {
                   <Calendar class="w-6 h-6 text-black" />
                 </div>
                 <div>
-                  <p class="font-bold text-gray-900 text-lg">Date</p>
-                  <p class="text-gray-700 text-lg">{{ formattedDate }}</p>
+                  <p class="font-bold text-black text-lg">Date</p>
+                  <p class="text-black text-lg">{{ formattedDate }}</p>
                 </div>
               </div>
 
@@ -84,11 +84,11 @@ const formattedDate = computed(() => {
                   <MapPin class="w-6 h-6 text-black" />
                 </div>
                 <div class="flex-1">
-                  <p class="font-bold text-gray-900 text-lg">Location</p>
+                  <p class="font-bold text-black text-lg">Location</p>
                   <div class="hidden md:block">
-                    <p class="text-gray-700 font-medium">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
-                    <p class="text-sm text-gray-500 mt-1">{{ eventDetails?.address }}</p>
-                    <p class="text-sm text-gray-500">{{ eventDetails?.city }}</p>
+                    <p class="text-black font-medium">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
+                    <p class="text-sm text-black mt-1">{{ eventDetails?.address }}</p>
+                    <p class="text-sm text-black">{{ eventDetails?.city }}</p>
                     
                     <div v-if="eventDetails?.externalMapUrl" class="mt-6">
                       <a :href="eventDetails.externalMapUrl" target="_blank" rel="noopener noreferrer">
@@ -155,7 +155,7 @@ const formattedDate = computed(() => {
         </div>
 
         <div v-else class="bg-white p-8 rounded-lg text-center shadow-sm border border-gray-100">
-          <p class="text-gray-700 text-lg">
+          <p class="text-black text-lg">
             Committees coming soon. Check back for updates!
           </p>
         </div>

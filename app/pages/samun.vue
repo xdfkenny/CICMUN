@@ -62,7 +62,7 @@ const formattedDate = computed(() => {
       <!-- Header -->
       <div class="mb-12">
         <h1 class="text-5xl md:text-6xl font-bold text-black mb-4 font-montserrat tracking-tight">{{ eventDetails?.name || 'SAMUN 2026' }}</h1>
-        <p class="text-xl text-gray-700">
+        <p class="text-xl text-black">
           {{ eventDetails?.description || 'South American Model of United Nations' }}
         </p>
       </div>
@@ -80,8 +80,8 @@ const formattedDate = computed(() => {
                   <Calendar class="w-6 h-6 text-red-600" />
                 </div>
                 <div>
-                  <p class="font-bold text-gray-900 text-lg">Date</p>
-                  <p class="text-gray-700 text-lg">{{ formattedDate }}</p>
+                  <p class="font-bold text-black text-lg">Date</p>
+                  <p class="text-black text-lg">{{ formattedDate }}</p>
                 </div>
               </div>
 
@@ -90,11 +90,11 @@ const formattedDate = computed(() => {
                   <MapPin class="w-6 h-6 text-red-600" />
                 </div>
                 <div class="flex-1">
-                  <p class="font-bold text-gray-900 text-lg">Location</p>
+                  <p class="font-bold text-black text-lg">Location</p>
                   <div class="hidden md:block">
-                    <p class="text-gray-700 font-medium">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
-                    <p class="text-sm text-gray-500 mt-1">{{ eventDetails?.address }}</p>
-                    <p class="text-sm text-gray-500">{{ eventDetails?.city }}</p>
+                    <p class="text-black font-medium">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
+                    <p class="text-sm text-black mt-1">{{ eventDetails?.address }}</p>
+                    <p class="text-sm text-black">{{ eventDetails?.city }}</p>
                     
                     <div v-if="eventDetails?.externalMapUrl" class="mt-6">
                       <a :href="eventDetails.externalMapUrl" target="_blank" rel="noopener noreferrer">
@@ -106,7 +106,7 @@ const formattedDate = computed(() => {
                     </div>
                   </div>
                   <!-- Mobile only fallback or just keep it simple -->
-                  <p class="md:hidden text-gray-700 font-medium">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
+                  <p class="md:hidden text-black font-medium">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
                 </div>
               </div>
             </div>
@@ -125,7 +125,7 @@ const formattedDate = computed(() => {
                 ></iframe>
               </template>
               <template v-else>
-                <div class="flex items-center justify-center h-full p-4 text-center text-gray-500">
+                <div class="flex items-center justify-center h-full p-4 text-center text-black">
                   <p class="max-w-xs">Map unavailable for this event.</p>
                 </div>
               </template>
@@ -161,7 +161,7 @@ const formattedDate = computed(() => {
         </div>
 
         <div v-else class="bg-white p-8 rounded-lg text-center shadow-sm border border-gray-100">
-          <p class="text-gray-700 text-lg">
+          <p class="text-black text-lg">
             Committees coming soon. Check back for updates!
           </p>
         </div>
