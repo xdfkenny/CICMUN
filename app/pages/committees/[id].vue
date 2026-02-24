@@ -105,11 +105,11 @@ const openViewer = (filename: string, title: string) => {
             <div class="grid md:grid-cols-2 gap-8">
               <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm">
                 <span class="font-bold text-sm uppercase tracking-wider mb-2 block" :class="textDarkColor">Topic A</span>
-                <p class="text-xl font-medium text-gray-900 leading-tight">{{ committee.topicA }}</p>
+                <p class="text-xl font-medium text-black leading-tight">{{ committee.topicA }}</p>
               </div>
               <div v-if="committee.topicB" class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm">
                 <span class="font-bold text-sm uppercase tracking-wider mb-2 block" :class="textDarkColor">Topic B</span>
-                <p class="text-xl font-medium text-gray-900 leading-tight">{{ committee.topicB }}</p>
+                <p class="text-xl font-medium text-black leading-tight">{{ committee.topicB }}</p>
               </div>
             </div>
           </div>
@@ -127,7 +127,7 @@ const openViewer = (filename: string, title: string) => {
                 </div>
                 <div>
                   <div class="font-bold text-lg leading-tight">{{ committee.chairName || 'TBA' }}</div>
-                  <div class="text-sm text-gray-500 font-medium">Chair</div>
+                  <div class="text-sm text-black font-medium">Chair</div>
                 </div>
               </div>
               <div class="flex items-center gap-4">
@@ -136,7 +136,7 @@ const openViewer = (filename: string, title: string) => {
                 </div>
                 <div>
                   <div class="font-bold text-lg leading-tight">{{ committee.coChairName || 'TBA' }}</div>
-                  <div class="text-sm text-gray-500 font-medium">Co-Chair</div>
+                  <div class="text-sm text-black font-medium">Co-Chair</div>
                 </div>
               </div>
             </div>
@@ -151,11 +151,11 @@ const openViewer = (filename: string, title: string) => {
                   <div class="p-2 rounded-lg transition-colors" :class="groupHoverBgLightColor">
                     <FileText class="w-6 h-6 text-black transition-colors" :class="groupHoverTextAccentColor" />
                   </div>
-                  <span class="text-[10px] font-bold px-2 py-0.5 bg-gray-100 rounded text-gray-500 uppercase tracking-widest">PDF</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 bg-gray-100 rounded text-black uppercase tracking-widest">PDF</span>
                 </div>
                 
-                <h4 class="text-lg font-bold mb-1 font-montserrat leading-tight">{{ resource.title }}</h4>
-                <p class="text-gray-500 text-xs mb-4 line-clamp-2 leading-relaxed">{{ resource.description }}</p>
+                <h4 class="text-lg font-bold mb-1 font-montserrat leading-tight text-black">{{ resource.title }}</h4>
+                <p class="text-black text-xs mb-4 line-clamp-2 leading-relaxed">{{ resource.description }}</p>
                 
                 <div class="flex items-center gap-4 mt-auto pt-2">
                   <button 
@@ -183,7 +183,7 @@ const openViewer = (filename: string, title: string) => {
       </div>
       
       <div v-else class="text-center py-24">
-        <h2 class="text-2xl font-bold text-gray-400">Committee not found</h2>
+        <h2 class="text-2xl font-bold text-black">Committee not found</h2>
         <NuxtLink to="/" class="text-red-600 hover:underline mt-4 inline-block">Return Home</NuxtLink>
       </div>
     </div>
