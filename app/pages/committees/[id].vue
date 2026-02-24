@@ -24,10 +24,10 @@ const bgLightColor = computed(() => committee.value?.type === 'SAMUN' ? 'bg-red-
 const bgAccentColor = computed(() => committee.value?.type === 'SAMUN' ? 'bg-red-600' : 'bg-black')
 const borderAccentColor = computed(() => committee.value?.type === 'SAMUN' ? 'border-red-100' : 'border-gray-200')
 const textAccentColor = computed(() => committee.value?.type === 'SAMUN' ? 'text-red-600' : 'text-black')
-const textDarkColor = computed(() => committee.value?.type === 'SAMUN' ? 'text-red-700' : 'text-gray-900')
+const textDarkColor = computed(() => committee.value?.type === 'SAMUN' ? 'text-red-700' : 'text-black')
 const groupHoverTextAccentColor = computed(() => committee.value?.type === 'SAMUN' ? 'group-hover:text-red-500' : 'group-hover:text-black')
 const groupHoverBgLightColor = computed(() => committee.value?.type === 'SAMUN' ? 'group-hover:bg-red-50' : 'group-hover:bg-gray-100')
-const hoverTextDarkColor = computed(() => committee.value?.type === 'SAMUN' ? 'hover:text-red-700' : 'hover:text-gray-900')
+const hoverTextDarkColor = computed(() => committee.value?.type === 'SAMUN' ? 'hover:text-red-700' : 'hover:text-black')
 
 const resources = computed(() => committee.value?.resources || [])
 
