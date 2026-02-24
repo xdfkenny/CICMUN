@@ -13,10 +13,13 @@ useSeoMeta({
 const LIMIT = 24
 const selectedEventId = ref<string>('all')
 const currentPage = ref(1)
-const extraImages = ref<GalleryImage[]>([])
-const isFetchingMore = ref(false)
 
-// Events metadata — SSR
+// isLoading starts true so SSR/hydration renders the spinner, not "No photos found"
+const isLoading = ref(true)
+const isFetchingMore = ref(false)
+const allImages = ref<GalleryImage[]>([])
+
+// Events metadata only — SSR
 const { data: metaData } = await useFetch<GalleryResponse>('/api/gallery', {
   query: { metaOnly: true },
 })
@@ -27,42 +30,56 @@ const totalImages = computed(() => {
   }
   return galleryEvents.value.find(e => e.id === selectedEventId.value)?.imageCount ?? 0
 })
-
-// Images — URL function makes useFetch auto-refetch when selectedEventId changes.
-// NOT awaited so it doesn't create a blocking Suspense boundary on re-fetches.
-const { data: imageData, pending: isLoading } = useFetch<GalleryResponse>(
-  () => `/api/gallery?event=${encodeURIComponent(selectedEventId.value)}&page=1&limit=${LIMIT}`
-)
-
-// Reset accumulated pages whenever the event filter changes
-watch(selectedEventId, () => {
-  extraImages.value = []
-  currentPage.value = 1
-})
-
-const allImages = computed<GalleryImage[]>(() => [
-  ...(imageData.value?.images ?? []),
-  ...extraImages.value,
-])
-
 const hasMore = computed(() => allImages.value.length < totalImages.value)
+
+// Request ID guards against race conditions: if a newer request fires
+// before an older one resolves, the older result is discarded.
+let latestRequestId = 0
+
+async function loadEvent(eventId: string) {
+  const requestId = ++latestRequestId
+  isLoading.value = true
+  allImages.value = []
+  currentPage.value = 1
+
+  try {
+    const data = await $fetch<GalleryResponse>('/api/gallery', {
+      params: { event: eventId, page: 1, limit: LIMIT },
+    })
+    if (requestId !== latestRequestId) return // stale — newer request fired
+    allImages.value = data?.images ?? []
+  } catch (err) {
+    if (requestId !== latestRequestId) return
+    console.error('Gallery fetch error:', err)
+    allImages.value = []
+  } finally {
+    if (requestId === latestRequestId) {
+      isLoading.value = false
+    }
+  }
+}
 
 const selectEvent = (id: string) => {
   selectedEventId.value = id
+  loadEvent(id)
 }
+
+onMounted(() => loadEvent('all'))
 
 const loadMore = async () => {
   if (!hasMore.value || isFetchingMore.value || isLoading.value) return
   isFetchingMore.value = true
   try {
     const nextPage = currentPage.value + 1
-    const response = await $fetch<GalleryResponse>('/api/gallery', {
-      query: { event: selectedEventId.value, page: nextPage, limit: LIMIT }
+    const data = await $fetch<GalleryResponse>('/api/gallery', {
+      params: { event: selectedEventId.value, page: nextPage, limit: LIMIT },
     })
-    if (response?.images?.length) {
-      extraImages.value.push(...response.images)
+    if (data?.images?.length) {
+      allImages.value.push(...data.images)
       currentPage.value = nextPage
     }
+  } catch (err) {
+    console.error('Load more error:', err)
   } finally {
     isFetchingMore.value = false
   }
