@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "name": "Security Council",
+    "name": "UNSC",
     "type": "JMUN",
     "chairName": "Angela",
     "chairPhoto": null,
@@ -9,8 +9,8 @@
     "coChairPhoto": null,
     "secretaryName": null,
     "secretaryPhoto": null,
-    "topicA": "International Response to the 9/11 Attacks",
-    "topicB": "The 2003 Iraq War",
+    "topicA": "The International Response to the September 11, 2001 Terrorist Attacks",
+    "topicB": "The Situation of 2003 Iraq War",
     "image": "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=2070&auto=format&fit=crop",
     "summary": "The UN's primary body for maintaining international peace and security through collective action and intervention.",
     "resources": [
@@ -41,8 +41,8 @@
     "coChairPhoto": null,
     "secretaryName": null,
     "secretaryPhoto": null,
-    "topicA": "Child Labor and the Protection of Minors",
-    "topicB": "Situation in Iran",
+    "topicA": "The Elimination of Child Labor and the Protection of Minors",
+    "topicB": null,
     "image": "https://plus.unsplash.com/premium_photo-1661490331022-629b434cfea9?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "summary": "Dedicated to the promotion and protection of all human rights around the globe, addressing thematic issues and country situations.",
     "resources": [
@@ -65,7 +65,7 @@
   },
   {
     "id": 3,
-    "name": "GA (General Assembly)",
+    "name": "UNGA",
     "type": "JMUN",
     "chairName": "Santiago",
     "chairPhoto": null,
@@ -74,7 +74,7 @@
     "secretaryName": null,
     "secretaryPhoto": null,
     "topicA": "Deforestation of the Amazon Rainforest",
-    "topicB": "Human Trafficking in South America",
+    "topicB": "Combating Human Trafficking in South America",
     "image": "https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=2046&auto=format&fit=crop",
     "summary": "The main deliberative, policymaking, and representative organ of the UN, providing a forum for multilateral discussion on international issues.",
     "resources": [
@@ -105,7 +105,7 @@
     "coChairPhoto": null,
     "secretaryName": null,
     "secretaryPhoto": null,
-    "topicA": "Combating State-Sponsored Disinformation",
+    "topicA": "Addressing State-Sponsored Disinformation in the Global Digital Space",
     "topicB": null,
     "image": "https://images.unsplash.com/photo-1572949645841-094f3a9c4c94?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "summary": "The premier forum for international economic cooperation, focusing on global financial stability and sustainable growth.",
@@ -137,8 +137,8 @@
     "coChairPhoto": null,
     "secretaryName": null,
     "secretaryPhoto": null,
-    "topicA": "Use of Biological Weapons by Terrorist Groups",
-    "topicB": "Use of Chemical Weapons in the Middle East",
+    "topicA": "The Use of Biological Weapons by Non-State Terrorist Organizations",
+    "topicB": "The Use of Chemical Weapons in the Middle East",
     "image": "https://images.unsplash.com/photo-1763656445564-6fef9a9a9443?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "summary": "The First Committee of the General Assembly, focusing on disarmament and international security challenges.",
     "resources": [
@@ -169,7 +169,7 @@
     "coChairPhoto": null,
     "secretaryName": null,
     "secretaryPhoto": null,
-    "topicA": "The Ebola Epidemic",
+    "topicA": "International Response to the Ebola Epidemic",
     "topicB": null,
     "image": "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?q=80&w=2069&auto=format&fit=crop",
     "summary": "The leading authority on international public health, working to ensure the highest possible level of health for all people.",
