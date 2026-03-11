@@ -7,3 +7,4 @@ dist
 .idea
 *.log
 .DS_Store
+public/gallery/__thumbs

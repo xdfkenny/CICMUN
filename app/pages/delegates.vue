@@ -14,7 +14,7 @@ useSeoMeta({
   <div class="min-h-screen bg-gray-50 py-12 px-4">
     <div class="container max-w-4xl mx-auto">
       <!-- Header -->
-      <div class="text-center mb-16">
+      <div class="text-center mb-16 px-4 animate-fade-in-up">
         <h1 class="text-5xl md:text-6xl font-bold text-black mb-4 font-montserrat tracking-tight">Delegate Resources</h1>
         <p class="text-xl text-gray-700">
           Welcome, delegates! Choose your conference to explore event details, committees, and more.
@@ -22,16 +22,16 @@ useSeoMeta({
       </div>
 
       <!-- Selection Buttons -->
-      <div class="grid md:grid-cols-2 gap-8">
+      <div class="grid md:grid-cols-2 gap-8 px-4">
         <!-- SAMUN Button -->
         <UiButton
           asChild
-          class="w-full h-auto p-8 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center justify-center gap-4"
+          class="w-full h-auto p-8 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center justify-center gap-4 reveal"
         >
           <NuxtLink to="/samun">
             <Users class="w-16 h-16" />
             <div class="text-center">
-              <h2 class="text-3xl font-bold mb-2 font-montserrat">SAMUN 2026</h2>
+              <h2 class="text-3xl font-bold mb-2 font-montserrat uppercase">SAMUN 2026</h2>
               <p class="text-lg font-light">South American Model United Nations</p>
               <p class="text-sm mt-2 opacity-90">Grades 9-12</p>
             </div>
@@ -41,12 +41,13 @@ useSeoMeta({
         <!-- JMUN Button -->
         <UiButton
           asChild
-          class="w-full h-auto p-8 bg-black hover:bg-gray-900 text-white rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center justify-center gap-4"
+          class="w-full h-auto p-8 bg-black hover:bg-gray-900 text-white rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center justify-center gap-4 reveal"
+          style="transition-delay: 150ms;"
         >
           <NuxtLink to="/jmun">
             <BookOpen class="w-16 h-16" />
             <div class="text-center">
-              <h2 class="text-3xl font-bold mb-2 font-montserrat">JMUN 2026</h2>
+              <h2 class="text-3xl font-bold mb-2 font-montserrat uppercase">JMUN 2026</h2>
               <p class="text-lg font-light">Junior Model United Nations</p>
               <p class="text-sm mt-2 opacity-90">Grades 6-8</p>
             </div>
@@ -55,32 +56,32 @@ useSeoMeta({
       </div>
 
       <!-- Information Cards -->
-      <div class="mt-16 grid md:grid-cols-2 gap-8">
+      <div class="mt-16 grid md:grid-cols-2 gap-8 px-4">
         <!-- SAMUN Info -->
-        <div class="bg-white p-8 rounded-lg border-2 border-red-600 shadow-md">
-          <h3 class="text-2xl font-bold text-red-600 mb-4 font-montserrat">About SAMUN</h3>
+        <div class="bg-white p-8 rounded-lg border-2 border-red-600 shadow-md reveal hover-lift">
+          <h3 class="text-2xl font-bold text-red-600 mb-4 font-montserrat uppercase tracking-tight">About SAMUN</h3>
           <p class="text-gray-700 mb-4">
             The South American Model United Nations is our flagship conference, bringing together high school delegates from across the region.
           </p>
           <ul class="space-y-2 text-gray-700">
-            <li>✓ Multiple UN committees</li>
-            <li>✓ Challenging topics</li>
-            <li>✓ Experienced chairs and staff</li>
-            <li>✓ Networking opportunities</li>
+            <li class="flex items-center gap-2"><span class="text-red-600 font-bold">✓</span> Multiple UN committees</li>
+            <li class="flex items-center gap-2"><span class="text-red-600 font-bold">✓</span> Challenging topics</li>
+            <li class="flex items-center gap-2"><span class="text-red-600 font-bold">✓</span> Experienced chairs and staff</li>
+            <li class="flex items-center gap-2"><span class="text-red-600 font-bold">✓</span> Networking opportunities</li>
           </ul>
         </div>
 
         <!-- JMUN Info -->
-        <div class="bg-white p-8 rounded-lg border-2 border-black shadow-md">
-          <h3 class="text-2xl font-bold text-black mb-4 font-montserrat">About JMUN</h3>
+        <div class="bg-white p-8 rounded-lg border-2 border-black shadow-md reveal hover-lift" style="transition-delay: 150ms;">
+          <h3 class="text-2xl font-bold text-black mb-4 font-montserrat uppercase tracking-tight">About JMUN</h3>
           <p class="text-gray-700 mb-4">
             The Junior Model United Nations provides middle school students with their first introduction to diplomatic simulation and international affairs.
           </p>
           <ul class="space-y-2 text-gray-700">
-            <li>✓ Beginner-friendly committees</li>
-            <li>✓ Supportive environment</li>
-            <li>✓ Educational focus</li>
-            <li>✓ Fun and engaging activities</li>
+            <li class="flex items-center gap-2"><span class="text-black font-bold">✓</span> Beginner-friendly committees</li>
+            <li class="flex items-center gap-2"><span class="text-black font-bold">✓</span> Supportive environment</li>
+            <li class="flex items-center gap-2"><span class="text-black font-bold">✓</span> Educational focus</li>
+            <li class="flex items-center gap-2"><span class="text-black font-bold">✓</span> Fun and engaging activities</li>
           </ul>
         </div>
       </div>

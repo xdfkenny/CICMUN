@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { Home, Users, Calendar, BookOpen, Image, Instagram } from 'lucide-vue-next'
-import { onBeforeUnmount } from 'vue'
+import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
+
 const route = useRoute()
 const isActive = (path: string) => route.path === path
 
 const isMenuOpen = ref(false)
+const isScrolled = ref(false)
+
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
   if (typeof window !== 'undefined') {
@@ -16,6 +19,14 @@ const toggleMenu = () => {
   }
 }
 
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 20
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
 // Close menu when route changes
 watch(() => route.path, () => {
   isMenuOpen.value = false
@@ -25,6 +36,7 @@ watch(() => route.path, () => {
 })
 
 onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
   if (typeof window !== 'undefined' && isMenuOpen.value) {
     document.body.style.overflow = 'auto'
   }
@@ -34,13 +46,18 @@ onBeforeUnmount(() => {
 <template>
   <div>
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white focus:text-black focus:font-bold focus:shadow-md top-0 left-0">Skip to main content</a>
-  <nav class="sticky top-0 z-50 bg-white border-b-2 border-black shadow-md">
-    <div class="container flex items-center justify-between h-20 px-4 mx-auto">
+  <nav 
+    :class="[
+      'sticky top-0 z-50 transition-all duration-500 border-b-2 border-black',
+      isScrolled ? 'bg-white/80 backdrop-blur-md h-16 shadow-lg' : 'bg-white h-20 shadow-md'
+    ]"
+  >
+    <div class="container flex items-center justify-between h-full px-4 mx-auto">
       <!-- Logo and Brand -->
-      <NuxtLink to="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity flex-shrink-0 z-50">
-        <img src="/LOGO.png" alt="CICMUN Logo" class="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
+      <NuxtLink to="/" class="flex items-center gap-3 hover:opacity-80 transition-all duration-300 flex-shrink-0 z-50">
+        <img src="/LOGO.png" alt="CICMUN Logo" :class="['transition-all duration-500 object-contain', isScrolled ? 'w-8 h-8' : 'w-10 h-10 sm:w-12 sm:h-12']" />
         <div>
-          <h1 class="text-base sm:text-lg font-bold text-black leading-tight tracking-widest">CICMUN</h1>
+          <h1 :class="['font-bold text-black leading-tight tracking-widest transition-all duration-500', isScrolled ? 'text-sm sm:text-base' : 'text-base sm:text-lg']">CICMUN</h1>
         </div>
       </NuxtLink>
       
@@ -49,60 +66,60 @@ onBeforeUnmount(() => {
         <UiButton
           asChild
           :variant="isActive('/') ? 'default' : 'ghost'"
-          :class="`${isActive('/') ? 'bg-black hover:bg-gray-800 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          :class="`${isActive('/') ? 'bg-black text-white' : 'text-black hover:bg-gray-100'} relative flex items-center gap-2 px-3 sm:px-4 transition-all duration-300 transform active:scale-95 overflow-hidden`"
           :aria-current="isActive('/') ? 'page' : undefined"
         >
           <NuxtLink to="/">
             <Home class="w-5 h-5" />
-            <span class="hidden md:inline">Home</span>
+            <span class="hidden md:inline relative z-10">Home</span>
           </NuxtLink>
         </UiButton>
 
         <UiButton
           asChild
           :variant="isActive('/delegates') ? 'default' : 'ghost'"
-          :class="`${isActive('/delegates') ? 'bg-black hover:bg-gray-800 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          :class="`${isActive('/delegates') ? 'bg-black text-white' : 'text-black hover:bg-gray-100'} relative flex items-center gap-2 px-3 sm:px-4 transition-all duration-300 transform active:scale-95`"
           :aria-current="isActive('/delegates') ? 'page' : undefined"
         >
           <NuxtLink to="/delegates">
             <Users class="w-5 h-5" />
-            <span class="hidden md:inline">Delegates</span>
+            <span class="hidden md:inline relative z-10">Delegates</span>
           </NuxtLink>
         </UiButton>
 
         <UiButton
           asChild
           :variant="isActive('/schedule') ? 'default' : 'ghost'"
-          :class="`${isActive('/schedule') ? 'bg-black hover:bg-gray-800 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          :class="`${isActive('/schedule') ? 'bg-black text-white' : 'text-black hover:bg-gray-100'} relative flex items-center gap-2 px-3 sm:px-4 transition-all duration-300 transform active:scale-95`"
           :aria-current="isActive('/schedule') ? 'page' : undefined"
         >
           <NuxtLink to="/schedule">
             <Calendar class="w-5 h-5" />
-            <span class="hidden md:inline">Schedule</span>
+            <span class="hidden md:inline relative z-10">Schedule</span>
           </NuxtLink>
         </UiButton>
 
         <UiButton
           asChild
           :variant="isActive('/resources') ? 'default' : 'ghost'"
-          :class="`${isActive('/resources') ? 'bg-black hover:bg-gray-800 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          :class="`${isActive('/resources') ? 'bg-black text-white' : 'text-black hover:bg-gray-100'} relative flex items-center gap-2 px-3 sm:px-4 transition-all duration-300 transform active:scale-95`"
           :aria-current="isActive('/resources') ? 'page' : undefined"
         >
           <NuxtLink to="/resources">
             <BookOpen class="w-5 h-5" />
-            <span class="hidden md:inline">Resources</span>
+            <span class="hidden md:inline relative z-10">Resources</span>
           </NuxtLink>
         </UiButton>
 
         <UiButton
           asChild
           :variant="isActive('/gallery') ? 'default' : 'ghost'"
-          :class="`${isActive('/gallery') ? 'bg-black hover:bg-gray-800 text-white' : 'text-black hover:bg-gray-100'} flex items-center gap-2 px-3 sm:px-4`"
+          :class="`${isActive('/gallery') ? 'bg-black text-white' : 'text-black hover:bg-gray-100'} relative flex items-center gap-2 px-3 sm:px-4 transition-all duration-300 transform active:scale-95`"
           :aria-current="isActive('/gallery') ? 'page' : undefined"
         >
           <NuxtLink to="/gallery">
             <Image class="w-5 h-5" />
-            <span class="hidden md:inline">Gallery</span>
+            <span class="hidden md:inline relative z-10">Gallery</span>
           </NuxtLink>
         </UiButton>
 

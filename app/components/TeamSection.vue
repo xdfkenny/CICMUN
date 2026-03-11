@@ -99,7 +99,7 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
 
             
             <div class="flex flex-col gap-1 sm:gap-2">
-              <h3 class="text-base sm:text-2xl font-extrabold text-black font-montserrat tracking-tight leading-tight">{{ member.name }}</h3>
+              <h3 class="text-base sm:text-2xl font-extrabold text-black font-montserrat tracking-tight leading-tight uppercase">{{ member.name }}</h3>
               <p class="text-red-600 font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-xs sm:text-xs">
                 {{ member.role }}
               </p>
@@ -132,7 +132,7 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
 
             
             <div class="flex flex-col gap-1 sm:gap-2">
-              <h3 class="text-base sm:text-2xl font-extrabold text-black font-montserrat tracking-tight leading-tight">{{ member.name }}</h3>
+              <h3 class="text-base sm:text-2xl font-extrabold text-black font-montserrat tracking-tight leading-tight uppercase">{{ member.name }}</h3>
               <p class="text-red-600 font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-xs sm:text-xs">
                 {{ member.role }}
               </p>
@@ -148,7 +148,7 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-red-600/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-[100px]"></div>
 
         <div class="relative z-10 flex flex-col md:flex-row items-center gap-8 md:gap-20">
-          <div class="flex-shrink-0 bg-red-600 p-5 md:p-6 rounded-2xl md:rounded-[2rem] shadow-[0_15px_30px_rgba(220,38,38,0.3)] group transition-transform duration-500 hover:rotate-3">
+          <div class="flex-shrink-0 bg-red-600 p-5 md:p-6 rounded-2xl md:rounded-[2rem] shadow-[0_15px_30px_rgba(220,38,38,0.3)] group transition-all duration-500 hover:rotate-6 hover:scale-110">
             <GraduationCap class="w-12 h-12 md:w-14 md:h-14 text-white" />
           </div>
           
@@ -162,7 +162,7 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
               <div 
                 v-for="faculty in faculties" 
                 :key="faculty"
-                class="group px-8 py-3 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 font-bold text-red-500 transition-all duration-300 hover:bg-white/15 hover:scale-105 hover:shadow-[0_10px_20px_rgba(220,38,38,0.15)] flex items-center gap-3"
+                class="group px-8 py-3 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 font-bold text-red-500 transition-all duration-500 hover:bg-white/15 hover:scale-105 hover:shadow-[0_10px_20px_rgba(220,38,38,0.15)] flex items-center gap-3"
               >
                 <div class="w-2 h-2 rounded-full bg-red-600 group-hover:animate-pulse"></div>
                 {{ faculty }}

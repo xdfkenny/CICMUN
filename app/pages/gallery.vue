@@ -92,57 +92,59 @@ const refreshPage = () => window.location.reload()
   <div class="min-h-screen bg-gray-50 py-12 px-4">
     <div class="container mx-auto max-w-7xl">
       <!-- Header -->
-      <div class="text-center mb-16">
-        <div class="mb-6 inline-flex bg-red-100 p-6 rounded-full">
-          <Camera class="w-12 h-12 text-red-600" />
+      <div class="text-center mb-16 animate-fade-in-up px-4">
+        <div class="mb-6 inline-flex bg-red-100 p-8 rounded-full shadow-lg group transition-transform duration-500 hover:rotate-12 hover:scale-110">
+          <Camera class="w-14 h-14 text-red-600" />
         </div>
         <h1 class="text-5xl md:text-6xl font-extrabold mb-4 font-montserrat text-black tracking-tight uppercase">
           Photo Gallery
         </h1>
-        <p class="text-xl text-gray-500 max-w-2xl mx-auto font-medium">
+        <div class="h-1.5 w-24 bg-red-600 mx-auto rounded-full mb-8"></div>
+        <p class="text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">
           Relive the best moments of CICMUN conferences through our photo selection.
         </p>
       </div>
 
       <!-- Filters -->
-      <div v-if="galleryEvents.length > 0" class="flex flex-wrap justify-center gap-3 mb-12">
+      <div v-if="galleryEvents.length > 0" class="flex flex-wrap justify-center gap-4 mb-16 animate-fade-in-up px-4" style="animation-delay: 200ms; animation-fill-mode: both;">
         <button
           @click="selectEvent('all')"
           :class="[
-            'px-6 py-2.5 rounded-full font-bold transition-all duration-300 border-2',
+            'px-8 py-3 rounded-full font-bold transition-all duration-300 border-2 shadow-sm',
             selectedEventId === 'all'
-              ? 'bg-black border-black text-white shadow-lg'
-              : 'bg-white border-gray-200 text-gray-600 hover:border-black hover:text-black'
+              ? 'bg-black border-black text-white shadow-xl scale-105'
+              : 'bg-white border-gray-100 text-gray-500 hover:border-black hover:text-black hover:shadow-md'
           ]"
         >
           All Photos
         </button>
         <button
-          v-for="event in galleryEvents"
+          v-for="(event, idx) in galleryEvents"
           :key="event.id"
           @click="selectEvent(event.id)"
           :class="[
-            'px-6 py-2.5 rounded-full font-bold transition-all duration-300 border-2',
+            'px-8 py-3 rounded-full font-bold transition-all duration-300 border-2 shadow-sm',
             selectedEventId === event.id
-              ? 'bg-red-600 border-red-600 text-white shadow-lg'
-              : 'bg-white border-gray-200 text-gray-600 hover:border-red-600 hover:text-red-600'
+              ? 'bg-red-600 border-red-600 text-white shadow-xl scale-105'
+              : 'bg-white border-gray-100 text-gray-500 hover:border-red-600 hover:text-red-600 hover:shadow-md'
           ]"
+          :style="{ transitionDelay: `${idx * 50}ms` }"
         >
           {{ event.name }} ({{ event.imageCount }})
         </button>
       </div>
 
       <!-- Loading -->
-      <div v-if="isLoading" class="text-center py-20 bg-white rounded-3xl shadow-sm border border-gray-100">
-        <div class="mb-6 inline-flex bg-gray-100 p-6 rounded-full animate-pulse">
-          <ImageIcon class="w-16 h-16 text-gray-400" />
+      <div v-if="isLoading" class="text-center py-24 bg-white rounded-[2.5rem] shadow-xl border border-gray-100 reveal px-4">
+        <div class="mb-8 inline-flex bg-gray-50 p-8 rounded-full animate-pulse shadow-inner">
+          <ImageIcon class="w-16 h-16 text-gray-300" />
         </div>
-        <h3 class="text-2xl font-bold text-gray-900 mb-2">Loading photos...</h3>
-        <p class="text-gray-500 max-w-md mx-auto">Preparing the gallery for you.</p>
+        <h3 class="text-3xl font-extrabold text-black mb-3 font-montserrat uppercase tracking-tight">Loading photos...</h3>
+        <p class="text-gray-500 max-w-md mx-auto font-medium opacity-80">Preparing the gallery for you.</p>
       </div>
 
       <!-- Photo grid -->
-      <div v-else-if="allImages.length > 0">
+      <div v-else-if="allImages.length > 0" class="reveal px-4">
         <GalleryGrid
           :images="allImages"
           :has-more="hasMore"
@@ -151,15 +153,15 @@ const refreshPage = () => window.location.reload()
       </div>
 
       <!-- Empty state -->
-      <div v-else class="text-center py-20 bg-white rounded-3xl shadow-sm border border-gray-100">
-        <div class="mb-6 inline-flex bg-gray-100 p-6 rounded-full">
-          <ImageIcon class="w-16 h-16 text-gray-400" />
+      <div v-else class="text-center py-24 bg-white rounded-[2.5rem] shadow-xl border border-gray-100 reveal px-4">
+        <div class="mb-8 inline-flex bg-gray-50 p-8 rounded-full shadow-inner">
+          <ImageIcon class="w-16 h-16 text-gray-300" />
         </div>
-        <h3 class="text-2xl font-bold text-gray-900 mb-2">No photos found</h3>
-        <p class="text-gray-500 max-w-md mx-auto mb-8">
+        <h3 class="text-3xl font-extrabold text-black mb-3 font-montserrat uppercase tracking-tight">No photos found</h3>
+        <p class="text-gray-500 max-w-md mx-auto mb-10 font-medium opacity-80 leading-relaxed">
           We haven't uploaded photos for this event yet. Please check back later!
         </p>
-        <NuxtLink to="/" class="inline-flex items-center gap-2 text-red-600 font-bold hover:underline">
+        <NuxtLink to="/" class="inline-flex items-center gap-2 bg-black text-white px-8 py-3 rounded-xl font-bold hover:bg-gray-800 transition-all shadow-lg hover:-translate-y-1">
           Return to Home
         </NuxtLink>
       </div>

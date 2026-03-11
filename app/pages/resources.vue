@@ -33,17 +33,17 @@ const filteredResources = computed(() => {
 <template>
   <div class="min-h-screen bg-gray-50 py-12 px-4">
     <div class="container max-w-4xl mx-auto">
-      <h1 class="text-5xl md:text-6xl font-bold text-center mb-4 font-montserrat text-black tracking-tight">Resources</h1>
-      <p class="text-xl text-center text-gray-600 mb-8">Essential documents for your preparation</p>
+      <h1 class="text-5xl md:text-6xl font-bold text-center mb-4 font-montserrat text-black tracking-tight animate-fade-in-up">Resources</h1>
+      <p class="text-xl text-center text-gray-600 mb-8 animate-fade-in-up" style="animation-delay: 200ms; animation-fill-mode: both;">Essential documents for your preparation</p>
 
       <!-- Contextual Tabs -->
-      <div class="flex justify-center mb-12">
-        <div class="bg-gray-200 p-1 rounded-xl inline-flex shadow-inner">
+      <div class="flex justify-center mb-12 animate-fade-in-up" style="animation-delay: 400ms; animation-fill-mode: both;">
+        <div class="bg-gray-200 p-1.5 rounded-2xl inline-flex shadow-inner">
           <button 
             @click="activeTab = 'JMUN'"
             :class="[
-              'px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-200',
-              activeTab === 'JMUN' ? 'bg-white text-black shadow-sm' : 'text-gray-500 hover:text-gray-700'
+              'px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300',
+              activeTab === 'JMUN' ? 'bg-white text-black shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'
             ]"
           >
             JMUN
@@ -51,8 +51,8 @@ const filteredResources = computed(() => {
           <button 
             @click="activeTab = 'SAMUN'"
             :class="[
-              'px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-200',
-              activeTab === 'SAMUN' ? 'bg-red-600 text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'
+              'px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300',
+              activeTab === 'SAMUN' ? 'bg-red-600 text-white shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'
             ]"
           >
             SAMUN
@@ -62,52 +62,53 @@ const filteredResources = computed(() => {
 
       <!-- Loading State -->
       <div v-if="status === 'pending'" class="grid md:grid-cols-2 gap-6">
-        <div v-for="i in 4" :key="i" class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
-          <div class="flex justify-between items-start mb-4">
-            <UiSkeleton class="w-12 h-12 rounded-lg" />
-            <UiSkeleton class="w-10 h-6 rounded" />
+        <div v-for="i in 4" :key="i" class="bg-white p-8 rounded-2xl shadow-md border-l-4 border-gray-200 animate-pulse">
+          <div class="flex justify-between items-start mb-6">
+            <UiSkeleton class="w-14 h-14 rounded-xl" />
+            <UiSkeleton class="w-12 h-6 rounded" />
           </div>
-          <UiSkeleton class="w-2/3 h-6 mb-2" />
-          <UiSkeleton class="w-full h-4 mb-1" />
-          <UiSkeleton class="w-5/6 h-4 mb-6" />
-          <div class="flex gap-4">
-            <UiSkeleton class="w-16 h-6" />
-            <UiSkeleton class="w-24 h-6" />
+          <UiSkeleton class="w-2/3 h-8 mb-4" />
+          <UiSkeleton class="w-full h-5 mb-2" />
+          <UiSkeleton class="w-5/6 h-5 mb-8" />
+          <div class="flex gap-6 mt-auto">
+            <UiSkeleton class="w-20 h-6" />
+            <UiSkeleton class="w-28 h-6" />
           </div>
         </div>
       </div>
 
       <!-- Error State -->
-      <div v-else-if="error" class="bg-red-50 text-red-700 p-8 rounded-xl text-center border border-red-200">
-        <AlertCircle class="w-12 h-12 mx-auto mb-4 text-red-500" />
-        <h3 class="text-xl font-bold mb-2">Notice</h3>
-        <p>Resources are temporarily unavailable. Please try again later or contact the secretariat.</p>
+      <div v-else-if="error" class="bg-red-50 text-red-700 p-12 rounded-2xl text-center border border-red-200 reveal">
+        <AlertCircle class="w-16 h-16 mx-auto mb-6 text-red-500 animate-bounce" />
+        <h3 class="text-2xl font-bold mb-3 font-montserrat uppercase tracking-tight">Notice</h3>
+        <p class="text-lg font-medium opacity-80">Resources are temporarily unavailable. Please try again later or contact the secretariat.</p>
       </div>
 
       <!-- Data State -->
-      <div v-else-if="filteredResources.length > 0" class="grid md:grid-cols-2 gap-6">
-        <div v-for="resource in filteredResources" :key="resource.id" 
-             :class="['bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4', activeTab === 'SAMUN' ? 'border-red-600' : 'border-black']">
-          <div class="flex justify-between items-start mb-4">
-            <div :class="['p-3 rounded-lg', activeTab === 'SAMUN' ? 'bg-red-50' : 'bg-gray-100']">
-              <FileText :class="['w-8 h-8', activeTab === 'SAMUN' ? 'text-red-600' : 'text-black']" />
+      <div v-else-if="filteredResources.length > 0" class="grid md:grid-cols-2 gap-8 min-h-[400px]">
+        <div v-for="(resource, idx) in filteredResources" :key="resource.id" 
+             :class="['bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border-l-8 reveal hover-lift flex flex-col', activeTab === 'SAMUN' ? 'border-red-600' : 'border-black']"
+             :style="{ transitionDelay: `${idx * 150}ms` }">
+          <div class="flex justify-between items-start mb-6">
+            <div :class="['p-4 rounded-xl transition-colors duration-300', activeTab === 'SAMUN' ? 'bg-red-50' : 'bg-gray-100']">
+              <FileText :class="['w-10 h-10', activeTab === 'SAMUN' ? 'text-red-600' : 'text-black']" />
             </div>
-            <span class="text-xs font-bold px-2 py-1 bg-gray-100 rounded text-black">PDF</span>
+            <span class="text-xs font-extrabold px-3 py-1.5 bg-gray-100 rounded-lg text-black uppercase tracking-wider">PDF</span>
           </div>
           
-          <h3 class="text-xl font-bold mb-2 font-montserrat text-black">{{ resource.title }}</h3>
-          <p class="text-black mb-6 text-sm">{{ resource.description }}</p>
+          <h3 class="text-2xl font-bold mb-3 font-montserrat text-black tracking-tight uppercase">{{ resource.title }}</h3>
+          <p class="text-gray-600 mb-8 text-base font-medium leading-relaxed">{{ resource.description }}</p>
           
-          <div class="flex items-center gap-6 mt-auto">
+          <div class="flex items-center gap-8 mt-auto pb-2">
             <button 
               @click="openViewer(resource.filename, resource.title)"
-              class="inline-flex items-center gap-2 text-black font-bold hover:text-gray-700 transition-colors"
+              class="inline-flex items-center gap-2 text-black font-extrabold hover:text-red-600 transition-colors group"
             >
-              <Eye class="w-4 h-4" />
+              <Eye class="w-5 h-5 group-hover:scale-110 transition-transform" />
               View
             </button>
-            <a :href="`/resources/${resource.filename}`" download class="inline-flex items-center gap-2 font-bold transition-colors" :class="activeTab === 'SAMUN' ? 'text-red-600 hover:text-red-700' : 'text-black hover:text-gray-700'">
-              <Download class="w-4 h-4" />
+            <a :href="`/resources/${resource.filename}`" download class="inline-flex items-center gap-2 font-extrabold transition-colors group" :class="activeTab === 'SAMUN' ? 'text-red-600 hover:text-red-700' : 'text-black hover:text-gray-700'">
+              <Download class="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
               Download
             </a>
           </div>
