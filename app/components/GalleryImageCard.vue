@@ -92,7 +92,7 @@ onUnmounted(() => {
   <button
     ref="cardRef"
     type="button"
-    class="group relative aspect-video w-full overflow-hidden rounded-xl bg-gray-200 shadow-sm transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-red-600 cursor-pointer"
+    class="group relative aspect-video w-full overflow-hidden rounded-xl bg-gray-200 shadow-sm transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-red-600 active:scale-[0.98] active:border-red-600 cursor-pointer"
     :aria-label="`Open ${image.alt}`"
     @click="emit('select')"
   >

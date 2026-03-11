@@ -89,28 +89,28 @@ const refreshPage = () => window.location.reload()
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 py-12 px-4">
+  <div class="min-h-screen bg-gray-50 py-6 md:py-12 px-4">
     <div class="container mx-auto max-w-7xl">
       <!-- Header -->
-      <div class="text-center mb-16 animate-fade-in-up px-4">
-        <div class="mb-6 inline-flex bg-red-100 p-8 rounded-full shadow-lg group transition-transform duration-500 hover:rotate-12 hover:scale-110">
-          <Camera class="w-14 h-14 text-red-600" />
+      <div class="text-center mb-8 md:mb-16 animate-fade-in-up px-4">
+        <div class="mb-4 md:mb-6 inline-flex bg-red-100 p-4 md:p-8 rounded-full shadow-lg group transition-transform duration-500 hover:rotate-12 hover:scale-110">
+          <Camera class="w-10 h-10 md:w-14 md:h-14 text-red-600" />
         </div>
-        <h1 class="text-5xl md:text-6xl font-extrabold mb-4 font-montserrat text-black tracking-tight uppercase">
+        <h1 class="text-4xl md:text-6xl font-extrabold mb-2 md:mb-4 font-montserrat text-black tracking-tight uppercase">
           Photo Gallery
         </h1>
-        <div class="h-1.5 w-24 bg-red-600 mx-auto rounded-full mb-8"></div>
-        <p class="text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">
+        <div class="h-1.5 w-16 md:w-24 bg-red-600 mx-auto rounded-full mb-4 md:mb-8"></div>
+        <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">
           Relive the best moments of CICMUN conferences through our photo selection.
         </p>
       </div>
 
       <!-- Filters -->
-      <div v-if="galleryEvents.length > 0" class="flex flex-wrap justify-center gap-4 mb-16 animate-fade-in-up px-4" style="animation-delay: 200ms; animation-fill-mode: both;">
+      <div v-if="galleryEvents.length > 0" class="flex overflow-x-auto md:overflow-visible md:flex-wrap gap-3 md:gap-4 pb-4 md:pb-0 mb-8 md:mb-16 animate-fade-in-up px-4 md:justify-center snap-x snap-mandatory scroll-smooth md:snap-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] -mx-4 md:mx-0" style="animation-delay: 200ms; animation-fill-mode: both;">
         <button
           @click="selectEvent('all')"
           :class="[
-            'px-8 py-3 rounded-full font-bold transition-all duration-300 border-2 shadow-sm',
+            'px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold transition-all duration-300 border-2 shadow-sm whitespace-nowrap flex-shrink-0 md:flex-shrink md:snap-align-none snap-center text-sm md:text-base',
             selectedEventId === 'all'
               ? 'bg-black border-black text-white shadow-xl scale-105'
               : 'bg-white border-gray-100 text-gray-500 hover:border-black hover:text-black hover:shadow-md'
@@ -123,7 +123,7 @@ const refreshPage = () => window.location.reload()
           :key="event.id"
           @click="selectEvent(event.id)"
           :class="[
-            'px-8 py-3 rounded-full font-bold transition-all duration-300 border-2 shadow-sm',
+            'px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold transition-all duration-300 border-2 shadow-sm whitespace-nowrap flex-shrink-0 md:flex-shrink md:snap-align-none snap-center text-sm md:text-base',
             selectedEventId === event.id
               ? 'bg-red-600 border-red-600 text-white shadow-xl scale-105'
               : 'bg-white border-gray-100 text-gray-500 hover:border-red-600 hover:text-red-600 hover:shadow-md'
