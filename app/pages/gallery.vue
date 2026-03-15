@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Camera, Image as ImageIcon } from 'lucide-vue-next'
-import type { GalleryResponse, GalleryImage } from '~~/shared/gallery'
+import { DEFAULT_GALLERY_LIMIT, type GalleryImage, type GalleryResponse } from '~~/shared/gallery'
 
 useSeoMeta({
   title: 'Photo Gallery',
@@ -10,71 +10,115 @@ useSeoMeta({
   ogImage: '/LOGO.png',
 })
 
-const LIMIT = 24
-const selectedEventId = ref<string>('all')
+const route = useRoute()
+const router = useRouter()
 const currentPage = ref(1)
-
-// isLoading starts true so SSR/hydration renders the spinner, not "No photos found"
-const isLoading = ref(true)
 const isFetchingMore = ref(false)
+const loadErrorMessage = ref('')
 const allImages = ref<GalleryImage[]>([])
+const GALLERY_LOAD_ERROR = 'We could not load the gallery right now. Please try again.'
 
-// Events metadata only — SSR
-const { data: metaData } = await useFetch<GalleryResponse>('/api/gallery', {
+const getRouteEventId = (value: unknown) =>
+  typeof value === 'string' && value.trim() ? value.trim() : 'all'
+
+const requestedEventId = computed(() => getRouteEventId(route.query.event))
+
+const { data: metaData, refresh: refreshMeta } = await useFetch<GalleryResponse>('/api/gallery', {
+  key: 'gallery-meta',
   query: { metaOnly: true },
+  cache: 'no-store',
 })
+
 const galleryEvents = computed(() => metaData.value?.events ?? [])
+const galleryRevision = computed(() => metaData.value?.revision ?? 'current')
+const selectedEventId = computed(() => {
+  const requested = requestedEventId.value
+  if (requested === 'all') return requested
+
+  return galleryEvents.value.some((event) => event.id === requested)
+    ? requested
+    : 'all'
+})
+
+const { data: galleryData, status, error, refresh } = await useFetch<GalleryResponse>('/api/gallery', {
+  key: computed(() => `gallery-page:${galleryRevision.value}:${selectedEventId.value}`),
+  query: computed(() => ({
+    event: selectedEventId.value,
+    page: 1,
+    limit: DEFAULT_GALLERY_LIMIT,
+    revision: galleryRevision.value,
+  })),
+  cache: 'no-store',
+})
+
+const isLoading = computed(() => status.value === 'pending')
+
+watch(
+  () => galleryData.value,
+  (value) => {
+    allImages.value = value?.images ? [...value.images] : []
+    currentPage.value = 1
+
+    if (!error.value) {
+      loadErrorMessage.value = ''
+    }
+  },
+  { immediate: true },
+)
+
+watch(error, (value) => {
+  loadErrorMessage.value = value ? GALLERY_LOAD_ERROR : ''
+})
+
 const totalImages = computed(() => {
   if (selectedEventId.value === 'all') {
-    return galleryEvents.value.reduce((sum, e) => sum + e.imageCount, 0)
+    return galleryEvents.value.reduce((sum, event) => sum + event.imageCount, 0)
   }
-  return galleryEvents.value.find(e => e.id === selectedEventId.value)?.imageCount ?? 0
+
+  return galleryEvents.value.find((event) => event.id === selectedEventId.value)?.imageCount
+    ?? galleryData.value?.total
+    ?? 0
 })
 const hasMore = computed(() => allImages.value.length < totalImages.value)
 
-// Request ID guards against race conditions: if a newer request fires
-// before an older one resolves, the older result is discarded.
-let latestRequestId = 0
-
-async function loadEvent(eventId: string) {
-  const requestId = ++latestRequestId
-  isLoading.value = true
-  allImages.value = []
-  currentPage.value = 1
-
-  try {
-    const data = await $fetch<GalleryResponse>('/api/gallery', {
-      params: { event: eventId, page: 1, limit: LIMIT },
-    })
-    if (requestId !== latestRequestId) return // stale — newer request fired
-    allImages.value = data?.images ?? []
-  } catch (err) {
-    if (requestId !== latestRequestId) return
-    console.error('Gallery fetch error:', err)
-    allImages.value = []
-  } finally {
-    if (requestId === latestRequestId) {
-      isLoading.value = false
-    }
+const selectEvent = async (id: string) => {
+  if (requestedEventId.value === id || (id === 'all' && requestedEventId.value === 'all')) {
+    return
   }
-}
 
-const selectEvent = (id: string) => {
-  selectedEventId.value = id
-  loadEvent(id)
-}
+  const nextQuery = { ...route.query }
+  if (id === 'all') {
+    delete nextQuery.event
+  } else {
+    nextQuery.event = id
+  }
 
-onMounted(() => loadEvent('all'))
+  await router.replace({ query: nextQuery })
+}
 
 const loadMore = async () => {
   if (!hasMore.value || isFetchingMore.value || isLoading.value) return
+
   isFetchingMore.value = true
+  const eventId = selectedEventId.value
+
   try {
     const nextPage = currentPage.value + 1
     const data = await $fetch<GalleryResponse>('/api/gallery', {
-      params: { event: selectedEventId.value, page: nextPage, limit: LIMIT },
+      params: {
+        event: eventId,
+        page: nextPage,
+        limit: DEFAULT_GALLERY_LIMIT,
+        revision: galleryRevision.value,
+      },
+      cache: 'no-store',
     })
-    if (data?.images?.length) {
+
+    if (selectedEventId.value !== eventId) {
+      return
+    }
+
+    if (data.images.length) {
       allImages.value.push(...data.images)
       currentPage.value = nextPage
     }
@@ -85,7 +129,10 @@ const loadMore = async () => {
   }
 }
 
-const refreshPage = () => window.location.reload()
+const refreshPage = async () => {
+  loadErrorMessage.value = ''
+  await Promise.all([refreshMeta(), refresh()])
+}
 </script>
 
 <template>
@@ -150,6 +197,24 @@ const refreshPage = () => window.location.reload()
           :has-more="hasMore"
           @load-more="loadMore"
         />
+      </div>
+
+      <!-- Error state -->
+      <div v-else-if="loadErrorMessage" class="text-center py-24 bg-white rounded-[2.5rem] shadow-xl border border-red-100 reveal px-4">
+        <div class="mb-8 inline-flex bg-red-50 p-8 rounded-full shadow-inner">
+          <ImageIcon class="w-16 h-16 text-red-300" />
+        </div>
+        <h3 class="text-3xl font-extrabold text-black mb-3 font-montserrat uppercase tracking-tight">Gallery unavailable</h3>
+        <p class="text-gray-500 max-w-md mx-auto mb-10 font-medium opacity-80 leading-relaxed">
+          {{ loadErrorMessage }}
+        </p>
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 bg-black text-white px-8 py-3 rounded-xl font-bold hover:bg-gray-800 transition-all shadow-lg hover:-translate-y-1"
+          @click="refreshPage"
+        >
+          Try again
+        </button>
       </div>
 
       <!-- Empty state -->

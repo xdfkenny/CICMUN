@@ -5,35 +5,57 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "npm run prebuild && nuxt dev",
-    "prebuild": "node scripts/generate-gallery.js",
+    "lint": "eslint .",
+    "prebuild": "node scripts/generate-site-assets.js",
     "pregenerate": "npm run prebuild",
+    "generate:assets": "node scripts/generate-site-assets.js",
+    "generate:committee-images": "node scripts/generate-committee-images.js",
+    "generate:gallery": "node scripts/generate-gallery.js",
+    "migrate:gallery-origins": "node scripts/migrate-gallery-origins.js",
+    "generate:sitemap": "node scripts/generate-sitemap.js",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "test": "npm run test:unit",
+    "test:unit": "vitest run",
+    "test:e2e": "npm run build && playwright test",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@nuxt/image": "^2.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-vue-next": "^0.563.0",
-    "nuxt": "^4.3.1",
+    "lucide-vue-next": "^0.577.0",
+    "nuxt": "^4.4.2",
     "radix-vue": "^1.9.17",
     "sharp": "^0.34.5",
     "tailwind-merge": "^3.4.0",
-    "vue": "^3.5.28",
+    "vue": "^3.5.30",
     "vue-router": "^4.6.4"
   },
   "overrides": {
-    "minimatch": "^10.2.2",
+    "devalue": "5.6.4",
+    "minimatch": "10.2.4",
+    "serialize-javascript": "7.0.4",
+    "simple-git": "3.33.0",
+    "svgo": "4.0.1",
+    "tar": "7.5.11",
     "zip-stream": "^7.0.2",
-    "nanotar": "^0.3.0",
-    "tar": "^7.5.8",
-    "devalue": "^5.6.3"
+    "nanotar": "^0.3.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@playwright/test": "^1.56.1",
     "@nuxtjs/color-mode": "^4.0.0",
-    "@tailwindcss/vite": "^4.1.18",
-    "@types/node": "^25.2.2",
-    "tailwindcss": "^4.1.18"
+    "@tailwindcss/vite": "^4.2.1",
+    "@typescript-eslint/eslint-plugin": "^8.46.1",
+    "@typescript-eslint/parser": "^8.46.1",
+    "@types/node": "^25.5.0",
+    "eslint": "^9.39.1",
+    "eslint-plugin-vue": "^10.5.1",
+    "globals": "^16.5.0",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.0",
+    "vue-eslint-parser": "^10.2.0"
   }
 }

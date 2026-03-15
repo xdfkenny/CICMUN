@@ -1,27 +1,18 @@
+import type { ConferenceType } from '../../../shared/types'
 import { getCommittees } from '../../utils/data'
 
-export default defineEventHandler(async (event) => {
-    const param = getRouterParam(event, 'type');
-    if (!param) {
-        throw createError({ statusCode: 400, message: 'Committee identifier is required' });
-    }
+const VALID_TYPES = new Set<ConferenceType>(['JMUN', 'SAMUN'])
 
-    const committees = getCommittees()
-    const isNumeric = /^\d+$/.test(param)
+export default defineEventHandler((event) => {
+  const param = getRouterParam(event, 'type')
+  if (!param) {
+    throw createError({ statusCode: 400, message: 'Committee type is required' })
+  }
 
-    if (isNumeric) {
-        const id = parseInt(param, 10)
-        const committee = committees.find(c => c.id === id)
-        if (!committee) {
-            throw createError({ statusCode: 404, message: `Committee with ID ${id} not found` });
-        }
-        return committee
-    }
+  const type = param.toUpperCase() as ConferenceType
+  if (!VALID_TYPES.has(type)) {
+    throw createError({ statusCode: 400, message: 'Invalid committee type' })
+  }
 
-    const type = param.toUpperCase()
-    if (type !== 'SAMUN' && type !== 'JMUN') {
-        throw createError({ statusCode: 400, message: 'Invalid committee type' });
-    }
-
-    return committees.filter(c => c.type === type);
-});
+  return getCommittees().filter((committee) => committee.type === type)
+})

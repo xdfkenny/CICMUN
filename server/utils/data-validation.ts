@@ -1,18 +1,9 @@
-import type { Committee, Resource } from '../../shared/types'
+import fs from 'node:fs'
+import path from 'node:path'
+import { getGeneratedCommitteeImagePublicPath } from '../../shared/committee-images'
+import type { Committee, ConferenceType, PortalEvent, PortalResource, Resource } from '../../shared/types'
 
-export interface EventRecord {
-  id: string
-  name: string
-  description?: string
-  startDate: string | null
-  endDate: string | null
-  timezone: string | null
-  location?: string | null
-  address?: string | null
-  city?: string | null
-  mapUrl?: string | null
-  externalMapUrl?: string | null
-}
+export type EventRecord = PortalEvent
 
 interface CommitteesResult {
   committees: Committee[]
@@ -23,6 +14,15 @@ interface EventsResult {
   events: EventRecord[]
   errors: string[]
 }
+
+interface ResourcesResult {
+  resources: PortalResource[]
+  errors: string[]
+}
+
+const PUBLIC_RESOURCES_DIR = path.resolve(process.cwd(), 'public/resources')
+const PUBLIC_DIR = path.resolve(process.cwd(), 'public')
+const ALLOWED_MAP_HOSTS = new Set(['www.google.com'])
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -39,6 +39,18 @@ const asTrimmedString = (value: unknown, fallback = ''): string => {
 const asNullableString = (value: unknown): string | null =>
   typeof value === 'string' ? value : null
 
+const asConferenceType = (value: unknown): ConferenceType | null =>
+  value === 'SAMUN' || value === 'JMUN' ? value : null
+
+const asConferenceList = (value: unknown): ConferenceType[] | undefined => {
+  if (!Array.isArray(value)) return undefined
+
+  return value.flatMap((entry) => {
+    const conference = asConferenceType(entry)
+    return conference ? [conference] : []
+  })
+}
+
 const asNumber = (value: unknown): number | null => {
   if (typeof value === 'number' && Number.isFinite(value)) return value
   if (typeof value === 'string' && value.trim() !== '') {
@@ -51,6 +63,88 @@ const asNumber = (value: unknown): number | null => {
 const isValidDateString = (value: unknown): value is string =>
   typeof value === 'string' && !Number.isNaN(Date.parse(value))
 
+const isSafePublicPath = (value: string) =>
+  value.startsWith('/') && !value.startsWith('//') && !value.includes('..')
+
+const toPublicFilePath = (publicPath: string) => {
+  const [pathname] = publicPath.split('?')
+  return path.join(PUBLIC_DIR, decodeURIComponent(pathname.replace(/^\//, '')))
+}
+
+const hasPublicAssetFile = (publicPath: string) =>
+  isSafePublicPath(publicPath) && fs.existsSync(toPublicFilePath(publicPath))
+
+const sanitizeUrl = (value: unknown, allowedHosts: Set<string>): string | null => {
+  if (typeof value !== 'string') return null
+
+  const trimmed = value.trim()
+  if (!trimmed) return null
+  if (isSafePublicPath(trimmed)) return trimmed
+
+  try {
+    const parsed = new URL(trimmed)
+    if (!['http:', 'https:'].includes(parsed.protocol)) return null
+    if (!allowedHosts.has(parsed.hostname)) return null
+    return parsed.toString()
+  } catch {
+    return null
+  }
+}
+
+const sanitizePublicAssetSource = (value: unknown, label: string, errors: string[]): string | null => {
+  if (typeof value !== 'string') return null
+
+  const trimmed = value.trim()
+  if (!trimmed) return null
+  if (!isSafePublicPath(trimmed)) {
+    errors.push(`${label} must be a local public asset path`)
+    return null
+  }
+  if (!hasPublicAssetFile(trimmed)) {
+    errors.push(`${label} file not found: ${trimmed}`)
+    return null
+  }
+  return trimmed
+}
+
+const sanitizeCommitteeImageSource = (
+  value: unknown,
+  committee: Pick<Committee, 'id' | 'name' | 'type'>,
+  errors: string[],
+): string => {
+  const label = `committee:${committee.id}:image`
+  const sanitized = sanitizePublicAssetSource(value, label, errors)
+  if (sanitized) return sanitized
+
+  if (typeof value === 'string' && value.trim()) {
+    errors.push(`${label} falling back to generated local asset`)
+  }
+
+  return getGeneratedCommitteeImagePublicPath(committee)
+}
+
+const sanitizeOptionalPhoto = (value: unknown, label: string, errors: string[]): string | null => {
+  const sanitized = sanitizePublicAssetSource(value, label, errors)
+  if (typeof value === 'string' && value.trim() && !sanitized) {
+    errors.push(`${label} invalid image source`)
+  }
+  return sanitized
+}
+
+const sanitizeMapUrl = (value: unknown, label: string, errors: string[]): string | null => {
+  const sanitized = sanitizeUrl(value, ALLOWED_MAP_HOSTS)
+  if (typeof value === 'string' && value.trim() && !sanitized) {
+    errors.push(`${label} invalid or disallowed map url`)
+  }
+  return sanitized
+}
+
+const isSafeResourceFilename = (filename: string) =>
+  filename === path.basename(filename) && !filename.includes('\0')
+
+const hasPublicResourceFile = (filename: string) =>
+  isSafeResourceFilename(filename) && fs.existsSync(path.join(PUBLIC_RESOURCES_DIR, filename))
+
 const parseResource = (value: unknown, index: number, committeeId: number, errors: string[]): Resource | null => {
   if (!isRecord(value)) {
     errors.push(`committee:${committeeId}:resources[${index}] not an object`)
@@ -62,6 +156,16 @@ const parseResource = (value: unknown, index: number, committeeId: number, error
 
   if (!title || !filename) {
     errors.push(`committee:${committeeId}:resources[${index}] missing title or filename`)
+    return null
+  }
+
+  if (!isSafeResourceFilename(filename)) {
+    errors.push(`committee:${committeeId}:resources[${index}] invalid filename`)
+    return null
+  }
+
+  if (!hasPublicResourceFile(filename)) {
+    errors.push(`committee:${committeeId}:resources[${index}] file not found: ${filename}`)
     return null
   }
 
@@ -96,7 +200,7 @@ export const normalizeCommittees = (raw: unknown): CommitteesResult => {
       return []
     }
 
-    const type = value.type === 'SAMUN' || value.type === 'JMUN' ? value.type : null
+    const type = asConferenceType(value.type)
     if (!type) {
       errors.push(`committee:${id} missing valid type`)
       return []
@@ -113,14 +217,14 @@ export const normalizeCommittees = (raw: unknown): CommitteesResult => {
       name,
       type,
       chairName: asTrimmedString(value.chairName, ''),
-      chairPhoto: asNullableString(value.chairPhoto),
+      chairPhoto: sanitizeOptionalPhoto(value.chairPhoto, `committee:${id}:chairPhoto`, errors),
       coChairName: asTrimmedString(value.coChairName, ''),
-      coChairPhoto: asNullableString(value.coChairPhoto),
+      coChairPhoto: sanitizeOptionalPhoto(value.coChairPhoto, `committee:${id}:coChairPhoto`, errors),
       secretaryName: asNullableString(value.secretaryName),
-      secretaryPhoto: asNullableString(value.secretaryPhoto),
+      secretaryPhoto: sanitizeOptionalPhoto(value.secretaryPhoto, `committee:${id}:secretaryPhoto`, errors),
       topicA: asTrimmedString(value.topicA, 'TBA'),
       topicB: asNullableString(value.topicB),
-      image: asTrimmedString(value.image, '') || undefined,
+      image: sanitizeCommitteeImageSource(value.image, { id, name, type }, errors),
       summary: asTrimmedString(value.summary, '') || undefined,
       resources: resources?.length ? resources : undefined,
     }]
@@ -180,10 +284,61 @@ export const normalizeEvents = (raw: unknown): EventsResult => {
       location: asTrimmedString(value.location, '') || null,
       address: asTrimmedString(value.address, '') || null,
       city: asTrimmedString(value.city, '') || null,
-      mapUrl: asTrimmedString(value.mapUrl, '') || null,
-      externalMapUrl: asTrimmedString(value.externalMapUrl, '') || null,
+      mapUrl: sanitizeMapUrl(value.mapUrl, `event:${id}:mapUrl`, errors),
+      externalMapUrl: sanitizeMapUrl(value.externalMapUrl, `event:${id}:externalMapUrl`, errors),
     }]
   })
 
   return { events, errors }
+}
+
+export const normalizeResources = (raw: unknown): ResourcesResult => {
+  if (!Array.isArray(raw)) {
+    return { resources: [], errors: ['resources: expected array'] }
+  }
+
+  const errors: string[] = []
+  const resources = raw.flatMap((value, index) => {
+    if (!isRecord(value)) {
+      errors.push(`resources[${index}] not an object`)
+      return []
+    }
+
+    const id = asTrimmedString(value.id)
+    const title = asTrimmedString(value.title)
+    const description = asTrimmedString(value.description)
+    const category = asTrimmedString(value.category, 'General')
+    const filename = asTrimmedString(value.filename)
+
+    if (!id || !title || !filename) {
+      errors.push(`resources[${index}] missing id, title, or filename`)
+      return []
+    }
+
+    if (!isSafeResourceFilename(filename)) {
+      errors.push(`resources:${id} invalid filename`)
+      return []
+    }
+
+    if (!hasPublicResourceFile(filename)) {
+      errors.push(`resources:${id} file not found: ${filename}`)
+      return []
+    }
+
+    const conferences = asConferenceList(value.conferences)
+    if (Array.isArray(value.conferences) && conferences?.length !== value.conferences.length) {
+      errors.push(`resources:${id} contains invalid conference identifiers`)
+    }
+
+    return [{
+      id,
+      title,
+      description,
+      category,
+      filename,
+      conferences: conferences?.length ? conferences : undefined,
+    }]
+  })
+
+  return { resources, errors }
 }

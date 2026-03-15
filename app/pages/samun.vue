@@ -1,173 +1,31 @@
 <script setup lang="ts">
-import { Calendar, MapPin } from 'lucide-vue-next'
-import type { Committee } from '~~/shared/types'
+const {
+  committees,
+  status,
+  error,
+  eventDetails,
+  formattedDate,
+} = await useConferencePage('SAMUN')
 
 useSeoMeta({
-  title: 'SAMUN 2026',
-  ogTitle: 'SAMUN 2026 - South American Model United Nations',
-  description: 'Explore the committees, topics, and resources for SAMUN 2026. The flagship Model UN conference for high school delegates at CIC.',
-  ogDescription: 'Explore the committees, topics, and resources for SAMUN 2026. The flagship Model UN conference for high school delegates at CIC.',
-})
-
-const { data: committees, status } = await useFetch<Committee[]>('/api/committees/SAMUN')
-const { data: events } = await useFetch('/api/events')
-
-const eventDetails = computed(() => events.value?.find((e: any) => e.id === 'samun'))
-const isLoading = computed(() => status.value === 'pending')
-
-const formatEventDateRange = (startDate: string, endDate: string, timeZone = 'UTC') => {
-  const start = new Date(startDate)
-  const end = new Date(endDate)
-
-  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return 'Coming Soon'
-
-  const startMonth = start.toLocaleDateString('en-US', { month: 'long', timeZone })
-  const endMonth = end.toLocaleDateString('en-US', { month: 'long', timeZone })
-  const startDay = parseInt(start.toLocaleDateString('en-US', { day: 'numeric', timeZone }), 10)
-  const endDay = parseInt(end.toLocaleDateString('en-US', { day: 'numeric', timeZone }), 10)
-  const startYear = start.toLocaleDateString('en-US', { year: 'numeric', timeZone })
-  const endYear = end.toLocaleDateString('en-US', { year: 'numeric', timeZone })
-
-  if (startMonth === endMonth) {
-    if (startDay === endDay && startYear === endYear) return `${startMonth} ${startDay}, ${startYear}`
-    if (startYear === endYear) return `${startMonth} ${startDay}-${endDay}, ${startYear}`
-    return `${startMonth} ${startDay}, ${startYear} - ${endMonth} ${endDay}, ${endYear}`
-  }
-
-  if (startYear === endYear) {
-    return `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${startYear}`
-  }
-
-  return `${startMonth} ${startDay}, ${startYear} - ${endMonth} ${endDay}, ${endYear}`
-}
-
-const formattedDate = computed(() => {
-  if (!eventDetails.value) return 'Coming Soon'
-  
-  if (eventDetails.value.startDate && eventDetails.value.endDate) {
-    return formatEventDateRange(
-      eventDetails.value.startDate,
-      eventDetails.value.endDate,
-      eventDetails.value.timezone || 'UTC'
-    )
-  }
-  
-  return 'Coming Soon'
+  title: () => eventDetails.value?.name || 'SAMUN 2026',
+  ogTitle: () => eventDetails.value?.name || 'SAMUN 2026 - South American Model United Nations',
+  description: () => eventDetails.value?.description || 'Explore the committees, topics, and resources for SAMUN 2026. The flagship Model UN conference for high school delegates at CIC.',
+  ogDescription: () => eventDetails.value?.description || 'Explore the committees, topics, and resources for SAMUN 2026. The flagship Model UN conference for high school delegates at CIC.',
 })
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 py-12 px-4">
-    <div class="container max-w-6xl mx-auto">
-      <!-- Header -->
-      <div class="mb-12 animate-fade-in-up">
-        <h1 class="text-5xl md:text-6xl font-bold text-black mb-4 font-montserrat tracking-tight uppercase">{{ eventDetails?.name || 'SAMUN 2026' }}</h1>
-        <p class="text-xl text-black font-medium opacity-80">
-          {{ eventDetails?.description || 'South American Model of United Nations' }}
-        </p>
-      </div>
-
-      <!-- Event Details -->
-      <div class="max-w-4xl mx-auto mb-20 reveal">
-        <!-- Date and Location with Map -->
-        <div class="bg-white p-6 md:p-10 rounded-2xl border-l-8 border-red-600 shadow-xl overflow-hidden hover-lift transition-all duration-500">
-          <h2 class="text-3xl font-bold text-black mb-8 font-montserrat uppercase tracking-tight">Event Details</h2>
-
-          <div class="grid md:grid-cols-2 gap-10">
-            <div class="space-y-6">
-              <div class="flex items-start gap-5 group">
-                <div class="bg-red-50 p-3 rounded-xl transition-transform duration-300 group-hover:scale-110 group-hover:bg-red-100">
-                  <Calendar class="w-6 h-6 text-red-600" />
-                </div>
-                <div>
-                  <p class="font-bold text-black text-lg">Date</p>
-                  <p class="text-black text-lg font-medium">{{ formattedDate }}</p>
-                </div>
-              </div>
-
-              <div class="flex items-start gap-5 group">
-                <div class="bg-red-50 p-3 rounded-xl transition-transform duration-300 group-hover:scale-110 group-hover:bg-red-100">
-                  <MapPin class="w-6 h-6 text-red-600" />
-                </div>
-                <div class="flex-1">
-                  <p class="font-bold text-black text-lg">Location</p>
-                  <div class="hidden md:block">
-                    <p class="text-black font-semibold">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
-                    <p class="text-sm text-gray-600 mt-1 font-medium">{{ eventDetails?.address }}</p>
-                    <p class="text-sm text-gray-600 font-medium">{{ eventDetails?.city }}</p>
-                    
-                    <div v-if="eventDetails?.externalMapUrl" class="mt-6">
-                      <a :href="eventDetails.externalMapUrl" target="_blank" rel="noopener noreferrer">
-                        <UiButton size="default" class="flex items-center gap-2 bg-red-600 text-white hover:bg-red-700 transition-all shadow-lg hover:shadow-red-600/40 transform hover:-translate-y-1">
-                          <MapPin class="w-4 h-4" />
-                          Open in Google Maps
-                        </UiButton>
-                      </a>
-                    </div>
-                  </div>
-                  <!-- Mobile only fallback or just keep it simple -->
-                  <p class="md:hidden text-black font-semibold">{{ eventDetails?.location || 'Colegio Internacional de Caracas' }}</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="rounded-xl overflow-hidden border border-gray-100 shadow-inner h-[250px] md:h-auto min-h-[250px] transform hover:scale-[1.02] transition-transform duration-500">
-              <template v-if="eventDetails?.mapUrl">
-                <iframe
-                  title="Google Maps Location"
-                  width="100%"
-                  height="100%"
-                  style="border: 0"
-                  loading="lazy"
-                  allowfullscreen
-                  referrerpolicy="no-referrer-when-downgrade"
-                  :src="eventDetails?.mapUrl"
-                ></iframe>
-              </template>
-              <template v-else>
-                <div class="flex items-center justify-center h-full p-4 text-center text-black">
-                  <p class="max-w-xs font-medium opacity-60">Map unavailable for this event.</p>
-                </div>
-              </template>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Committees Section -->
-      <div>
-        <h2 class="text-3xl font-bold text-black mb-8 font-montserrat uppercase tracking-tight reveal">SAMUN Committees</h2>
-
-        <div v-if="status === 'error'" class="bg-red-50 text-red-700 p-8 rounded-xl text-center border border-red-200 mb-8 reveal">
-          <p class="text-xl font-bold mb-2 uppercase">Notice</p>
-          <p class="font-medium">Committees are temporarily unavailable. Please try again later.</p>
-        </div>
-
-        <div v-else-if="isLoading" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div v-for="i in 6" :key="i" class="bg-white p-6 rounded-lg shadow-md animate-pulse">
-            <UiSkeleton class="h-8 w-3/4 mb-4" />
-            <UiSkeleton class="h-4 w-full mb-3" />
-            <UiSkeleton class="h-4 w-full mb-3" />
-            <UiSkeleton class="h-20 w-full" />
-          </div>
-        </div>
-
-        <div v-else-if="committees && committees.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <CommitteeCard
-            v-for="(committee, idx) in committees"
-            :key="committee.id"
-            :committee="committee"
-            class="reveal"
-            :style="{ transitionDelay: `${idx * 100}ms` }"
-          />
-        </div>
-
-        <div v-else class="bg-white p-12 rounded-2xl text-center shadow-md border border-gray-100 reveal">
-          <p class="text-black text-xl font-bold font-montserrat uppercase opacity-60">
-            Committees coming soon. Check back for updates!
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <ConferenceOverviewPage
+    conference-type="SAMUN"
+    fallback-title="SAMUN 2026"
+    fallback-description="South American Model United Nations"
+    :event-details="eventDetails"
+    :formatted-date="formattedDate"
+    :committees="committees ?? []"
+    :status="status"
+    :has-error="Boolean(error)"
+    empty-title="Official committee list not yet published"
+    empty-description="SAMUN 2026 is scheduled, but the official committee dataset has not been published yet. This page is ready to display it as soon as the content team releases the approved committee list."
+  />
 </template>

@@ -1,34 +1,42 @@
 <script setup lang="ts">
+let revealObserver: IntersectionObserver | null = null
+let mutationObserver: MutationObserver | null = null
+
+const observeRevealElements = () => {
+  if (!revealObserver) return
+
+  const revealElements = document.querySelectorAll('.reveal:not(.reveal-visible)')
+  revealElements.forEach((el) => revealObserver?.observe(el))
+}
+
 // Global scroll reveal observer
 onMounted(() => {
-  const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1,
-  }
-
-  const observer = new IntersectionObserver((entries) => {
+  revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('reveal-visible')
-        // Once revealed, we don't need to observe it anymore
-        // unless we want it to hide/show every time
-        // observer.unobserve(entry.target)
       }
     })
-  }, observerOptions)
+  }, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1,
+  })
 
-  // Watch for elements with .reveal class
-  const revealElements = document.querySelectorAll('.reveal')
-  revealElements.forEach((el) => observer.observe(el))
+  observeRevealElements()
 
-  // Also handle elements added dynamically (e.g., after navigation)
-  const mutationObserver = new MutationObserver(() => {
-    const newRevealElements = document.querySelectorAll('.reveal:not(.reveal-visible)')
-    newRevealElements.forEach((el) => observer.observe(el))
+  mutationObserver = new MutationObserver(() => {
+    observeRevealElements()
   })
 
   mutationObserver.observe(document.body, { childList: true, subtree: true })
+})
+
+onUnmounted(() => {
+  mutationObserver?.disconnect()
+  revealObserver?.disconnect()
+  mutationObserver = null
+  revealObserver = null
 })
 </script>
 

@@ -1,3 +1,6 @@
+export const DEFAULT_GALLERY_LIMIT = 24
+export const MAX_GALLERY_LIMIT = 48
+
 export interface GalleryImage {
   id: string
   src: string
@@ -30,4 +33,5 @@ export interface GalleryResponse {
   total: number
   page: number
   limit: number
+  revision: string | null
 }

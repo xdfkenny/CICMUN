@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { Users, FileText, Download, Eye, AlertCircle } from 'lucide-vue-next'
+import { FileText, Download, Eye, AlertCircle } from 'lucide-vue-next'
 import type { Committee } from '~~/shared/types'
 
 const route = useRoute()
 const committeeId = parseInt(route.params.id as string)
 
-// Fetch specific committee data directly
-const { data: committee, status, error } = await useFetch<Committee>(`/api/committees/${committeeId}`)
+const { data: committee, status, error } = await useFetch<Committee>(`/api/committee/${committeeId}`)
 
 const isLoading = computed(() => status.value === 'pending')
 const hasError = computed(() => !!error.value || !committee.value)
@@ -19,9 +18,7 @@ useSeoMeta({
   ogImage: '/LOGO.png',
 })
 
-const accentColor = computed(() => committee.value?.type === 'SAMUN' ? 'red-600' : 'black')
 const bgLightColor = computed(() => committee.value?.type === 'SAMUN' ? 'bg-red-50' : 'bg-gray-50')
-const bgAccentColor = computed(() => committee.value?.type === 'SAMUN' ? 'bg-red-600' : 'bg-black')
 const borderAccentColor = computed(() => committee.value?.type === 'SAMUN' ? 'border-red-100' : 'border-gray-200')
 const textAccentColor = computed(() => committee.value?.type === 'SAMUN' ? 'text-red-600' : 'text-black')
 const textDarkColor = computed(() => committee.value?.type === 'SAMUN' ? 'text-red-700' : 'text-black')
@@ -34,6 +31,8 @@ const resources = computed(() => committee.value?.resources || [])
 const isViewerOpen = ref(false)
 const selectedPdf = ref({ url: '', title: '' })
 
+const getResourceUrl = (filename: string) => `/resources/${encodeURIComponent(filename)}`
+
 const getInitial = (name?: string | null) => {
   const trimmed = typeof name === 'string' ? name.trim() : ''
   return trimmed ? trimmed.charAt(0).toUpperCase() : '?'
@@ -41,7 +40,7 @@ const getInitial = (name?: string | null) => {
 
 const openViewer = (filename: string, title: string) => {
   selectedPdf.value = {
-    url: `/resources/${filename}`,
+    url: getResourceUrl(filename),
     title: title
   }
   isViewerOpen.value = true
@@ -145,7 +144,7 @@ const openViewer = (filename: string, title: string) => {
           <!-- Resources -->
           <div class="lg:col-span-2 space-y-6">
             <h3 class="text-2xl font-bold font-montserrat text-black px-2">Committee Resources</h3>
-            <div class="grid sm:grid-cols-2 gap-4">
+            <div v-if="resources.length > 0" class="grid sm:grid-cols-2 gap-4">
               <div v-for="resource in resources" :key="resource.title" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-black group flex flex-col">
                 <div class="flex justify-between items-start mb-4">
                   <div class="p-2 rounded-lg transition-colors" :class="groupHoverBgLightColor">
@@ -165,12 +164,15 @@ const openViewer = (filename: string, title: string) => {
                     <Eye class="w-3.5 h-3.5" />
                     View
                   </button>
-                  <a :href="`/resources/${resource.filename}`" target="_blank" download class="inline-flex items-center gap-1.5 text-sm font-bold transition-colors" :class="[textAccentColor, hoverTextDarkColor]">
+                  <a :href="getResourceUrl(resource.filename)" target="_blank" download class="inline-flex items-center gap-1.5 text-sm font-bold transition-colors" :class="[textAccentColor, hoverTextDarkColor]">
                     <Download class="w-3.5 h-3.5" />
                     Download
                   </a>
                 </div>
               </div>
+            </div>
+            <div v-else class="rounded-2xl border border-gray-200 bg-white p-8 text-center text-gray-600 shadow-sm">
+              Committee resources have not been published yet.
             </div>
           </div>
         </div>

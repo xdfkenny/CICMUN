@@ -1,5 +1,5 @@
 import { getEvents } from '../utils/data'
 
-export default defineEventHandler((event) => {
-    return getEvents()
+export default defineEventHandler(() => {
+  return getEvents()
 })

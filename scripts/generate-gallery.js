@@ -6,9 +6,19 @@ const THUMBNAIL_FOLDER = '__thumbs'
 const THUMBNAIL_WIDTHS = { small: 480, medium: 960 }
 const THUMBNAIL_QUALITY = { small: 68, medium: 76 }
 
-const galleryPath = path.resolve('public/gallery')
+const publicDir = path.resolve('public')
+const galleryPublicDir = path.resolve('public/gallery')
+const defaultSourceDir = path.resolve('public/gallery-origins')
 const dataDir = path.resolve('data')
 const outputFile = path.join(dataDir, 'gallery.json')
+const galleryOriginBaseUrl = (() => {
+  const value = process.env.GALLERY_ORIGIN_BASE_URL?.trim()
+  if (!value) return null
+  return new URL(value.endsWith('/') ? value : `${value}/`)
+})()
+const configuredSourceDir = process.env.GALLERY_SOURCE_DIR?.trim()
+  ? path.resolve(process.env.GALLERY_SOURCE_DIR)
+  : null
 
 const toSlug = (value) =>
   value
@@ -20,6 +30,9 @@ const toSlug = (value) =>
 
 const encodeUrlPath = (...segments) =>
   `/${segments.map(segment => encodeURIComponent(segment)).join('/')}`
+
+const encodeOriginUrl = (...segments) =>
+  new URL(segments.map(segment => encodeURIComponent(segment)).join('/'), galleryOriginBaseUrl).toString()
 
 const sanitizeFileStem = (filename) =>
   path.parse(filename).name
@@ -33,6 +46,39 @@ const ensureDir = (directory) => {
   if (!fs.existsSync(directory)) {
     fs.mkdirSync(directory, { recursive: true })
   }
+}
+
+const getEventDirectories = (directory) => {
+  if (!fs.existsSync(directory)) return []
+
+  return fs.readdirSync(directory, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory() && dirent.name !== THUMBNAIL_FOLDER)
+    .sort((a, b) => a.name.localeCompare(b.name))
+}
+
+const resolveSourceDirectory = () => {
+  const candidates = [
+    configuredSourceDir,
+    defaultSourceDir,
+    galleryPublicDir,
+  ].filter(Boolean)
+
+  for (const candidate of candidates) {
+    if (getEventDirectories(candidate).length > 0) {
+      return candidate
+    }
+  }
+
+  return candidates[0] ?? galleryPublicDir
+}
+
+const getPublicPathSegments = (directory) => {
+  const relativeToPublic = path.relative(publicDir, directory)
+  if (!relativeToPublic || relativeToPublic.startsWith('..') || path.isAbsolute(relativeToPublic)) {
+    return null
+  }
+
+  return relativeToPublic.split(path.sep).filter(Boolean)
 }
 
 const loadSharp = async () => {
@@ -52,7 +98,7 @@ const createThumbnail = async ({ sharpLib, sourcePath, eventName, filename, stat
   const cacheTag = `${stat.size}-${Math.trunc(stat.mtimeMs)}`
   const outputFilename = `${fileStem}-${cacheTag}${suffix}.webp`
   const outputRelativePath = path.join(THUMBNAIL_FOLDER, eventName, outputFilename)
-  const outputPath = path.join(galleryPath, outputRelativePath)
+  const outputPath = path.join(galleryPublicDir, outputRelativePath)
 
   ensureDir(path.dirname(outputPath))
 
@@ -75,26 +121,43 @@ const createThumbnail = async ({ sharpLib, sourcePath, eventName, filename, stat
 
 ensureDir(dataDir)
 
-if (!fs.existsSync(galleryPath)) {
+if (!fs.existsSync(galleryPublicDir)) {
   console.log('Gallery directory not found — creating empty gallery directory')
-  ensureDir(galleryPath)
-  fs.writeFileSync(outputFile, JSON.stringify([], null, 2))
-  // continue: directory created, proceed to generate empty metadata
+  ensureDir(galleryPublicDir)
 }
 
+const sourceDir = resolveSourceDirectory()
+const sourcePublicSegments = getPublicPathSegments(sourceDir)
 const sharpLib = await loadSharp()
-const dirEntries = fs.readdirSync(galleryPath, { withFileTypes: true })
+if (galleryOriginBaseUrl) {
+  console.log(`Using external gallery origin for originals: ${galleryOriginBaseUrl.toString()}`)
+}
 
-const eventDirs = dirEntries
-  .filter(dirent => dirent.isDirectory() && dirent.name !== THUMBNAIL_FOLDER)
-  .sort((a, b) => a.name.localeCompare(b.name))
+const eventDirs = getEventDirectories(sourceDir)
+
+if (!eventDirs.length) {
+  if (fs.existsSync(outputFile)) {
+    console.log(`No gallery originals found in ${sourceDir}. Preserving existing metadata at ${outputFile}`)
+    process.exit(0)
+  }
+
+  fs.writeFileSync(outputFile, JSON.stringify([], null, 2))
+  console.log(`No gallery originals found in ${sourceDir}. Wrote empty gallery metadata to ${outputFile}`)
+  process.exit(0)
+}
+
+if (!galleryOriginBaseUrl && !sourcePublicSegments) {
+  throw new Error(
+    `Gallery source directory ${sourceDir} is not publicly reachable. Set GALLERY_ORIGIN_BASE_URL or use a source directory under ./public.`,
+  )
+}
 
 const events = []
 
 for (const dirent of eventDirs) {
   const eventName = dirent.name
   const eventId = toSlug(eventName)
-  const eventPath = path.join(galleryPath, eventName)
+  const eventPath = path.join(sourceDir, eventName)
 
   const imageFiles = fs.readdirSync(eventPath)
     .filter(file => IMAGE_EXTENSIONS.test(file))
@@ -105,7 +168,9 @@ for (const dirent of eventDirs) {
   for (const [index, filename] of imageFiles.entries()) {
     const sourcePath = path.join(eventPath, filename)
     const sourceStat = fs.statSync(sourcePath)
-    const fullSrc = encodeUrlPath('gallery', eventName, filename)
+    const fullSrc = galleryOriginBaseUrl
+      ? encodeOriginUrl(eventName, filename)
+      : encodeUrlPath(...sourcePublicSegments, eventName, filename)
 
     let width = null
     let height = null

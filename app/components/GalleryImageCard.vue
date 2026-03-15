@@ -12,7 +12,7 @@ const emit = defineEmits<{
 }>()
 
 const cardRef = ref<HTMLElement | null>(null)
-const isVisible = ref(false)
+const isVisible = ref(Boolean(props.eager))
 const isLoaded = ref(false)
 const hasError = ref(false)
 const useFallback = ref(false)

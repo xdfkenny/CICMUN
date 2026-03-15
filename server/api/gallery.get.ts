@@ -1,63 +1,22 @@
-import galleryData from '../../data/gallery.json'
+import { createError } from 'h3'
 import type { GalleryEvent, GalleryResponse } from '../../shared/gallery'
+import { loadGalleryDataSnapshot } from '../utils/gallery-data'
+import { buildGalleryResponse, normalizeGalleryQuery } from '../utils/gallery'
 
 export default defineEventHandler((event): GalleryResponse => {
-  const query = getQuery(event)
-  const eventId = query.event as string || 'all'
-  const parsedPage = Number.parseInt(query.page as string, 10)
-  const parsedLimit = Number.parseInt(query.limit as string, 10)
-  const page = Number.isFinite(parsedPage) ? Math.max(1, parsedPage) : 1
-  const limit = Number.isFinite(parsedLimit) ? Math.max(1, parsedLimit) : 24
-
-  let eventsList = galleryData as GalleryEvent[]
-
-  // Return early with event metadata if requested
-  if (query.metaOnly) {
-    return {
-      events: eventsList.map(e => ({
-        id: e.id,
-        name: e.name,
-        imageCount: e.imageCount,
-        coverImage: e.coverImage
-      })),
-      images: [],
-      total: 0,
-      page: 1,
-      limit: 0
-    }
+  if (process.env.NODE_ENV !== 'production') {
+    setResponseHeader(event, 'cache-control', 'no-store')
   }
 
-  // Flatten images for the requested event or all events
-  let allImages = []
-  if (eventId === 'all') {
-    allImages = eventsList.flatMap(e => e.images)
-  } else {
-    allImages = eventsList.find(e => e.id === eventId)?.images || []
-  }
+  try {
+    const { events, revision } = loadGalleryDataSnapshot()
+    return buildGalleryResponse(events as GalleryEvent[], normalizeGalleryQuery(getQuery(event)), revision)
+  } catch (error) {
+    console.error('[gallery] Failed to load gallery metadata.', error)
 
-  const total = allImages.length
-  const startIndex = (page - 1) * limit
-  const endIndex = startIndex + limit
-
-  // Omit the high-res "src" attribute for the thumbnail grid 
-  // to save bandwidth (unless we actually need it)
-  // Actually, we'll keep `src` but we could strip it if we strictly separated thumbnails.
-  const paginatedImages = allImages.slice(startIndex, endIndex)
-
-  // Include event metadata alongside images so callers and serverless platforms
-  // receive consistent payloads regardless of query flags.
-  const eventsMeta = eventsList.map(e => ({
-    id: e.id,
-    name: e.name,
-    imageCount: e.imageCount,
-    coverImage: e.coverImage
-  }))
-
-  return {
-    events: eventsMeta,
-    images: paginatedImages,
-    total,
-    page,
-    limit
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Gallery metadata unavailable.',
+    })
   }
 })

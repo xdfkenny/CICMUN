@@ -1,5 +1,35 @@
 import tailwindcss from "@tailwindcss/vite";
 
+const isProduction = process.env.NODE_ENV === 'production'
+
+const securityHeaders = {
+  "content-security-policy": [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "connect-src 'self'",
+    "font-src 'self' https://fonts.gstatic.com data:",
+    "form-action 'self'",
+    "frame-ancestors 'self'",
+    "frame-src https://www.google.com",
+    "img-src 'self' data: https:",
+    "object-src 'none'",
+    "script-src 'self' 'unsafe-inline'",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  ].join("; "),
+  "permissions-policy": "camera=(), geolocation=(), microphone=()",
+  "referrer-policy": "strict-origin-when-cross-origin",
+  "x-content-type-options": "nosniff",
+  "x-frame-options": "SAMEORIGIN",
+};
+
+const withSecurityHeaders = (rule: Record<string, any> = {}) => ({
+  ...rule,
+  headers: {
+    ...securityHeaders,
+    ...(rule.headers ?? {}),
+  },
+});
+
 export default defineNuxtConfig({
   srcDir: 'app',
   compatibilityDate: '2024-11-01',
@@ -21,22 +51,48 @@ export default defineNuxtConfig({
     compressPublicAssets: true,
   },
   routeRules: {
-    '/gallery/**': {
+    '/**': withSecurityHeaders(),
+    '/gallery/**': withSecurityHeaders({
       headers: {
         'cache-control': 'public, max-age=604800, stale-while-revalidate=86400',
       },
-    },
-    '/gallery/__thumbs/**': {
+    }),
+    '/gallery-origins/**': withSecurityHeaders({
+      headers: {
+        'cache-control': 'public, max-age=604800, stale-while-revalidate=86400',
+      },
+    }),
+    '/gallery/__thumbs/**': withSecurityHeaders({
       headers: {
         'cache-control': 'public, max-age=31536000, immutable',
       },
-    },
-    '/api/resources': {
+    }),
+    '/api/committee/**': withSecurityHeaders({
       swr: 3600,
-    },
-    '/api/schedule': {
+    }),
+    '/api/committees': withSecurityHeaders({
       swr: 3600,
-    },
+    }),
+    '/api/committees/**': withSecurityHeaders({
+      swr: 3600,
+    }),
+    '/api/events': withSecurityHeaders({
+      swr: 3600,
+    }),
+    '/api/gallery': withSecurityHeaders(isProduction ? {
+      swr: 3600,
+    } : {}),
+    '/api/health': withSecurityHeaders({
+      headers: {
+        'cache-control': 'no-store',
+      },
+    }),
+    '/api/resources': withSecurityHeaders({
+      swr: 3600,
+    }),
+    '/api/schedule': withSecurityHeaders({
+      swr: 3600,
+    }),
   },
   app: {
     head: {

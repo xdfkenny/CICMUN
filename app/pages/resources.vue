@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { FileText, Download, Eye, AlertCircle } from 'lucide-vue-next'
+import type { PortalResource } from '~~/shared/types'
 
-const { data: resources, status, error } = await useFetch('/api/resources')
+const { data: resources, status, error } = await useFetch<PortalResource[]>('/api/resources')
 
 useSeoMeta({
   title: 'Resources & Guides',
@@ -14,9 +15,11 @@ const isViewerOpen = ref(false)
 const selectedPdf = ref({ url: '', title: '' })
 const activeTab = ref<'JMUN' | 'SAMUN'>('JMUN')
 
+const getResourceUrl = (filename: string) => `/resources/${encodeURIComponent(filename)}`
+
 const openViewer = (filename: string, title: string) => {
   selectedPdf.value = {
-    url: `/resources/${filename}`,
+    url: getResourceUrl(filename),
     title: title
   }
   isViewerOpen.value = true
@@ -24,7 +27,7 @@ const openViewer = (filename: string, title: string) => {
 
 const filteredResources = computed(() => {
   if (!resources.value) return []
-  return resources.value.filter((r: any) => 
+  return resources.value.filter((r) => 
     !r.conferences || r.conferences.includes(activeTab.value)
   )
 })
@@ -38,9 +41,14 @@ const filteredResources = computed(() => {
 
       <!-- Contextual Tabs -->
       <div class="flex justify-center mb-12 animate-fade-in-up" style="animation-delay: 400ms; animation-fill-mode: both;">
-        <div class="bg-gray-200 p-1.5 rounded-2xl inline-flex shadow-inner">
+        <div class="bg-gray-200 p-1.5 rounded-2xl inline-flex shadow-inner" role="tablist" aria-label="Resource conference tabs">
           <button 
             @click="activeTab = 'JMUN'"
+            role="tab"
+            :id="'resource-tab-JMUN'"
+            :aria-selected="activeTab === 'JMUN'"
+            aria-controls="resource-panel-JMUN"
+            :tabindex="activeTab === 'JMUN' ? 0 : -1"
             :class="[
               'px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300',
               activeTab === 'JMUN' ? 'bg-white text-black shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'
@@ -50,6 +58,11 @@ const filteredResources = computed(() => {
           </button>
           <button 
             @click="activeTab = 'SAMUN'"
+            role="tab"
+            :id="'resource-tab-SAMUN'"
+            :aria-selected="activeTab === 'SAMUN'"
+            aria-controls="resource-panel-SAMUN"
+            :tabindex="activeTab === 'SAMUN' ? 0 : -1"
             :class="[
               'px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300',
               activeTab === 'SAMUN' ? 'bg-red-600 text-white shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'
@@ -61,7 +74,7 @@ const filteredResources = computed(() => {
       </div>
 
       <!-- Loading State -->
-      <div v-if="status === 'pending'" class="grid md:grid-cols-2 gap-6">
+      <div v-if="status === 'pending'" class="grid md:grid-cols-2 gap-6" :id="`resource-panel-${activeTab}`" role="tabpanel" :aria-labelledby="`resource-tab-${activeTab}`" tabindex="0">
         <div v-for="i in 4" :key="i" class="bg-white p-8 rounded-2xl shadow-md border-l-4 border-gray-200 animate-pulse">
           <div class="flex justify-between items-start mb-6">
             <UiSkeleton class="w-14 h-14 rounded-xl" />
@@ -78,14 +91,14 @@ const filteredResources = computed(() => {
       </div>
 
       <!-- Error State -->
-      <div v-else-if="error" class="bg-red-50 text-red-700 p-12 rounded-2xl text-center border border-red-200 reveal">
+      <div v-else-if="error" class="bg-red-50 text-red-700 p-12 rounded-2xl text-center border border-red-200 reveal" :id="`resource-panel-${activeTab}`" role="tabpanel" :aria-labelledby="`resource-tab-${activeTab}`" tabindex="0">
         <AlertCircle class="w-16 h-16 mx-auto mb-6 text-red-500 animate-bounce" />
         <h3 class="text-2xl font-bold mb-3 font-montserrat uppercase tracking-tight">Notice</h3>
         <p class="text-lg font-medium opacity-80">Resources are temporarily unavailable. Please try again later or contact the secretariat.</p>
       </div>
 
       <!-- Data State -->
-      <div v-else-if="filteredResources.length > 0" class="grid md:grid-cols-2 gap-8 min-h-[400px]">
+      <div v-else-if="filteredResources.length > 0" class="grid md:grid-cols-2 gap-8 min-h-[400px]" :id="`resource-panel-${activeTab}`" role="tabpanel" :aria-labelledby="`resource-tab-${activeTab}`" tabindex="0">
         <div v-for="(resource, idx) in filteredResources" :key="resource.id" 
              :class="['bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border-l-8 reveal hover-lift flex flex-col', activeTab === 'SAMUN' ? 'border-red-600' : 'border-black']"
              :style="{ transitionDelay: `${idx * 150}ms` }">
@@ -107,7 +120,7 @@ const filteredResources = computed(() => {
               <Eye class="w-5 h-5 group-hover:scale-110 transition-transform" />
               View
             </button>
-            <a :href="`/resources/${resource.filename}`" download class="inline-flex items-center gap-2 font-extrabold transition-colors group" :class="activeTab === 'SAMUN' ? 'text-red-600 hover:text-red-700' : 'text-black hover:text-gray-700'">
+            <a :href="getResourceUrl(resource.filename)" download class="inline-flex items-center gap-2 font-extrabold transition-colors group" :class="activeTab === 'SAMUN' ? 'text-red-600 hover:text-red-700' : 'text-black hover:text-gray-700'">
               <Download class="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
               Download
             </a>
@@ -116,7 +129,7 @@ const filteredResources = computed(() => {
       </div>
 
       <!-- Empty State -->
-      <div v-else class="text-center bg-white p-12 rounded-xl border border-gray-100 shadow-sm">
+      <div v-else class="text-center bg-white p-12 rounded-xl border border-gray-100 shadow-sm" :id="`resource-panel-${activeTab}`" role="tabpanel" :aria-labelledby="`resource-tab-${activeTab}`" tabindex="0">
         <FileText class="w-12 h-12 mx-auto text-gray-300 mb-4" />
         <p class="text-xl text-black font-medium">Resources for {{ activeTab }} coming soon.</p>
       </div>

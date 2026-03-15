@@ -21,28 +21,20 @@ const previousFocus = ref<HTMLElement | null>(null)
 const modalRef = ref<HTMLElement | null>(null)
 
 const currentImage = computed(() => props.images[currentIndex.value])
+const preloadedImageUrls = new Set<string>()
 
-// Preload next and previous images
 watch(currentIndex, (newIndex) => {
   if (typeof window === 'undefined') return
   if (!props.images.length || !props.images[newIndex]) return
   
   const preloadImage = (index: number) => {
     const img = props.images[index]
-    if (img?.src) {
-      const link = document.createElement('link')
-      link.rel = 'preload'
-      link.as = 'image'
-      link.href = img.src
-      document.head.appendChild(link)
-      
-      // Cleanup after a short delay
-      setTimeout(() => {
-        if (document.head.contains(link)) {
-          document.head.removeChild(link)
-        }
-      }, 5000)
-    }
+    if (!img?.src || preloadedImageUrls.has(img.src)) return
+
+    const image = new Image()
+    image.decoding = 'async'
+    image.src = img.src
+    preloadedImageUrls.add(img.src)
   }
 
   const nextIdx = (newIndex + 1) % props.images.length

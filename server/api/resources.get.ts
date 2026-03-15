@@ -1,5 +1,5 @@
-import resources from '~~/data/resources.json'
+import { getResources } from '../utils/data'
 
 export default defineEventHandler(() => {
-    return resources
+    return getResources()
 })
