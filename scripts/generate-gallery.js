@@ -136,11 +136,6 @@ if (galleryOriginBaseUrl) {
 const eventDirs = getEventDirectories(sourceDir)
 
 if (!eventDirs.length) {
-  if (fs.existsSync(outputFile)) {
-    console.log(`No gallery originals found in ${sourceDir}. Preserving existing metadata at ${outputFile}`)
-    process.exit(0)
-  }
-
   fs.writeFileSync(outputFile, JSON.stringify([], null, 2))
   console.log(`No gallery originals found in ${sourceDir}. Wrote empty gallery metadata to ${outputFile}`)
   process.exit(0)
