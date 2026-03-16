@@ -81,6 +81,68 @@ const getPublicPathSegments = (directory) => {
   return relativeToPublic.split(path.sep).filter(Boolean)
 }
 
+const isRemoteUrl = (value) => {
+  if (typeof value !== 'string') return false
+
+  try {
+    const parsed = new URL(value)
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
+const isLocalPublicAssetPath = (value) =>
+  typeof value === 'string' && value.startsWith('/') && !value.startsWith('//') && !value.includes('..')
+
+const hasPublicAsset = (value) => {
+  if (!isLocalPublicAssetPath(value)) return false
+
+  const [pathname] = value.split('?')
+  const filePath = path.join(publicDir, decodeURIComponent(pathname.replace(/^\//, '')))
+  return fs.existsSync(filePath)
+}
+
+const isDeployableAssetReference = (value) =>
+  !value || isRemoteUrl(value) || hasPublicAsset(value)
+
+const hasDeployableSrcSet = (value) => {
+  if (!value) return true
+  if (typeof value !== 'string') return false
+
+  return value.split(',').every((candidate) => {
+    const [url] = candidate.trim().split(/\s+/, 1)
+    return isDeployableAssetReference(url)
+  })
+}
+
+const loadExistingDeployableGalleryMetadata = () => {
+  if (!fs.existsSync(outputFile)) return null
+
+  try {
+    const parsed = JSON.parse(fs.readFileSync(outputFile, 'utf8'))
+    if (!Array.isArray(parsed)) return null
+
+    const isValid = parsed.every((event) =>
+      event
+      && typeof event === 'object'
+      && isDeployableAssetReference(event.coverImage)
+      && Array.isArray(event.images)
+      && event.images.every((image) =>
+        image
+        && typeof image === 'object'
+        && isDeployableAssetReference(image.src)
+        && isDeployableAssetReference(image.thumbnail)
+        && hasDeployableSrcSet(image.srcSet),
+      ),
+    )
+
+    return isValid ? parsed : null
+  } catch {
+    return null
+  }
+}
+
 const loadSharp = async () => {
   try {
     const mod = await import('sharp')
@@ -136,6 +198,12 @@ if (galleryOriginBaseUrl) {
 const eventDirs = getEventDirectories(sourceDir)
 
 if (!eventDirs.length) {
+  const existingMetadata = loadExistingDeployableGalleryMetadata()
+  if (existingMetadata) {
+    console.log(`No gallery originals found in ${sourceDir}. Preserving deployable metadata at ${outputFile}`)
+    process.exit(0)
+  }
+
   fs.writeFileSync(outputFile, JSON.stringify([], null, 2))
   console.log(`No gallery originals found in ${sourceDir}. Wrote empty gallery metadata to ${outputFile}`)
   process.exit(0)
@@ -215,14 +283,26 @@ for (const dirent of eventDirs) {
     }
 
     const thumbnail = thumbnailMedium || fullSrc
+    const deliverySrc = galleryOriginBaseUrl
+      ? fullSrc
+      : thumbnail
+    const deliverySrcSet = galleryOriginBaseUrl
+      ? (
+          thumbnailSmall
+            ? `${thumbnailSmall} ${THUMBNAIL_WIDTHS.small}w, ${thumbnail} ${THUMBNAIL_WIDTHS.medium}w, ${fullSrc} ${Math.max(THUMBNAIL_WIDTHS.medium + 1, width || 1600)}w`
+            : undefined
+        )
+      : (
+          thumbnailSmall
+            ? `${thumbnailSmall} ${THUMBNAIL_WIDTHS.small}w, ${thumbnail} ${THUMBNAIL_WIDTHS.medium}w`
+            : undefined
+        )
 
     images.push({
       id: `${eventId}-${index + 1}`,
-      src: fullSrc,
+      src: deliverySrc,
       thumbnail,
-      srcSet: thumbnailSmall
-        ? `${thumbnailSmall} ${THUMBNAIL_WIDTHS.small}w, ${thumbnail} ${THUMBNAIL_WIDTHS.medium}w, ${fullSrc} ${Math.max(THUMBNAIL_WIDTHS.medium + 1, width || 1600)}w`
-        : undefined,
+      srcSet: deliverySrcSet,
       sizes: '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
       alt: `${eventName} photo ${index + 1}`,
       eventId,

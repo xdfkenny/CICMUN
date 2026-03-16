@@ -32,7 +32,7 @@ test('gallery and resources routes render', async ({ page }) => {
 
   await page.getByRole('button', { name: /open .*photo/i }).first().click()
   await expect(page.getByRole('dialog', { name: 'Image Gallery' })).toBeVisible()
-  await expect(page.getByRole('dialog').locator('img')).toHaveAttribute('src', /\/gallery-origins\//)
+  await expect(page.getByRole('dialog').locator('img')).toHaveAttribute('src', /\/gallery\/__thumbs\//)
   expect(galleryAssetErrors).toEqual([])
 
   await page.goto('/resources')
