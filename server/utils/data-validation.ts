@@ -1,7 +1,7 @@
-import fs from 'node:fs'
 import path from 'node:path'
 import { getGeneratedCommitteeImagePublicPath } from '../../shared/committee-images'
 import type { Committee, ConferenceType, PortalEvent, PortalResource, Resource } from '../../shared/types'
+import publicAssetsRaw from '../../data/public-assets.json'
 
 export type EventRecord = PortalEvent
 
@@ -20,9 +20,10 @@ interface ResourcesResult {
   errors: string[]
 }
 
-const PUBLIC_RESOURCES_DIR = path.resolve(process.cwd(), 'public/resources')
-const PUBLIC_DIR = path.resolve(process.cwd(), 'public')
 const ALLOWED_MAP_HOSTS = new Set(['www.google.com'])
+const PUBLIC_ASSETS = new Set(
+  Array.isArray(publicAssetsRaw) ? publicAssetsRaw.filter((value): value is string => typeof value === 'string') : [],
+)
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -66,13 +67,21 @@ const isValidDateString = (value: unknown): value is string =>
 const isSafePublicPath = (value: string) =>
   value.startsWith('/') && !value.startsWith('//') && !value.includes('..')
 
-const toPublicFilePath = (publicPath: string) => {
-  const [pathname] = publicPath.split('?')
-  return path.join(PUBLIC_DIR, decodeURIComponent(pathname.replace(/^\//, '')))
-}
-
 const hasPublicAssetFile = (publicPath: string) =>
-  isSafePublicPath(publicPath) && fs.existsSync(toPublicFilePath(publicPath))
+  isSafePublicPath(publicPath) && PUBLIC_ASSETS.has(normalizePublicPath(publicPath))
+
+const normalizePublicPath = (publicPath: string) => {
+  const [pathname] = publicPath.split('?')
+  const segments = pathname.split('/').filter(Boolean)
+
+  if (!segments.length) return '/'
+
+  try {
+    return `/${segments.map((segment) => encodeURIComponent(decodeURIComponent(segment))).join('/')}`
+  } catch {
+    return `/${segments.map((segment) => encodeURIComponent(segment)).join('/')}`
+  }
+}
 
 const sanitizeUrl = (value: unknown, allowedHosts: Set<string>): string | null => {
   if (typeof value !== 'string') return null
@@ -143,7 +152,7 @@ const isSafeResourceFilename = (filename: string) =>
   filename === path.basename(filename) && !filename.includes('\0')
 
 const hasPublicResourceFile = (filename: string) =>
-  isSafeResourceFilename(filename) && fs.existsSync(path.join(PUBLIC_RESOURCES_DIR, filename))
+  isSafeResourceFilename(filename) && PUBLIC_ASSETS.has(`/resources/${encodeURIComponent(filename)}`)
 
 const parseResource = (value: unknown, index: number, committeeId: number, errors: string[]): Resource | null => {
   if (!isRecord(value)) {

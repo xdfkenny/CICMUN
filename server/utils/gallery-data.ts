@@ -1,9 +1,16 @@
+import { createHash } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import type { GalleryEvent } from '../../shared/gallery'
+import galleryDataRaw from '../../data/gallery.json'
 
 const GALLERY_DATA_PATH = path.resolve(process.cwd(), 'data/gallery.json')
 const IS_DEVELOPMENT = process.env.NODE_ENV !== 'production'
+const BUNDLED_GALLERY_DATA = galleryDataRaw as GalleryEvent[]
+const BUNDLED_GALLERY_REVISION = createHash('sha1')
+  .update(JSON.stringify(galleryDataRaw))
+  .digest('hex')
+  .slice(0, 12)
 
 export interface GalleryDataSnapshot {
   events: GalleryEvent[]
@@ -31,8 +38,18 @@ export const loadGalleryData = (): GalleryEvent[] => {
 }
 
 export const loadGalleryDataSnapshot = (): GalleryDataSnapshot => {
+  if (!IS_DEVELOPMENT) {
+    return {
+      events: BUNDLED_GALLERY_DATA,
+      revision: BUNDLED_GALLERY_REVISION,
+    }
+  }
+
   if (!fs.existsSync(GALLERY_DATA_PATH)) {
-    throw new Error('Gallery metadata is missing. Run npm run prebuild to regenerate it.')
+    return {
+      events: BUNDLED_GALLERY_DATA,
+      revision: BUNDLED_GALLERY_REVISION,
+    }
   }
 
   const stat = fs.statSync(GALLERY_DATA_PATH)

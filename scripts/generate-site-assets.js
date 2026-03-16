@@ -6,6 +6,8 @@ const scripts = [
   'generate-committee-images.js',
   'generate-gallery.js',
   'generate-sitemap.js',
+  'generate-public-assets-manifest.js',
+  'validate-build-assets.js',
 ]
 
 const clearStaleGalleryCaches = () => {

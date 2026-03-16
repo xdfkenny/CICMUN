@@ -5,7 +5,9 @@ node_modules
 dist
 .vscode
 .idea
+.vercel
 *.log
 .DS_Store
+test-results
 public/gallery/__thumbs
 public/gallery-origins
