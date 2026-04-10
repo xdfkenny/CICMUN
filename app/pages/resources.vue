@@ -7,8 +7,8 @@ const { data: resources, status, error } = await useFetch<PortalResource[]>('/ap
 useSeoMeta({
   title: 'Resources & Guides',
   ogTitle: 'Resources & Guides | CICMUN 2026',
-  description: 'Download preparation guides, rules of procedure, and essential documents for CICMUN 2026.',
-  ogDescription: 'Download preparation guides, rules of procedure, and essential documents for CICMUN 2026.',
+  description: 'Download research guides, rules of procedure, and essential documents for CICMUN 2026.',
+  ogDescription: 'Download research guides, rules of procedure, and essential documents for CICMUN 2026.',
 })
 
 const isViewerOpen = ref(false)
