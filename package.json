@@ -22,8 +22,10 @@
   },
   "dependencies": {
     "@nuxt/image": "^2.0.0",
+    "db0": "^0.3.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "ioredis": "^5.10.1",
     "lucide-vue-next": "^0.577.0",
     "nuxt": "^4.4.2",
     "radix-vue": "^1.9.17",
@@ -34,18 +36,35 @@
   },
   "overrides": {
     "devalue": "5.6.4",
-    "minimatch": "10.2.4",
-    "serialize-javascript": "7.0.4",
+    "minimatch": "10.2.5",
+    "serialize-javascript": "7.0.5",
     "simple-git": "3.33.0",
     "svgo": "4.0.1",
     "tar": "7.5.11",
     "zip-stream": "^7.0.2",
-    "nanotar": "^0.3.0"
+    "nanotar": "^0.3.0",
+    "@unhead/vue": "2.1.13",
+    "unhead": "2.1.13",
+    "defu": "6.1.7",
+    "h3": "1.15.11",
+    "nitropack": "2.13.3",
+    "srvx": "0.11.15",
+    "yaml": "2.8.3",
+    "listhen": "1.9.1",
+    "node-forge": "1.4.0",
+    "flatted": "3.4.2",
+    "lodash": "4.18.1",
+    "picomatch": "4.0.4",
+    "anymatch": {
+      "picomatch": "2.3.2"
+    },
+    "micromatch": {
+      "picomatch": "2.3.2"
+    }
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@playwright/test": "^1.56.1",
-    "@nuxtjs/color-mode": "^4.0.0",
     "@tailwindcss/vite": "^4.2.1",
     "@typescript-eslint/eslint-plugin": "^8.46.1",
     "@typescript-eslint/parser": "^8.46.1",
@@ -54,6 +73,7 @@
     "eslint-plugin-vue": "^10.5.1",
     "globals": "^16.5.0",
     "tailwindcss": "^4.2.1",
+    "terser": "^5.46.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.0",
     "vue-eslint-parser": "^10.2.0"

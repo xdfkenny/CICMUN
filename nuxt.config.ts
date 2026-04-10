@@ -1,6 +1,7 @@
 import tailwindcss from "@tailwindcss/vite";
 
 const isProduction = process.env.NODE_ENV === 'production'
+const withApiSWR = (seconds: number) => (isProduction ? { swr: seconds } : {})
 
 const securityHeaders = {
   "content-security-policy": [
@@ -34,12 +35,22 @@ export default defineNuxtConfig({
   srcDir: 'app',
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/color-mode', '@nuxt/image'],
+  modules: ['@nuxt/image'],
   css: ['~/assets/css/main.css'],
   vite: {
     plugins: [
       tailwindcss() as any,
     ],
+    optimizeDeps: {
+      include: [
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+        'class-variance-authority',
+        'clsx',
+        'radix-vue',
+        'tailwind-merge',
+      ],
+    },
     build: {
       sourcemap: false,
     }
@@ -67,18 +78,10 @@ export default defineNuxtConfig({
         'cache-control': 'public, max-age=31536000, immutable',
       },
     }),
-    '/api/committee/**': withSecurityHeaders({
-      swr: 3600,
-    }),
-    '/api/committees': withSecurityHeaders({
-      swr: 3600,
-    }),
-    '/api/committees/**': withSecurityHeaders({
-      swr: 3600,
-    }),
-    '/api/events': withSecurityHeaders({
-      swr: 3600,
-    }),
+    '/api/committee/**': withSecurityHeaders(withApiSWR(3600)),
+    '/api/committees': withSecurityHeaders(withApiSWR(3600)),
+    '/api/committees/**': withSecurityHeaders(withApiSWR(3600)),
+    '/api/events': withSecurityHeaders(withApiSWR(3600)),
     '/api/gallery': withSecurityHeaders(isProduction ? {
       swr: 3600,
     } : {}),
@@ -87,12 +90,8 @@ export default defineNuxtConfig({
         'cache-control': 'no-store',
       },
     }),
-    '/api/resources': withSecurityHeaders({
-      swr: 3600,
-    }),
-    '/api/schedule': withSecurityHeaders({
-      swr: 3600,
-    }),
+    '/api/resources': withSecurityHeaders(withApiSWR(3600)),
+    '/api/schedule': withSecurityHeaders(withApiSWR(3600)),
   },
   app: {
     head: {
