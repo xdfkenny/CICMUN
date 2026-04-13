@@ -183,6 +183,12 @@
         "title": "CIC MUN Charter",
         "description": "Official charter for CICMUN 2026.",
         "filename": "CIC MUN Charter.pdf"
+      },
+      {
+        "title": "Research Guide",
+        "description": "Official research guide for the WHO committee.",
+        "filename": "WHO Research Guide.pdf"
+    
       }
     ]
   }
