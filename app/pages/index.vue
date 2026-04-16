@@ -8,6 +8,29 @@ const { data: events } = await useFetch('/api/events')
 const jmunEvent = computed(() => events.value?.find((e: any) => e.id === 'jmun'))
 const countdownDate = computed(() => jmunEvent.value?.startDate || '2026-04-24T00:00:00-04:00')
 
+// 67 Brainrot Easter Egg state
+const show67 = ref(false)
+const heroShake = ref(false)
+
+const onBrainrot = () => {
+  // Only fire once per session
+  if (import.meta.client) {
+    if (sessionStorage.getItem('brainrot67')) return
+    sessionStorage.setItem('brainrot67', '1')
+  }
+
+  // Layer 1: Shake the hero section
+  heroShake.value = true
+  setTimeout(() => {
+    heroShake.value = false
+  }, 700)
+
+  // Layer 2 + 4: Particles and Doot Doot flash (slight delay)
+  setTimeout(() => {
+    show67.value = true
+  }, 300)
+}
+
 useSeoMeta({
   title: 'Home',
   ogTitle: 'CICMUN 2026 - Colegio Internacional de Caracas Model United Nations',
@@ -20,8 +43,11 @@ useSeoMeta({
 
 <template>
   <div class="min-h-screen flex flex-col">
+    <!-- 67 Brainrot Overlay -->
+    <BrainrotOverlay v-if="show67" />
+
     <!-- Hero Section -->
-    <section class="flex-1 bg-gradient-to-br from-red-600 via-red-500 to-black text-white py-20 px-4 md:py-32 overflow-hidden">
+    <section :class="['flex-1 bg-gradient-to-br from-red-600 via-red-500 to-black text-white py-20 px-4 md:py-32 overflow-hidden', { 'brainrot-shake': heroShake }]">
       <div class="container max-w-4xl mx-auto text-center">
         <div class="mb-8">
           <h1 class="text-5xl md:text-6xl font-bold mb-4 leading-tight font-montserrat tracking-tight animate-fade-in-up" style="animation-delay: 0.1s">
@@ -38,7 +64,7 @@ useSeoMeta({
 
         <div class="mb-12 animate-fade-in-up" style="animation-delay: 0.7s">
           <p class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Counting down to JMUN 2026</p>
-          <CountdownTimer :target-date="countdownDate" />
+          <CountdownTimer :target-date="countdownDate" @brainrot="onBrainrot" />
         </div>
 
         <!-- Call to Action Button -->

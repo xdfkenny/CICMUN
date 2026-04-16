@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps({
   targetDate: {
@@ -7,6 +7,10 @@ const props = defineProps({
     required: true
   }
 })
+
+const emit = defineEmits<{
+  brainrot: []
+}>()
 
 const timeRemaining = ref({
   days: 0,
@@ -16,6 +20,21 @@ const timeRemaining = ref({
 })
 
 let interval: NodeJS.Timeout
+let brainrotEmitted = false
+
+// 67 brainrot detection
+const isBrainrot67 = computed(() => {
+  const d = timeRemaining.value.days
+  return d === 6 || d === 7
+})
+
+// Emit once when 67 state is first detected
+watch(isBrainrot67, (is67) => {
+  if (is67 && !brainrotEmitted) {
+    brainrotEmitted = true
+    emit('brainrot')
+  }
+})
 
 const calculateTimeRemaining = () => {
   const target = new Date(props.targetDate).getTime()
@@ -46,6 +65,12 @@ const calculateTimeRemaining = () => {
 onMounted(() => {
   calculateTimeRemaining()
   interval = setInterval(calculateTimeRemaining, 1000)
+
+  // Check immediately after first calculation in case days is already 6 or 7
+  if (isBrainrot67.value && !brainrotEmitted) {
+    brainrotEmitted = true
+    emit('brainrot')
+  }
 })
 
 onUnmounted(() => {
@@ -55,9 +80,12 @@ onUnmounted(() => {
 
 <template>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-    <div class="bg-white/10 backdrop-blur-md rounded-lg p-4">
-      <div class="text-4xl md:text-5xl font-bold font-montserrat">{{ timeRemaining.days }}</div>
+    <div :class="['bg-white/10 backdrop-blur-md rounded-lg p-4 transition-all duration-500', { 'countdown-67': isBrainrot67 }]">
+      <div :class="['text-4xl md:text-5xl font-bold font-montserrat', { 'brainrot-number-pulse': isBrainrot67 }]">{{ timeRemaining.days }}</div>
       <div class="text-sm uppercase tracking-wider opacity-80">Days</div>
+      <div v-if="isBrainrot67" class="text-xs mt-1.5 font-bold tracking-wide animate-pulse text-amber-300">
+        6-7 🤌
+      </div>
     </div>
     <div class="bg-white/10 backdrop-blur-md rounded-lg p-4">
       <div class="text-4xl md:text-5xl font-bold font-montserrat">{{ timeRemaining.hours }}</div>
