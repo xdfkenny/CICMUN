@@ -3,14 +3,23 @@
         "day": "Day 1",
         "date": "April 24, 2026",
         "conferences": [
-            "JMUN",
-            "SAMUN"
+            "JMUN"
         ],
         "events": [
             {
+                "time": "8:00 AM - 8:30 AM",
+                "activity": "Arrival and Registration",
+                "location": "Main Entrance"
+            },
+            {
+                "time": "8:35 AM - 9:15 AM",
+                "activity": "Opening Ceremony",
+                "location": "Main Court"
+            },
+            {
                 "time": "9:20 AM - 10:45 AM",
                 "activity": "Working Session 1 (Opening speeches / Lobbying)",
-                "location": "Main Court"
+                "location": "WHO: Room 201 (Mr. Jordi Tur), DISEC: Room 202 (Ms. Claudia Rangel), UNSC: Room 203 (Mr. Ricardo Millan), UNGA: Room 204 (Ms. Aurora Molina), UNHRC: Room 205 (Ms. Cynthia Seddoh), G20: Learning Center (Library)"
             },
             {
                 "time": "10:45 AM - 11:00 AM",
@@ -20,7 +29,7 @@
             {
                 "time": "11:05 AM - 12:45 PM",
                 "activity": "Working Session 2",
-                "location": "Classrooms"
+                "location": "WHO: Room 201 (Mr. Jordi Tur), DISEC: Room 202 (Ms. Claudia Rangel), UNSC: Room 203 (Mr. Ricardo Millan), UNGA: Room 204 (Ms. Aurora Molina), UNHRC: Room 205 (Ms. Cynthia Seddoh), G20: Learning Center (Library)"
             },
             {
                 "time": "12:45 PM - 1:30 PM",
@@ -30,7 +39,7 @@
             {
                 "time": "1:35 PM - 3:00 PM",
                 "activity": "Working Session 3",
-                "location": "Classrooms"
+                "location": "WHO: Room 201 (Mr. Jordi Tur), DISEC: Room 202 (Ms. Claudia Rangel), UNSC: Room 203 (Mr. Ricardo Millan), UNGA: Room 204 (Ms. Aurora Molina), UNHRC: Room 205 (Ms. Cynthia Seddoh), G20: Learning Center (Library)"
             },
             {
                 "time": "3:00 PM - 3:10 PM",
@@ -40,7 +49,7 @@
             {
                 "time": "3:15 PM - 4:30 PM",
                 "activity": "Working Session 4",
-                "location": "Classrooms"
+                "location": "WHO: Room 201 (Mr. Jordi Tur), DISEC: Room 202 (Ms. Claudia Rangel), UNSC: Room 203 (Mr. Ricardo Millan), UNGA: Room 204 (Ms. Aurora Molina), UNHRC: Room 205 (Ms. Cynthia Seddoh), G20: Learning Center (Library)"
             },
             {
                 "time": "4:30 PM - 5:00 PM",
@@ -53,8 +62,7 @@
         "day": "Day 2",
         "date": "April 25, 2026",
         "conferences": [
-            "JMUN",
-            "SAMUN"
+            "JMUN"
         ],
         "events": [
             {
@@ -65,7 +73,7 @@
             {
                 "time": "8:05 AM - 9:35 AM",
                 "activity": "Working Session 5",
-                "location": "Classrooms"
+                "location": "WHO: Room 201 (Mr. Jordi Tur), DISEC: Room 202 (Ms. Claudia Rangel), UNSC: Room 203 (Mr. Ricardo Millan), UNGA: Room 204 (Ms. Aurora Molina), UNHRC: Room 205 (Ms. Cynthia Seddoh), G20: Learning Center (Library)"
             },
             {
                 "time": "9:35 AM - 9:45 AM",
@@ -75,7 +83,7 @@
             {
                 "time": "9:50 AM - 11:00 AM",
                 "activity": "Working Session 6",
-                "location": "Classrooms"
+                "location": "WHO: Room 201 (Mr. Jordi Tur), DISEC: Room 202 (Ms. Claudia Rangel), UNSC: Room 203 (Mr. Ricardo Millan), UNGA: Room 204 (Ms. Aurora Molina), UNHRC: Room 205 (Ms. Cynthia Seddoh), G20: Learning Center (Library)"
             },
             {
                 "time": "11:00 AM - 11:10 AM",
@@ -85,7 +93,7 @@
             {
                 "time": "11:15 AM - 12:15 PM",
                 "activity": "Working Session 7",
-                "location": "Classrooms"
+                "location": "WHO: Room 201 (Mr. Jordi Tur), DISEC: Room 202 (Ms. Claudia Rangel), UNSC: Room 203 (Mr. Ricardo Millan), UNGA: Room 204 (Ms. Aurora Molina), UNHRC: Room 205 (Ms. Cynthia Seddoh), G20: Learning Center (Library)"
             },
             {
                 "time": "12:20 PM - 1:15 PM",
@@ -95,7 +103,7 @@
             {
                 "time": "1:20 PM - 2:00 PM",
                 "activity": "Working Session 8",
-                "location": "Classrooms"
+                "location": "WHO: Room 201 (Mr. Jordi Tur), DISEC: Room 202 (Ms. Claudia Rangel), UNSC: Room 203 (Mr. Ricardo Millan), UNGA: Room 204 (Ms. Aurora Molina), UNHRC: Room 205 (Ms. Cynthia Seddoh), G20: Learning Center (Library)"
             },
             {
                 "time": "2:05 PM - 3:05 PM",
