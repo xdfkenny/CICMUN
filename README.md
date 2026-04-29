@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="main/public/images/og-image.png" alt="CICMUN 2026" width="100%">
+  <img src="public/images/og-image.png" alt="CICMUN 2026" width="100%">
 </p>
 
 <h1 align="center">CICMUN Delegate Portal</h1>
