@@ -166,7 +166,7 @@ const refreshPage = async () => {
           All Photos
         </button>
         <button
-          v-for="(event, idx) in galleryEvents"
+          v-for="event in galleryEvents"
           :key="event.id"
           @click="selectEvent(event.id)"
           :class="[
@@ -175,7 +175,6 @@ const refreshPage = async () => {
               ? 'bg-red-600 border-red-600 text-white shadow-xl scale-105'
               : 'bg-white border-gray-100 text-gray-500 hover:border-red-600 hover:text-red-600 hover:shadow-md'
           ]"
-          :style="{ transitionDelay: `${idx * 50}ms` }"
         >
           {{ event.name }} ({{ event.imageCount }})
         </button>
