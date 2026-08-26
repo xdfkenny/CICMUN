@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Home, Users, Calendar, BookOpen, Image, Instagram } from 'lucide-vue-next'
-import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
+import { onMounted, onBeforeUnmount, ref, watch, nextTick } from 'vue'
 
 const route = useRoute()
 const isActive = (path: string) => route.path === path
@@ -40,6 +40,21 @@ onBeforeUnmount(() => {
   if (typeof window !== 'undefined' && isMenuOpen.value) {
     document.body.style.overflow = 'auto'
   }
+})
+
+// Escape key to close mobile menu
+const handleEscapeKey = (e: KeyboardEvent) => {
+  if (e.key === 'Escape' && isMenuOpen.value) {
+    toggleMenu()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleEscapeKey)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleEscapeKey)
 })
 </script>
 

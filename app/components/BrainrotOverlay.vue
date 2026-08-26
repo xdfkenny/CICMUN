@@ -9,6 +9,7 @@ const particles = ref<Array<{
 }>>([])
 
 let cleanupTimer: NodeJS.Timeout | null = null
+const dismissed = ref(localStorage.getItem('brainrot-dismissed') !== '1')
 
 const createParticles = () => {
   const count = 35
@@ -44,7 +45,21 @@ const createParticles = () => {
   particles.value = newParticles
 }
 
+const dismissBrainrot = () => {
+  dismissed.value = true
+  localStorage.setItem('brainrot-dismissed', '1')
+  particles.value = []
+  showDoot.value = false
+}
+
 onMounted(() => {
+  // Respect user dismissal preference
+  if (dismissed.value) {
+    particles.value = []
+    showDoot.value = false
+    return
+  }
+
   // Fire particles immediately
   createParticles()
 
@@ -83,7 +98,7 @@ onUnmounted(() => {
     leave-to-class="opacity-0"
   >
     <div
-      v-if="showDoot"
+      v-if="showDoot && !dismissed"
       class="doot-flash select-none"
     >
       <div class="text-center">
@@ -93,6 +108,13 @@ onUnmounted(() => {
         <div class="text-lg md:text-2xl font-bold uppercase tracking-[0.3em] text-white/80 mt-2">
           Doot Doot 🎵
         </div>
+        <button
+          @click="dismissBrainrot"
+          class="mt-4 px-6 py-2 bg-black text-white rounded-lg font-bold hover:bg-gray-800 transition-colors"
+          aria-label="Dismiss brainrot"
+        >
+          I understand
+        </button>
       </div>
     </div>
   </Transition>

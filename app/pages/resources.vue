@@ -31,6 +31,15 @@ const filteredResources = computed(() => {
     !r.conferences || r.conferences.includes(activeTab.value)
   )
 })
+
+const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
+  if (activeTab.value === tab) {
+    // If already focused, move to next tab
+    activeTab.value = tab === 'JMUN' ? 'SAMUN' : 'JMUN'
+  } else {
+    activeTab.value = tab
+  }
+}
 </script>
 
 <template>
@@ -53,6 +62,7 @@ const filteredResources = computed(() => {
               'px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300',
               activeTab === 'JMUN' ? 'bg-white text-black shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'
             ]"
+            @keydown.prevent="handleTabKey('JMUN')"
           >
             JMUN
           </button>
@@ -67,6 +77,7 @@ const filteredResources = computed(() => {
               'px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300',
               activeTab === 'SAMUN' ? 'bg-red-600 text-white shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'
             ]"
+            @keydown.prevent="handleTabKey('SAMUN')"
           >
             SAMUN
           </button>

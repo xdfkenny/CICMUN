@@ -10,3 +10,6 @@ dist
 .DS_Store
 test-results
 public/gallery-origins
+
+# Playwright MCP debug artifacts
+.playwright-mcp/
