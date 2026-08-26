@@ -95,6 +95,11 @@ const isRemoteUrl = (value) => {
 const isLocalPublicAssetPath = (value) =>
   typeof value === 'string' && value.startsWith('/') && !value.startsWith('//') && !value.includes('..')
 
+// Media served by the gallery-media server route (e.g. Google Drive proxies).
+// Not files on disk, but still resolvable at runtime.
+const isProxyMediaPath = (value) =>
+  typeof value === 'string' && value.startsWith('/gallery-media/')
+
 const hasPublicAsset = (value) => {
   if (!isLocalPublicAssetPath(value)) return false
 
@@ -104,7 +109,7 @@ const hasPublicAsset = (value) => {
 }
 
 const isDeployableAssetReference = (value) =>
-  !value || isRemoteUrl(value) || hasPublicAsset(value)
+  !value || isRemoteUrl(value) || isProxyMediaPath(value) || hasPublicAsset(value)
 
 const hasDeployableSrcSet = (value) => {
   if (!value) return true
@@ -321,5 +326,16 @@ for (const dirent of eventDirs) {
   })
 }
 
-fs.writeFileSync(outputFile, JSON.stringify(events, null, 2))
-console.log(`Gallery metadata generated successfully at ${outputFile}`)
+// Preserve deployable events that are not derived from local directories
+// (e.g. Drive-backed imports like JMUN 2026) across regenerations.
+const localEventIds = new Set(events.map((event) => event.id))
+const existingMetadata = loadExistingDeployableGalleryMetadata()
+const preservedEvents = (existingMetadata ?? []).filter((event) => event && !localEventIds.has(event.id))
+
+const mergedEvents = [...preservedEvents, ...events].sort((a, b) => a.name.localeCompare(b.name))
+
+fs.writeFileSync(outputFile, JSON.stringify(mergedEvents, null, 2))
+console.log(
+  `Gallery metadata generated successfully at ${outputFile}` +
+    (preservedEvents.length ? ` (preserved ${preservedEvents.length} non-local event(s): ${preservedEvents.map(e => e.name).join(', ')})` : ''),
+)

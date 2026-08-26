@@ -34,9 +34,15 @@ const hasPublicAsset = (value) => {
   return normalized ? publicAssets.has(normalized) : false
 }
 
+// Media served at runtime by the gallery-media server route (Drive proxy) —
+// resolvable without being a static file under public/.
+const isProxyMediaPath = (value) =>
+  typeof value === 'string' && value.startsWith('/gallery-media/')
+
 const assertPublicAsset = (label, value) => {
   if (typeof value !== 'string' || !value.trim()) return
   if (!value.startsWith('/')) return
+  if (isProxyMediaPath(value)) return
   if (!hasPublicAsset(value)) {
     errors.push(`${label} missing public asset: ${value}`)
   }
