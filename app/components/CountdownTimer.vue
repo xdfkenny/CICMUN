@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 
 const props = defineProps({
   targetDate: {
@@ -10,6 +10,7 @@ const props = defineProps({
 
 const emit = defineEmits<{
   brainrot: []
+  ended: []
 }>()
 
 const timeRemaining = ref({
@@ -21,6 +22,7 @@ const timeRemaining = ref({
 
 let interval: NodeJS.Timeout
 let brainrotEmitted = false
+let endEmitted = false
 
 // 67 brainrot detection
 const isBrainrot67 = computed(() => {
@@ -53,6 +55,10 @@ const calculateTimeRemaining = () => {
   if (distance < 0) {
     timeRemaining.value = { days: 0, hours: 0, minutes: 0, seconds: 0 }
     if (interval) clearInterval(interval)
+    if (!endEmitted) {
+      endEmitted = true
+      emit('ended')
+    }
     return
   }
 
@@ -71,10 +77,6 @@ onMounted(() => {
     brainrotEmitted = true
     emit('brainrot')
   }
-})
-
-onUnmounted(() => {
-  clearInterval(interval)
 })
 </script>
 

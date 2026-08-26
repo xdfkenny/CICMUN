@@ -261,27 +261,10 @@ export const normalizeEvents = (raw: unknown): EventsResult => {
       return []
     }
 
+    // Dates are optional: an event may be announced before its schedule is confirmed.
     const startDate = isValidDateString(value.startDate) ? value.startDate : null
     const endDate = isValidDateString(value.endDate) ? value.endDate : null
     const timezone = asTrimmedString(value.timezone, '') || null
-
-    let hasRequiredError = false
-    if (!startDate) {
-      errors.push(`event:${id} missing or invalid startDate`)
-      hasRequiredError = true
-    }
-    if (!endDate) {
-      errors.push(`event:${id} missing or invalid endDate`)
-      hasRequiredError = true
-    }
-    if (!timezone) {
-      errors.push(`event:${id} missing timezone`)
-      hasRequiredError = true
-    }
-
-    if (hasRequiredError) {
-      return []
-    }
 
     return [{
       id,

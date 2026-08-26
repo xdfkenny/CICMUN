@@ -6,17 +6,20 @@ const { data: events } = await useFetch('/api/events')
 
 // Find JMUN to pull the correct start date for the countdown
 const jmunEvent = computed(() => events.value?.find((e: any) => e.id === 'jmun'))
-const countdownDate = computed(() => jmunEvent.value?.startDate || '2026-04-24T00:00:00-04:00')
+const countdownDate = computed(() => jmunEvent.value?.startDate || '')
+const countdownEnded = ref(false)
+
+
 
 // 67 Brainrot Easter Egg state
 const show67 = ref(false)
 const heroShake = ref(false)
 
 const onBrainrot = () => {
-  // Only fire once per session
+  // Only fire once per session (handled by CountdownTimer's sessionStorage)
   if (import.meta.client) {
-    if (sessionStorage.getItem('brainrot67')) return
-    sessionStorage.setItem('brainrot67', '1')
+    // Clear any previous dismissal so it can trigger again if desired
+    // The sessionStorage check is handled by CountdownTimer
   }
 
   // Layer 1: Shake the hero section
@@ -33,12 +36,21 @@ const onBrainrot = () => {
 
 useSeoMeta({
   title: 'Home',
-  ogTitle: 'CICMUN 2026 - Colegio Internacional de Caracas Model United Nations',
-  description: 'Welcome to the official portal for CICMUN 2026. Leadership, diplomacy, and global citizenship at Colegio Internacional de Caracas.',
-  ogDescription: 'Welcome to the official portal for CICMUN 2026. Leadership, diplomacy, and global citizenship at Colegio Internacional de Caracas.',
+  ogTitle: 'CICMUN 2027 - Colegio Internacional de Caracas Model United Nations',
+  description: 'Welcome to the official portal for CICMUN 2027. Leadership, diplomacy, and global citizenship at Colegio Internacional de Caracas.',
+  ogDescription: 'Welcome to the official portal for CICMUN 2027. Leadership, diplomacy, and global citizenship at Colegio Internacional de Caracas.',
   ogImage: '/LOGO.png',
   twitterCard: 'summary_large_image',
 })
+
+// Track brainrot dismissal across sessions
+if (import.meta.client) {
+  const alreadyDismissed = sessionStorage.getItem('brainrot-dismissed')
+  if (alreadyDismissed) {
+    // Clear the brainrot state if user already dismissed
+    sessionStorage.removeItem('brainrot67')
+  }
+}
 </script>
 
 <template>
@@ -62,9 +74,9 @@ useSeoMeta({
           Experience diplomacy, leadership, and global citizenship at the Colegio Internacional de Caracas Model United Nations. Join delegates from across South America for an unforgettable conference.
         </p>
 
-        <div class="mb-12 animate-fade-in-up" style="animation-delay: 0.7s">
-          <p class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Counting down to JMUN 2026</p>
-          <CountdownTimer :target-date="countdownDate" @brainrot="onBrainrot" />
+        <div v-if="countdownDate && !countdownEnded" class="mb-12 animate-fade-in-up" style="animation-delay: 0.7s">
+          <p class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Counting down to JMUN 2027</p>
+          <CountdownTimer :target-date="countdownDate" @brainrot="onBrainrot" @ended="countdownEnded = true" />
         </div>
 
         <!-- Call to Action Button -->

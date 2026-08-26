@@ -1,11 +1,8 @@
 [
     {
         "id": "jmun",
-        "name": "JMUN 2026",
-        "description": "Junior Model of United Nations",
-        "startDate": "2026-04-24T00:00:00-04:00",
-        "endDate": "2026-04-25T23:59:59-04:00",
-        "timezone": "America/Caracas",
+        "name": "JMUN 2027",
+        "description": "Junior Model United Nations",
         "location": "Colegio Internacional de Caracas",
         "address": "Calle Colegio Americano, Minas de Baruta",
         "city": "Caracas, Venezuela",
@@ -16,8 +13,6 @@
         "id": "samun",
         "name": "SAMUN 2026",
         "description": "South American Model of United Nations",
-        "startDate": "2026-11-20T00:00:00-04:00",
-        "endDate": "2026-11-21T23:59:59-04:00",
         "timezone": "America/Caracas",
         "location": "Colegio Internacional de Caracas",
         "address": "Calle Colegio Americano, Minas de Baruta",
