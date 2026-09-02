@@ -1,22 +1,30 @@
 <script setup lang="ts">
 import { User, Shield, Megaphone, GraduationCap, Star, Truck } from 'lucide-vue-next'
 
-const leadership = [
+type TeamMember = {
+  name: string
+  role: string
+  icon: typeof Star
+  color: string
+  bg: string
+  image?: string
+}
+
+const leadership: TeamMember[] = [
   {
-    name: 'Caterina',
+    name: 'Oriana',
     role: 'Secretary General',
     icon: Star,
     color: 'text-white',
     bg: 'bg-red-600',
-    image: '/team-photos/Caterina.png'
+    image: '/team-photos/Oriana.png'
   },
   {
-    name: 'Oriana',
+    name: 'Ariana',
     role: 'Deputy Secretary',
     icon: Shield,
     color: 'text-white',
-    bg: 'bg-black',
-    image: '/team-photos/Oriana.png'
+    bg: 'bg-black'
   },
   {
     name: 'Santiago',
@@ -25,6 +33,13 @@ const leadership = [
     color: 'text-white',
     bg: 'bg-red-600',
     image: '/team-photos/Santiago.png'
+  },
+  {
+    name: 'Giovanna',
+    role: 'Head Delegate',
+    icon: User,
+    color: 'text-white',
+    bg: 'bg-red-600'
   }
 ]
 
@@ -56,6 +71,13 @@ const operations = [
 ]
 
 const faculties = ['Millan', 'Oriana', 'Claudia']
+
+const getInitials = (name: string) =>
+  name
+    .split(' ')
+    .map(part => part[0])
+    .join('')
+    .slice(0, 2)
 </script>
 
 <template>
@@ -83,12 +105,15 @@ const faculties = ['Millan', 'Oriana', 'Claudia']
           >
             <div class="relative inline-flex mb-4 sm:mb-8 mx-auto">
               <!-- Team Member Image -->
-              <div class="w-24 h-24 sm:w-40 sm:h-40 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-gray-100 transition-all duration-300 group-hover:scale-105">
-                <img 
-                  :src="member.image" 
-                  :alt="member.name"
-                  class="w-full h-full object-cover"
-                />
+              <div class="w-24 h-24 sm:w-40 sm:h-40 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-gray-100 transition-all duration-300 group-hover:scale-105 bg-gray-100 flex items-center justify-center">
+                <template v-if="member.image">
+                  <img 
+                    :src="member.image" 
+                    :alt="member.name"
+                    class="w-full h-full object-cover"
+                  />
+                </template>
+                <span v-else class="text-xl sm:text-4xl font-extrabold text-gray-900 font-montserrat tracking-tight">{{ getInitials(member.name) }}</span>
               </div>
               
               <!-- Icon Badge -->
