@@ -1,16 +1,16 @@
-<template>
-  <footer class="bg-gray-50 py-10 mt-auto border-t border-gray-100">
-    <div class="container mx-auto px-4 flex flex-col items-center justify-center gap-6">
-      <div class="flex items-center gap-2">
-        <img src="/LOGO.png" alt="CICMUN Logo" class="w-8 h-8 opacity-50 grayscale" />
-        <span class="text-gray-400 font-bold tracking-widest text-sm">CICMUN</span>
-      </div>
+<script setup lang="ts">
+import { Instagram, Mail } from 'lucide-vue-next'
+</script>
 
-      <div class="flex flex-col items-center gap-2">
-        <p class="text-[10px] text-gray-300">
-          © {{ new Date().getFullYear() }} Colegio Internacional de Caracas
-        </p>
+<template>
+  <footer class="mt-auto border-t border-white/10 bg-gray-950 py-12 text-white">
+    <div class="container mx-auto flex flex-col items-center gap-8 px-4">
+      <img src="/LOGO.png" alt="CICMUN Logo" class="h-12 w-12 object-contain" />
+      <div class="flex items-center gap-3">
+        <a href="https://www.instagram.com/cicmunve/" target="_blank" rel="noopener noreferrer" aria-label="CICMUN on Instagram" class="rounded-full border border-white/20 p-3 transition-colors hover:border-red-500 hover:text-red-500"><Instagram class="h-5 w-5" /></a>
+        <a href="mailto:samun@ciccaracas.com.ve" aria-label="Email CICMUN" class="rounded-full border border-white/20 p-3 transition-colors hover:border-red-500 hover:text-red-500"><Mail class="h-5 w-5" /></a>
       </div>
+      <p class="text-center text-xs text-gray-500">© {{ new Date().getFullYear() }} Colegio Internacional de Caracas</p>
     </div>
   </footer>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Home, Users, Calendar, BookOpen, Image, Instagram } from 'lucide-vue-next'
-import { onMounted, onBeforeUnmount, ref, watch, nextTick } from 'vue'
+import { Home, Users, Calendar, BookOpen, Image, Instagram, UserCircle } from 'lucide-vue-next'
+import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 
 const route = useRoute()
 const isActive = (path: string) => route.path === path
@@ -85,7 +85,6 @@ onBeforeUnmount(() => {
           :aria-current="isActive('/') ? 'page' : undefined"
         >
           <NuxtLink to="/">
-            <Home class="w-5 h-5" />
             <span class="hidden md:inline relative z-10">Home</span>
           </NuxtLink>
         </UiButton>
@@ -97,7 +96,6 @@ onBeforeUnmount(() => {
           :aria-current="isActive('/delegates') ? 'page' : undefined"
         >
           <NuxtLink to="/delegates">
-            <Users class="w-5 h-5" />
             <span class="hidden md:inline relative z-10">Delegates</span>
           </NuxtLink>
         </UiButton>
@@ -109,7 +107,6 @@ onBeforeUnmount(() => {
           :aria-current="isActive('/schedule') ? 'page' : undefined"
         >
           <NuxtLink to="/schedule">
-            <Calendar class="w-5 h-5" />
             <span class="hidden md:inline relative z-10">Schedule</span>
           </NuxtLink>
         </UiButton>
@@ -121,7 +118,6 @@ onBeforeUnmount(() => {
           :aria-current="isActive('/resources') ? 'page' : undefined"
         >
           <NuxtLink to="/resources">
-            <BookOpen class="w-5 h-5" />
             <span class="hidden md:inline relative z-10">Resources</span>
           </NuxtLink>
         </UiButton>
@@ -133,7 +129,6 @@ onBeforeUnmount(() => {
           :aria-current="isActive('/gallery') ? 'page' : undefined"
         >
           <NuxtLink to="/gallery">
-            <Image class="w-5 h-5" />
             <span class="hidden md:inline relative z-10">Gallery</span>
           </NuxtLink>
         </UiButton>
@@ -155,6 +150,10 @@ onBeforeUnmount(() => {
             <Instagram class="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300" />
           </UiButton>
         </a>
+
+        <button type="button" class="ml-2 rounded-full border-2 border-black p-1.5 text-black transition-colors hover:bg-black hover:text-white" aria-label="Account coming soon" title="Account coming soon">
+          <UserCircle class="h-6 w-6" />
+        </button>
       </div>
 
       <!-- Mobile Hamburger Button -->

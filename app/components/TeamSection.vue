@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { User, Shield, Megaphone, GraduationCap, Star, Truck } from 'lucide-vue-next'
+import { User, Shield, Megaphone, GraduationCap, Star, Truck, UserRound } from 'lucide-vue-next'
 
 type TeamMember = {
   name: string
@@ -24,7 +24,8 @@ const leadership: TeamMember[] = [
     role: 'Deputy Secretary',
     icon: Shield,
     color: 'text-white',
-    bg: 'bg-black'
+    bg: 'bg-black',
+    image: '/team-photos/Ariana.png'
   },
   {
     name: 'Santiago',
@@ -39,7 +40,8 @@ const leadership: TeamMember[] = [
     role: 'Head Delegate',
     icon: User,
     color: 'text-white',
-    bg: 'bg-red-600'
+    bg: 'bg-red-600',
+    image: '/team-photos/Giovanna.png'
   }
 ]
 
@@ -70,7 +72,33 @@ const operations = [
   }
 ]
 
-const faculties = ['Millan', 'Oriana', 'Claudia']
+const faculties: TeamMember[] = [
+
+  {
+    name: 'Ricardo Millan',
+    role: 'Faculty Supervisor',
+    icon: UserRound,
+    color: 'text-white',
+    bg: 'bg-red-600',
+    image: '/team-photos/Ricardo.JPG'
+  },
+  {
+    name: 'Oriana',
+    role: 'Faculty Supervisor',
+    icon: UserRound,
+    color: 'text-white',
+    bg: 'bg-red-600',
+    image: '/team-photos/Oriana.JPG'
+  },
+  {
+    name: 'Claudia',
+    role: 'Faculty Supervisor',
+    icon: UserRound,
+    color: 'text-white',
+    bg: 'bg-red-600',
+    image: '/team-photos/Claudia.JPG'
+  }
+]
 
 const getInitials = (name: string) =>
   name
@@ -167,31 +195,38 @@ const getInitials = (name: string) =>
       </div>
 
       <!-- Faculties Section -->
-      <div class="bg-gray-900 rounded-[2rem] md:rounded-[2.5rem] p-8 md:p-16 text-white relative overflow-hidden shadow-2xl">
+      <div class="bg-gray-950 rounded-2xl p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
         <!-- Abstract Background Decor -->
         <div class="absolute top-0 right-0 w-96 h-96 bg-red-600/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-[100px]"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-red-600/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-[100px]"></div>
 
-        <div class="relative z-10 flex flex-col md:flex-row items-center gap-8 md:gap-20">
-          <div class="flex-shrink-0 bg-red-600 p-5 md:p-6 rounded-2xl md:rounded-[2rem] shadow-[0_15px_30px_rgba(220,38,38,0.3)] group transition-all duration-500 hover:rotate-6 hover:scale-110">
-            <GraduationCap class="w-12 h-12 md:w-14 md:h-14 text-white" />
-          </div>
-          
-          <div class="flex-1 text-center md:text-left">
-            <div class="flex flex-col gap-3 mb-8">
-              <h3 class="text-3xl md:text-4xl font-bold font-montserrat tracking-tight leading-tight">Our Faculties</h3>
-              <p class="text-gray-400 text-lg md:text-xl font-medium opacity-80">Guiding and mentoring the next generation of diplomats.</p>
+        <div class="relative z-10">
+          <div class="mb-8 flex items-end justify-between gap-6">
+            <div>
+              <p class="mb-2 text-sm font-bold uppercase tracking-[0.25em] text-red-500">Meet the team behind CICMUN</p>
+              <h3 class="text-3xl font-bold font-montserrat tracking-tight leading-tight md:text-4xl">Our Faculty Supervisors</h3>
             </div>
-            
-            <div class="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6">
-              <div 
-                v-for="faculty in faculties" 
-                :key="faculty"
-                class="group px-8 py-3 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 font-bold text-red-500 transition-all duration-500 hover:bg-white/15 hover:scale-105 hover:shadow-[0_10px_20px_rgba(220,38,38,0.15)] flex items-center gap-3"
-              >
-                <div class="w-2 h-2 rounded-full bg-red-600 group-hover:animate-pulse"></div>
-                {{ faculty }}
+            <GraduationCap class="hidden h-12 w-12 text-red-500 md:block" aria-hidden="true" />
+          </div>
+          <div class="grid gap-4 md:grid-cols-3">
+            <div v-for="faculty in faculties" :key="faculty.name" class="group flex min-h-64 flex-col items-center border border-white/15 bg-white/[0.04] p-6 text-center transition-colors hover:border-red-500 hover:bg-white/[0.08]">
+              <div class="relative inline-flex mb-8">
+                <div class="w-24 h-24 rounded-2xl overflow-hidden border-2 border-white/15 transition-all duration-300 group-hover:scale-105 bg-white/10 flex items-center justify-center">
+                  <template v-if="faculty.image">
+                    <img
+                      :src="faculty.image"
+                      :alt="faculty.name"
+                      class="w-full h-full object-cover"
+                    />
+                  </template>
+                  <span v-else class="text-2xl font-extrabold text-white font-montserrat tracking-tight">{{ getInitials(faculty.name) }}</span>
+                </div>
+                <div :class="['absolute -bottom-2 -right-2 p-2 rounded-xl transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 shadow-lg', faculty.bg]">
+                  <component :is="faculty.icon" :class="['w-4 h-4', faculty.color]" aria-hidden="true" />
+                </div>
               </div>
+              <h4 class="mb-3 text-xl font-bold">{{ faculty.name }}</h4>
+              <p class="text-red-500 text-sm font-bold uppercase tracking-widest">{{ faculty.role }}</p>
             </div>
           </div>
         </div>

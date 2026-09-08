@@ -1,12 +1,23 @@
 <script setup lang="ts">
-import { ArrowRight } from 'lucide-vue-next'
+import { ArrowRight, BrainCircuit, Globe2, Handshake, Landmark } from 'lucide-vue-next'
 // UiButton is auto-imported
 
 const { data: events } = await useFetch('/api/events')
 
-// Find JMUN to pull the correct start date for the countdown
-const jmunEvent = computed(() => events.value?.find((e: any) => e.id === 'jmun'))
-const countdownDate = computed(() => jmunEvent.value?.startDate || '')
+// Find the next upcoming event with a confirmed start date
+const nextEvent = computed(() => {
+  const now = Date.now()
+  const upcoming = (events.value ?? [])
+    .map((e: any) => ({
+      event: e,
+      time: e.startDate ? new Date(e.startDate).getTime() : Number.NaN,
+    }))
+    .filter(({ time }: any) => !Number.isNaN(time))
+    .sort((a: any, b: any) => a.time - b.time)
+
+  return upcoming.find(({ time }: any) => time > now)?.event ?? null
+})
+const countdownDate = computed(() => nextEvent.value?.startDate || '')
 const countdownEnded = ref(false)
 
 
@@ -59,8 +70,14 @@ if (import.meta.client) {
     <BrainrotOverlay v-if="show67" />
 
     <!-- Hero Section -->
-    <section :class="['flex-1 bg-gradient-to-br from-red-600 via-red-500 to-black text-white py-20 px-4 md:py-32 overflow-hidden', { 'brainrot-shake': heroShake }]">
-      <div class="container max-w-4xl mx-auto text-center">
+    <section :class="['relative flex-1 bg-gradient-to-br from-red-700 via-red-600 to-[#180507] text-white py-20 px-4 md:py-32 overflow-hidden', { 'brainrot-shake': heroShake }]">
+      <Globe2 class="absolute -right-24 -top-20 h-[32rem] w-[32rem] text-white/[0.08] stroke-[0.7] md:-right-16 md:-top-24" aria-hidden="true" />
+      <div class="pointer-events-none absolute inset-0 opacity-20" aria-hidden="true">
+        <div class="absolute left-[8%] top-20 h-32 w-32 rotate-45 border border-white/60" />
+        <div class="absolute bottom-12 right-[14%] h-20 w-20 border-2 border-white/40" />
+        <div class="absolute left-1/2 top-0 h-full w-px bg-white/20" />
+      </div>
+      <div class="container relative z-10 max-w-4xl mx-auto text-center">
         <div class="mb-8">
           <h1 class="text-5xl md:text-6xl font-bold mb-4 leading-tight font-montserrat tracking-tight animate-fade-in-up" style="animation-delay: 0.1s">
             Welcome to CICMUN
@@ -75,7 +92,7 @@ if (import.meta.client) {
         </p>
 
         <div v-if="countdownDate && !countdownEnded" class="mb-12 animate-fade-in-up" style="animation-delay: 0.7s">
-          <p class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Counting down to JMUN 2027</p>
+          <p class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Counting down to {{ nextEvent?.name }}</p>
           <CountdownTimer :target-date="countdownDate" @brainrot="onBrainrot" @ended="countdownEnded = true" />
         </div>
 
@@ -96,9 +113,12 @@ if (import.meta.client) {
 
     <!-- About Section -->
     <section class="bg-white py-16 md:py-24 px-4">
-      <div class="container max-w-4xl mx-auto text-center">
-        <h2 class="text-4xl font-bold text-black mb-6 font-montserrat">About CICMUN</h2>
-        <div class="prose max-w-3xl mx-auto text-gray-700 text-lg mb-12">
+      <div class="container max-w-6xl mx-auto">
+        <div class="mx-auto max-w-3xl text-center">
+          <p class="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-red-600">The CICMUN experience</p>
+          <h2 class="text-4xl font-bold text-black mb-6 font-montserrat">About CICMUN</h2>
+        </div>
+        <div class="prose max-w-3xl mx-auto text-gray-700 text-lg mb-12 text-center">
           <p class="mb-6 leading-relaxed">
             The Colegio Internacional de Caracas Model United Nations (CICMUN) is one of South America's premier Model UN conferences. Since 1990, CIC has hosted the South American Model United Nations (SAMUN), bringing together hundreds of delegates to engage in diplomatic simulations.
           </p>
@@ -106,7 +126,18 @@ if (import.meta.client) {
             Our conference features authentic committees, challenging topics, and an environment that fosters critical thinking, public speaking, and international relations skills.
           </p>
         </div>
-
+        <div class="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+          <div v-for="feature in [
+            { title: 'Diplomacy', icon: Handshake, description: 'Build consensus across perspectives.' },
+            { title: 'Internationalism', icon: Globe2, description: 'See every issue in a global context.' },
+            { title: 'International Law', icon: Landmark, description: 'Engage with the rules that shape nations.' },
+            { title: 'Critical Thinking', icon: BrainCircuit, description: 'Question deeply and argue with purpose.' },
+          ]" :key="feature.title" class="border-t-2 border-black px-1 pt-5 sm:px-4">
+            <component :is="feature.icon" class="mb-4 h-7 w-7 text-red-600" aria-hidden="true" />
+            <h3 class="mb-2 text-base font-bold text-black sm:text-lg">{{ feature.title }}</h3>
+            <p class="text-sm leading-relaxed text-gray-600">{{ feature.description }}</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -123,7 +154,7 @@ if (import.meta.client) {
             { title: 'Integrity', description: 'Conducting ourselves with honesty and ethics' },
             { title: 'Leadership', description: 'Developing tomorrow\'s global leaders' },
           ]" :key="idx" 
-          class="bg-white p-6 rounded-lg border-l-4 border-red-600 shadow-sm hover-lift"
+          class="bg-white p-6 rounded-lg border border-gray-200 border-l-4 border-l-red-600 shadow-sm hover-lift"
           >
             <h3 class="text-xl font-bold text-red-600 mb-3 font-montserrat">{{ value.title }}</h3>
             <p class="text-gray-700 font-medium">{{ value.description }}</p>

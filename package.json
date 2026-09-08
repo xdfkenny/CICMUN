@@ -21,10 +21,11 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@iconify/vue": "^5.0.1",
     "@nuxt/image": "^2.0.0",
-    "db0": "^0.3.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "db0": "^0.3.4",
     "ioredis": "^5.10.1",
     "lucide-vue-next": "^0.577.0",
     "nuxt": "^4.4.2",
@@ -64,11 +65,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@iconify-json/material-symbols": "^1.2.91",
     "@playwright/test": "^1.56.1",
     "@tailwindcss/vite": "^4.2.1",
+    "@types/node": "^25.5.0",
     "@typescript-eslint/eslint-plugin": "^8.46.1",
     "@typescript-eslint/parser": "^8.46.1",
-    "@types/node": "^25.5.0",
     "eslint": "^9.39.1",
     "eslint-plugin-vue": "^10.5.1",
     "globals": "^16.5.0",

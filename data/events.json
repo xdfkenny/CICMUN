@@ -14,6 +14,8 @@
         "name": "SAMUN 2026",
         "description": "South American Model of United Nations",
         "timezone": "America/Caracas",
+        "startDate": "2026-11-13T00:00:00-04:00",
+        "endDate": "2026-11-14T23:59:59-04:00",
         "location": "Colegio Internacional de Caracas",
         "address": "Calle Colegio Americano, Minas de Baruta",
         "city": "Caracas, Venezuela",
