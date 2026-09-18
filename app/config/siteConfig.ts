@@ -16,12 +16,16 @@ export const siteConfig = {
     name: 'SAMUN 2027',
     date: '2027-11-12',
     dateLabel: 'November 12-13, 2027',
+    gradeRange: 'Grades 9-12',
   },
   jmun: {
     name: 'JMUN 2027',
     date: '2027-04-24',
     dateLabel: 'April 24-25, 2027',
+    gradeRange: 'Grades 6-8',
   },
+  /** Host city line shown on delegate entry cards. */
+  location: 'Caracas, Venezuela',
   copyright: `© ${new Date().getFullYear()} Colegio Internacional de Caracas`,
 } as const
 

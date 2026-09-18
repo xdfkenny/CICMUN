@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Home, Users, Calendar, BookOpen, Image, Instagram, UserCircle } from 'lucide-vue-next'
+import { Home, Users, Calendar, BookOpen, Image, Instagram } from 'lucide-vue-next'
 import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 
 const route = useRoute()
@@ -151,10 +151,7 @@ onBeforeUnmount(() => {
           </UiButton>
         </a>
 
-        <button type="button" class="ml-2 rounded-full border-2 border-black p-1.5 text-black transition-colors hover:bg-black hover:text-white" aria-label="Account coming soon" title="Account coming soon">
-          <UserCircle class="h-6 w-6" />
-        </button>
-      </div>
+        </div>
 
       <!-- Mobile Hamburger Button -->
       <button 
