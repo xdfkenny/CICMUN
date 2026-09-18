@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Calendar, MapPin } from 'lucide-vue-next'
+import { ArrowRight, Calendar, MapPin } from 'lucide-vue-next'
 import type { AsyncDataRequestStatus } from 'nuxt/app'
 import type { Committee, ConferenceType, PortalEvent } from '~~/shared/types'
 
@@ -22,6 +22,17 @@ const accentBorderClass = computed(() => (isSamun.value ? 'border-red-600' : 'bo
 const accentIconContainerClass = computed(() => (isSamun.value ? 'bg-red-50 group-hover:bg-red-100' : 'bg-gray-50 group-hover:bg-gray-100'))
 const accentIconClass = computed(() => (isSamun.value ? 'text-red-600' : 'text-black'))
 const accentButtonClass = computed(() => (isSamun.value ? 'bg-red-600 hover:bg-red-700 hover:shadow-red-600/40' : 'bg-black hover:bg-gray-800 hover:shadow-black/20'))
+
+// PanAmUN-style cross-wayfinding strip data: real tracked routes only (no dead ends)
+const crossLinks = [
+  { to: '/schedule', label: 'Schedule' },
+  { to: '/delegates', label: 'Delegates' },
+  { to: '/resources', label: 'Resources' },
+  { to: '/gallery', label: 'Gallery' },
+]
+
+// Accent-aware text-link styling (red for SAMUN, black for JMUN), matching the homepage quick-links language
+const linkClass = computed(() => (isSamun.value ? 'text-red-600 hover:text-red-700' : 'text-black hover:text-gray-700'))
 </script>
 
 <template>
@@ -35,6 +46,25 @@ const accentButtonClass = computed(() => (isSamun.value ? 'bg-red-600 hover:bg-r
           {{ eventDetails?.description || fallbackDescription }}
         </p>
       </div>
+
+      <!-- Continue exploring (PanAmUN-style cross-wayfinding strip: slim text + arrow, no card grid) -->
+      <nav
+        aria-label="Continue exploring CICMUN"
+        class="mb-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-b border-gray-200 pb-8 animate-fade-in-up"
+        style="animation-delay: 250ms; animation-fill-mode: both;"
+      >
+        <span class="text-xs font-bold uppercase tracking-[0.25em] text-gray-500">Continue exploring</span>
+        <NuxtLink
+          v-for="link in crossLinks"
+          :key="link.to"
+          :to="link.to"
+          class="group inline-flex items-center gap-1.5 text-sm font-bold uppercase tracking-tight transition-colors"
+          :class="linkClass"
+        >
+          {{ link.label }}
+          <ArrowRight class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+        </NuxtLink>
+      </nav>
 
       <div class="reveal mx-auto mb-20 max-w-4xl">
         <div
