@@ -148,31 +148,37 @@ const refreshPage = async () => {
       </div>
 
       <!-- Filters -->
-      <div v-if="galleryEvents.length > 0" class="flex overflow-x-auto md:overflow-visible md:flex-wrap gap-3 md:gap-4 pb-4 md:pb-0 mb-8 md:mb-16 animate-fade-in-up px-4 md:justify-center snap-x snap-mandatory scroll-smooth md:snap-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] -mx-4 md:mx-0" style="animation-delay: 200ms; animation-fill-mode: both;">
-        <button
-          @click="selectEvent('all')"
-          :class="[
-            'px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold transition-all duration-300 border-2 shadow-sm whitespace-nowrap flex-shrink-0 md:flex-shrink md:snap-align-none snap-center text-sm md:text-base',
-            selectedEventId === 'all'
-              ? 'bg-black border-black text-white shadow-xl scale-105'
-              : 'bg-white border-gray-100 text-gray-500 hover:border-black hover:text-black hover:shadow-md'
-          ]"
-        >
-          All Photos
-        </button>
-        <button
-          v-for="event in galleryEvents"
-          :key="event.id"
-          @click="selectEvent(event.id)"
-          :class="[
-            'px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold transition-all duration-300 border-2 shadow-sm whitespace-nowrap flex-shrink-0 md:flex-shrink md:snap-align-none snap-center text-sm md:text-base',
-            selectedEventId === event.id
-              ? 'bg-red-600 border-red-600 text-white shadow-xl scale-105'
-              : 'bg-white border-gray-100 text-gray-500 hover:border-red-600 hover:text-red-600 hover:shadow-md'
-          ]"
-        >
-          {{ event.name }} ({{ event.imageCount }})
-        </button>
+      <div v-if="galleryEvents.length > 0" class="mb-8 md:mb-16 animate-fade-in-up" style="animation-delay: 200ms; animation-fill-mode: both;">
+        <h2 class="mb-4 px-4 text-xs font-bold uppercase tracking-[0.25em] text-gray-500 md:px-0 md:text-center">Browse by conference</h2>
+        <div class="relative -mx-4 md:mx-0">
+          <div class="flex overflow-x-auto md:overflow-visible md:flex-wrap gap-3 md:gap-4 pb-4 md:pb-0 px-4 md:px-0 md:justify-center snap-x snap-mandatory scroll-smooth md:snap-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <button
+              @click="selectEvent('all')"
+              :class="[
+                'px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold transition-all duration-300 border-2 shadow-sm whitespace-nowrap flex-shrink-0 md:flex-shrink md:snap-align-none snap-center text-sm md:text-base',
+                selectedEventId === 'all'
+                  ? 'bg-black border-black text-white shadow-xl scale-105'
+                  : 'bg-white border-gray-100 text-gray-500 hover:border-black hover:text-black hover:shadow-md'
+              ]"
+            >
+              All Photos
+            </button>
+            <button
+              v-for="event in galleryEvents"
+              :key="event.id"
+              @click="selectEvent(event.id)"
+              :class="[
+                'px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold transition-all duration-300 border-2 shadow-sm whitespace-nowrap flex-shrink-0 md:flex-shrink md:snap-align-none snap-center text-sm md:text-base',
+                selectedEventId === event.id
+                  ? 'bg-red-600 border-red-600 text-white shadow-xl scale-105'
+                  : 'bg-white border-gray-100 text-gray-500 hover:border-red-600 hover:text-red-600 hover:shadow-md'
+              ]"
+            >
+              {{ event.name }} ({{ event.imageCount }})
+            </button>
+          </div>
+          <div class="pointer-events-none absolute inset-y-0 right-0 h-full w-16 bg-gradient-to-l from-gray-50 to-transparent md:hidden" aria-hidden="true"></div>
+        </div>
       </div>
 
       <!-- Loading -->
