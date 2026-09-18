@@ -9,14 +9,14 @@ const securityHeaders = {
     "default-src 'self'",
     "base-uri 'self'",
     "connect-src 'self' https://cloudflareinsights.com",
-    "font-src 'self' https://fonts.gstatic.com data:",
+    "font-src 'self' data:",
     "form-action 'self'",
     "frame-ancestors 'self'",
     "frame-src 'self' https://www.google.com",
     "img-src 'self' data: https:",
     "object-src 'none'",
     "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "style-src 'self' 'unsafe-inline'",
   ].join("; "),
   "permissions-policy": "camera=(), geolocation=(), microphone=()",
   "referrer-policy": "strict-origin-when-cross-origin",
@@ -110,10 +110,7 @@ export default defineNuxtConfig({
         { name: 'robots', content: 'index, follow' }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500;600&display=swap' }
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
       ]
     }
   }

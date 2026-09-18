@@ -93,7 +93,7 @@ onUnmounted(() => {
             <div class="p-2 bg-black rounded-lg">
               <span class="text-white font-bold text-xs">PDF</span>
             </div>
-            <h3 class="font-bold font-montserrat text-gray-900 truncate max-w-[200px] md:max-w-md">
+            <h3 class="font-bold font-display text-gray-900 truncate max-w-[200px] md:max-w-md">
               {{ title }}
             </h3>
           </div>
@@ -150,7 +150,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.font-montserrat {
+.font-display {
   font-family: 'Montserrat', sans-serif;
 }
 </style>

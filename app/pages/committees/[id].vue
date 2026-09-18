@@ -89,7 +89,7 @@ const openViewer = (filename: string, title: string) => {
 
             <!-- Hero Content -->
             <div class="relative z-10 text-white p-8 text-center">
-              <h1 class="text-5xl md:text-6xl font-bold font-montserrat mb-4 drop-shadow-2xl tracking-tight">
+              <h1 class="text-5xl md:text-6xl font-bold font-display mb-4 drop-shadow-2xl tracking-tight">
                 {{ committee.name }}
               </h1>
               <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-6 py-2 rounded-full border border-white/30 shadow-xl">
@@ -101,7 +101,7 @@ const openViewer = (filename: string, title: string) => {
           </div>
           
           <div class="p-8 bg-white relative z-20">
-            <h2 class="text-2xl font-bold font-montserrat mb-6 border-b border-gray-100 pb-4 text-black">Topics</h2>
+            <h2 class="text-2xl font-bold font-display mb-6 border-b border-gray-100 pb-4 text-black">Topics</h2>
             <div class="grid md:grid-cols-2 gap-8">
               <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm">
                 <span class="font-bold text-sm uppercase tracking-wider mb-2 block" :class="textDarkColor">Topic A</span>
@@ -119,7 +119,7 @@ const openViewer = (filename: string, title: string) => {
         <div class="grid lg:grid-cols-3 gap-8 items-start">
           <!-- Leadership -->
           <div class="bg-white p-8 rounded-2xl shadow-lg lg:sticky lg:top-24">
-            <h3 class="text-xl font-bold font-montserrat mb-6 text-black">Committee Leadership</h3>
+            <h3 class="text-xl font-bold font-display mb-6 text-black">Committee Leadership</h3>
             <div class="space-y-6">
                 <div class="flex items-center gap-4">
                 <div class="w-14 h-14 rounded-full flex items-center justify-center font-bold text-xl border-2 uppercase" :class="[bgLightColor, textAccentColor, borderAccentColor]">
@@ -144,7 +144,7 @@ const openViewer = (filename: string, title: string) => {
 
           <!-- Resources -->
           <div class="lg:col-span-2 space-y-6">
-            <h3 class="text-2xl font-bold font-montserrat text-black px-2">Committee Resources</h3>
+            <h3 class="text-2xl font-bold font-display text-black px-2">Committee Resources</h3>
             <div v-if="resources.length > 0" class="grid sm:grid-cols-2 gap-4">
               <div v-for="resource in resources" :key="resource.title" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-black group flex flex-col">
                 <div class="flex justify-between items-start mb-4">
@@ -154,7 +154,7 @@ const openViewer = (filename: string, title: string) => {
                   <span class="text-[10px] font-bold px-2 py-0.5 bg-gray-100 rounded text-black uppercase tracking-widest">PDF</span>
                 </div>
                 
-                <h4 class="text-lg font-bold mb-1 font-montserrat leading-tight text-black">{{ resource.title }}</h4>
+                <h4 class="text-lg font-bold mb-1 font-display leading-tight text-black">{{ resource.title }}</h4>
                 <p class="text-black text-xs mb-4 line-clamp-2 leading-relaxed">{{ resource.description }}</p>
                 
                 <div class="flex items-center gap-4 mt-auto pt-2">

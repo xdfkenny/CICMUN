@@ -30,7 +30,7 @@ useSeoMeta({
           <NuxtLink to="/samun">
             <Users class="w-16 h-16" />
             <div class="text-center">
-              <h2 class="text-3xl font-bold mb-2 font-montserrat uppercase">{{ siteConfig.samun.name }}</h2>
+              <h2 class="text-3xl font-bold mb-2 font-display uppercase">{{ siteConfig.samun.name }}</h2>
               <p class="text-lg font-light">South American Model United Nations</p>
               <p class="text-sm mt-2 opacity-90">{{ siteConfig.samun.dateLabel }}</p>
               <p class="text-sm mt-1 opacity-90">Grades 9-12 · Caracas, Venezuela</p>
@@ -47,7 +47,7 @@ useSeoMeta({
           <NuxtLink to="/jmun">
             <BookOpen class="w-16 h-16" />
             <div class="text-center">
-              <h2 class="text-3xl font-bold mb-2 font-montserrat uppercase">{{ siteConfig.jmun.name }}</h2>
+              <h2 class="text-3xl font-bold mb-2 font-display uppercase">{{ siteConfig.jmun.name }}</h2>
               <p class="text-lg font-light">Junior Model United Nations</p>
               <p class="text-sm mt-2 opacity-90">{{ siteConfig.jmun.dateLabel }}</p>
               <p class="text-sm mt-1 opacity-90">Grades 6-8 · Caracas, Venezuela</p>
@@ -60,7 +60,7 @@ useSeoMeta({
       <div class="mt-16 grid md:grid-cols-2 gap-8 px-4">
         <!-- SAMUN Info -->
         <div class="bg-white p-8 rounded-lg border-2 border-red-600 shadow-md reveal hover-lift">
-          <h3 class="text-2xl font-bold text-red-600 mb-4 font-montserrat uppercase tracking-tight">About SAMUN</h3>
+          <h3 class="text-2xl font-bold text-red-600 mb-4 font-display uppercase tracking-tight">About SAMUN</h3>
           <p class="text-gray-700 mb-4">
             The South American Model United Nations is our flagship conference, bringing together high school delegates from across the region.
           </p>
@@ -74,7 +74,7 @@ useSeoMeta({
 
         <!-- JMUN Info -->
         <div class="bg-white p-8 rounded-lg border-2 border-black shadow-md reveal hover-lift" style="transition-delay: 150ms;">
-          <h3 class="text-2xl font-bold text-black mb-4 font-montserrat uppercase tracking-tight">About JMUN</h3>
+          <h3 class="text-2xl font-bold text-black mb-4 font-display uppercase tracking-tight">About JMUN</h3>
           <p class="text-gray-700 mb-4">
             The Junior Model United Nations provides middle school students with their first introduction to diplomatic simulation and international affairs.
           </p>

@@ -180,7 +180,7 @@ const refreshPage = async () => {
         <div class="mb-8 inline-flex bg-gray-50 p-8 rounded-full animate-pulse shadow-inner">
           <ImageIcon class="w-16 h-16 text-gray-300" />
         </div>
-        <h3 class="text-3xl font-extrabold text-black mb-3 font-montserrat uppercase tracking-tight">Loading photos...</h3>
+        <h3 class="text-3xl font-extrabold text-black mb-3 font-display uppercase tracking-tight">Loading photos...</h3>
         <p class="text-gray-500 max-w-md mx-auto font-medium opacity-80">Preparing the gallery for you.</p>
       </div>
 
@@ -198,7 +198,7 @@ const refreshPage = async () => {
         <div class="mb-8 inline-flex bg-red-50 p-8 rounded-full shadow-inner">
           <ImageIcon class="w-16 h-16 text-red-300" />
         </div>
-        <h3 class="text-3xl font-extrabold text-black mb-3 font-montserrat uppercase tracking-tight">Gallery unavailable</h3>
+        <h3 class="text-3xl font-extrabold text-black mb-3 font-display uppercase tracking-tight">Gallery unavailable</h3>
         <p class="text-gray-500 max-w-md mx-auto mb-10 font-medium opacity-80 leading-relaxed">
           {{ loadErrorMessage }}
         </p>
@@ -216,7 +216,7 @@ const refreshPage = async () => {
         <div class="mb-8 inline-flex bg-gray-50 p-8 rounded-full shadow-inner">
           <ImageIcon class="w-16 h-16 text-gray-300" />
         </div>
-        <h3 class="text-3xl font-extrabold text-black mb-3 font-montserrat uppercase tracking-tight">No photos found</h3>
+        <h3 class="text-3xl font-extrabold text-black mb-3 font-display uppercase tracking-tight">No photos found</h3>
         <p class="text-gray-500 max-w-md mx-auto mb-10 font-medium opacity-80 leading-relaxed">
           We haven't uploaded photos for this event yet. Please check back later!
         </p>

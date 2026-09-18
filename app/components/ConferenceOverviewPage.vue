@@ -69,7 +69,7 @@ const linkClass = computed(() => (isSamun.value ? 'text-red-600 hover:text-red-7
           class="overflow-hidden rounded-2xl border-l-8 bg-white p-6 shadow-xl transition-all duration-500 hover-lift md:p-10"
           :class="accentBorderClass"
         >
-          <h2 class="mb-8 font-montserrat text-3xl font-bold uppercase tracking-tight text-black">
+          <h2 class="mb-8 font-display text-3xl font-bold uppercase tracking-tight text-black">
             Event Details
           </h2>
 
@@ -152,7 +152,7 @@ const linkClass = computed(() => (isSamun.value ? 'text-red-600 hover:text-red-7
       </div>
 
       <div>
-        <h2 class="reveal mb-8 font-montserrat text-3xl font-bold uppercase tracking-tight text-black">
+        <h2 class="reveal mb-8 font-display text-3xl font-bold uppercase tracking-tight text-black">
           {{ conferenceType }} Committees
         </h2>
 
@@ -184,7 +184,7 @@ const linkClass = computed(() => (isSamun.value ? 'text-red-600 hover:text-red-7
         </div>
 
         <div v-else class="reveal rounded-2xl border border-gray-100 bg-white p-12 text-center shadow-md">
-          <p class="mb-3 font-montserrat text-2xl font-bold uppercase text-black">
+          <p class="mb-3 font-display text-2xl font-bold uppercase text-black">
             {{ emptyTitle }}
           </p>
           <p class="mx-auto max-w-2xl text-base font-medium leading-relaxed text-gray-600">

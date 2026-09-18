@@ -1,6 +1,23 @@
 @import "tailwindcss";
+@import "@fontsource/montserrat/600.css";
+@import "@fontsource/montserrat/700.css";
+@import "@fontsource/montserrat/800.css";
+@import "@fontsource/open-sans/400.css";
+@import "@fontsource/open-sans/500.css";
+@import "@fontsource/open-sans/600.css";
 
 @custom-variant dark (&:is(.dark *));
+
+/* Design tokens: single entry point for type + brand colors.
+   Use the semantic utilities (font-sans / font-display / brand colors) in
+   components — never one-off family/[hex] arbitrary values. */
+@theme {
+  --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Montserrat", ui-sans-serif, sans-serif;
+
+  --color-brand-600: oklch(0.577 0.245 27.325); /* brand red, matches --primary */
+  --color-ink-950: oklch(0.13 0.028 261.692);   /* footer near-black */
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -126,7 +143,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--font-sans);
   }
 
   h1,
@@ -135,7 +152,7 @@
   h4,
   h5,
   h6 {
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-display);
     font-weight: 700;
   }
 
@@ -356,7 +373,7 @@
     pointer-events: none;
     z-index: 9999;
     font-weight: 800;
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-display);
     animation: brainrot-particle-float var(--duration, 3s) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     animation-delay: var(--delay, 0s);
     opacity: 0;

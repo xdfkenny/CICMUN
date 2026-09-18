@@ -62,7 +62,7 @@ const hoverTextClass = computed(() => {
       </div>
 
       <UiCardContent class="pt-8 px-6 pb-6">
-        <UiCardTitle :class="'text-2xl font-bold mb-4 font-montserrat tracking-tight transition-colors duration-300 ' + hoverTextClass">
+        <UiCardTitle :class="'text-2xl font-bold mb-4 font-display tracking-tight transition-colors duration-300 ' + hoverTextClass">
           {{ committee.name }}
         </UiCardTitle>
 

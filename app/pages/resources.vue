@@ -104,7 +104,7 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
       <!-- Error State -->
       <div v-else-if="error" class="bg-red-50 text-red-700 p-12 rounded-2xl text-center border border-red-200 reveal" :id="`resource-panel-${activeTab}`" role="tabpanel" :aria-labelledby="`resource-tab-${activeTab}`" tabindex="0">
         <AlertCircle class="w-16 h-16 mx-auto mb-6 text-red-500 animate-bounce" />
-        <h3 class="text-2xl font-bold mb-3 font-montserrat uppercase tracking-tight">Notice</h3>
+        <h3 class="text-2xl font-bold mb-3 font-display uppercase tracking-tight">Notice</h3>
         <p class="text-lg font-medium opacity-80">Resources are temporarily unavailable. Please try again later or contact the secretariat.</p>
       </div>
 
@@ -120,7 +120,7 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
             <span class="text-xs font-extrabold px-3 py-1.5 bg-gray-100 rounded-lg text-black uppercase tracking-wider">PDF</span>
           </div>
           
-          <h3 class="text-2xl font-bold mb-3 font-montserrat text-black tracking-tight uppercase">{{ resource.title }}</h3>
+          <h3 class="text-2xl font-bold mb-3 font-display text-black tracking-tight uppercase">{{ resource.title }}</h3>
           <p class="text-gray-600 mb-8 text-base font-medium leading-relaxed">{{ resource.description }}</p>
           
           <div class="flex items-center gap-8 mt-auto pb-2">

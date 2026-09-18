@@ -114,7 +114,7 @@ const getInitials = (name: string) =>
     <div class="container max-w-6xl mx-auto">
       <!-- Header Section -->
       <div class="text-center mb-16 md:mb-20">
-        <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black mb-6 font-montserrat tracking-tight uppercase leading-tight">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black mb-6 font-display tracking-tight uppercase leading-tight">
           Meet the Team
         </h2>
         <div class="h-1.5 w-24 bg-red-600 mx-auto rounded-full mb-8"></div>
@@ -142,7 +142,7 @@ const getInitials = (name: string) =>
                     class="w-full h-full object-cover"
                   />
                 </template>
-                <span v-else class="text-xl sm:text-4xl font-extrabold text-gray-900 font-montserrat tracking-tight">{{ getInitials(member.name) }}</span>
+                <span v-else class="text-xl sm:text-4xl font-extrabold text-gray-900 font-display tracking-tight">{{ getInitials(member.name) }}</span>
               </div>
               
               <!-- Icon Badge -->
@@ -153,7 +153,7 @@ const getInitials = (name: string) =>
 
             
             <div class="flex flex-col gap-1 sm:gap-2">
-              <h3 class="text-base sm:text-2xl font-extrabold text-black font-montserrat tracking-tight leading-tight uppercase">{{ member.name }}</h3>
+              <h3 class="text-base sm:text-2xl font-extrabold text-black font-display tracking-tight leading-tight uppercase">{{ member.name }}</h3>
               <p class="text-red-600 font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-xs sm:text-xs">
                 {{ member.role }}
               </p>
@@ -186,7 +186,7 @@ const getInitials = (name: string) =>
 
             
             <div class="flex flex-col gap-1 sm:gap-2">
-              <h3 class="text-base sm:text-2xl font-extrabold text-black font-montserrat tracking-tight leading-tight uppercase">{{ member.name }}</h3>
+              <h3 class="text-base sm:text-2xl font-extrabold text-black font-display tracking-tight leading-tight uppercase">{{ member.name }}</h3>
               <p class="text-red-600 font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-xs sm:text-xs">
                 {{ member.role }}
               </p>
@@ -205,7 +205,7 @@ const getInitials = (name: string) =>
           <div class="mb-8 flex items-end justify-between gap-6">
             <div>
               <p class="mb-2 text-sm font-bold uppercase tracking-[0.25em] text-red-500">Meet the team behind CICMUN</p>
-              <h3 class="text-3xl font-bold font-montserrat tracking-tight leading-tight md:text-4xl">Our Faculty Supervisors</h3>
+              <h3 class="text-3xl font-bold font-display tracking-tight leading-tight md:text-4xl">Our Faculty Supervisors</h3>
             </div>
             <GraduationCap class="hidden h-12 w-12 text-red-500 md:block" aria-hidden="true" />
           </div>
@@ -220,7 +220,7 @@ const getInitials = (name: string) =>
                       class="w-full h-full object-cover"
                     />
                   </template>
-                  <span v-else class="text-2xl font-extrabold text-white font-montserrat tracking-tight">{{ getInitials(faculty.name) }}</span>
+                  <span v-else class="text-2xl font-extrabold text-white font-display tracking-tight">{{ getInitials(faculty.name) }}</span>
                 </div>
                 <div :class="['absolute -bottom-2 -right-2 p-2 rounded-xl transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 shadow-lg', faculty.bg]">
                   <component :is="faculty.icon" :class="['w-4 h-4', faculty.color]" aria-hidden="true" />

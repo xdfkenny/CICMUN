@@ -83,22 +83,22 @@ onMounted(() => {
 <template>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
     <div :class="['bg-white/10 backdrop-blur-md rounded-lg p-4 transition-all duration-500', { 'countdown-67': isBrainrot67 }]">
-      <div :class="['text-4xl md:text-5xl font-bold font-montserrat', { 'brainrot-number-pulse': isBrainrot67 }]">{{ timeRemaining.days }}</div>
+      <div :class="['text-4xl md:text-5xl font-bold font-display', { 'brainrot-number-pulse': isBrainrot67 }]">{{ timeRemaining.days }}</div>
       <div class="text-sm uppercase tracking-wider opacity-80">Days</div>
       <div v-if="isBrainrot67" class="text-xs mt-1.5 font-bold tracking-wide animate-pulse text-amber-300">
         6-7 🤌
       </div>
     </div>
     <div class="bg-white/10 backdrop-blur-md rounded-lg p-4">
-      <div class="text-4xl md:text-5xl font-bold font-montserrat">{{ timeRemaining.hours }}</div>
+      <div class="text-4xl md:text-5xl font-bold font-display">{{ timeRemaining.hours }}</div>
       <div class="text-sm uppercase tracking-wider opacity-80">Hours</div>
     </div>
     <div class="bg-white/10 backdrop-blur-md rounded-lg p-4">
-      <div class="text-4xl md:text-5xl font-bold font-montserrat">{{ timeRemaining.minutes }}</div>
+      <div class="text-4xl md:text-5xl font-bold font-display">{{ timeRemaining.minutes }}</div>
       <div class="text-sm uppercase tracking-wider opacity-80">Minutes</div>
     </div>
     <div class="bg-white/10 backdrop-blur-md rounded-lg p-4">
-      <div class="text-4xl md:text-5xl font-bold font-montserrat">{{ timeRemaining.seconds }}</div>
+      <div class="text-4xl md:text-5xl font-bold font-display">{{ timeRemaining.seconds }}</div>
       <div class="text-sm uppercase tracking-wider opacity-80">Seconds</div>
     </div>
   </div>

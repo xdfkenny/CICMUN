@@ -93,7 +93,7 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
         <!-- Error State -->
         <div v-else-if="error" class="bg-red-50 text-red-700 p-12 rounded-2xl text-center border border-red-200 reveal">
           <AlertCircle class="w-16 h-16 mx-auto mb-6 text-red-500 animate-bounce" />
-          <h3 class="text-2xl font-bold mb-3 font-montserrat uppercase tracking-tight">Notice</h3>
+          <h3 class="text-2xl font-bold mb-3 font-display uppercase tracking-tight">Notice</h3>
           <p class="text-lg font-medium opacity-80">
             The schedule is temporarily unavailable. Please try again later or contact the secretariat.
           </p>
@@ -108,7 +108,7 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
             :style="{ transitionDelay: `${index * 150}ms` }"
           >
             <div :class="['p-8 text-white transition-colors duration-500', activeTab === 'SAMUN' ? 'bg-red-700' : 'bg-black']">
-              <h2 class="text-3xl font-bold font-montserrat uppercase tracking-tight">
+              <h2 class="text-3xl font-bold font-display uppercase tracking-tight">
                 {{ day.day }} - {{ day.date }}
               </h2>
             </div>
@@ -140,7 +140,7 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
         
         <!-- Empty State -->
         <div v-else class="text-center bg-white p-20 rounded-2xl border border-gray-100 shadow-xl reveal">
-          <p class="text-2xl text-gray-400 font-bold font-montserrat uppercase opacity-60">
+          <p class="text-2xl text-gray-400 font-bold font-display uppercase opacity-60">
             Schedule for {{ activeTab }} coming soon.
           </p>
         </div>

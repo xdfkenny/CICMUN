@@ -102,7 +102,7 @@ onUnmounted(() => {
       class="doot-flash select-none"
     >
       <div class="text-center">
-        <div class="text-6xl md:text-8xl font-bold font-montserrat tracking-tighter text-amber-300 drop-shadow-lg">
+        <div class="text-6xl md:text-8xl font-bold font-display tracking-tighter text-amber-300 drop-shadow-lg">
           6 - 7
         </div>
         <div class="text-lg md:text-2xl font-bold uppercase tracking-[0.3em] text-white/80 mt-2">

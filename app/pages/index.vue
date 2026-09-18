@@ -90,7 +90,7 @@ if (import.meta.client) {
       </div>
       <div class="container relative z-10 max-w-4xl mx-auto text-center">
         <div class="mb-8">
-          <h1 class="text-5xl md:text-6xl font-bold mb-4 leading-tight font-montserrat tracking-tight animate-fade-in-up" style="animation-delay: 0.1s">
+          <h1 class="text-5xl md:text-6xl font-bold mb-4 leading-tight font-display tracking-tight animate-fade-in-up" style="animation-delay: 0.1s">
             Welcome to CICMUN
           </h1>
           <p class="text-xl md:text-2xl font-light mb-8 text-gray-100 animate-fade-in-up" style="animation-delay: 0.3s">
@@ -139,7 +139,7 @@ if (import.meta.client) {
       <div class="container max-w-6xl mx-auto">
         <div class="mx-auto max-w-3xl text-center">
           <p class="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-red-600">The CICMUN experience</p>
-          <h2 class="text-4xl font-bold text-black mb-6 font-montserrat">About CICMUN</h2>
+          <h2 class="text-4xl font-bold text-black mb-6 font-display">About CICMUN</h2>
         </div>
         <div class="prose max-w-3xl mx-auto text-gray-700 text-lg mb-12 text-center">
           <p class="mb-6 leading-relaxed">
@@ -170,7 +170,7 @@ if (import.meta.client) {
     <!-- CIC Values Section -->
     <section class="bg-gray-50 py-16 md:py-24 px-4">
       <div class="container max-w-4xl mx-auto">
-        <h2 class="text-4xl font-bold text-center text-black mb-12 font-montserrat">CIC Values</h2>
+        <h2 class="text-4xl font-bold text-center text-black mb-12 font-display">CIC Values</h2>
         <div class="grid md:grid-cols-3 gap-8">
           <div v-for="(value, idx) in [
             { title: 'Respect', description: 'Valuing diverse perspectives and cultures' },
@@ -179,7 +179,7 @@ if (import.meta.client) {
           ]" :key="idx" 
           class="bg-white p-6 rounded-lg border border-gray-200 border-l-4 border-l-red-600 shadow-sm hover-lift"
           >
-            <h3 class="text-xl font-bold text-red-600 mb-3 font-montserrat">{{ value.title }}</h3>
+            <h3 class="text-xl font-bold text-red-600 mb-3 font-display">{{ value.title }}</h3>
             <p class="text-gray-700 font-medium">{{ value.description }}</p>
           </div>
         </div>
