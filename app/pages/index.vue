@@ -1,5 +1,15 @@
 <script setup lang="ts">
-import { ArrowRight, BrainCircuit, Globe2, Handshake, Landmark } from 'lucide-vue-next'
+import {
+  ArrowRight,
+  BrainCircuit,
+  CalendarDays,
+  Globe2,
+  Handshake,
+  Images,
+  Landmark,
+  Library,
+  Users,
+} from 'lucide-vue-next'
 // UiButton is auto-imported
 
 const { data: events } = await useFetch('/api/events')
@@ -110,6 +120,18 @@ if (import.meta.client) {
         </UiButton>
       </div>
     </section>
+
+    <!-- Explore Quick-Links Grid (PanAmUN-style wayfinding right under hero) -->
+    <ExploreLinks
+      :items="[
+        { title: 'SAMUN', description: 'The flagship high-school conference', to: '/samun', icon: Landmark, accent: 'red' },
+        { title: 'JMUN', description: 'Junior Model United Nations', to: '/jmun', icon: Globe2 },
+        { title: 'Delegates', description: 'Register and prepare your role', to: '/delegates', icon: Users },
+        { title: 'Schedule', description: 'Plan your conference days', to: '/schedule', icon: CalendarDays },
+        { title: 'Resources', description: 'Guides, rules, and downloads', to: '/resources', icon: Library },
+        { title: 'Gallery', description: 'Relive past conferences', to: '/gallery', icon: Images },
+      ]"
+    />
 
     <!-- About Section -->
     <section class="bg-white py-16 md:py-24 px-4">
