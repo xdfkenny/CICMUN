@@ -11,5 +11,8 @@ dist
 test-results
 public/gallery-origins
 
+# Audit artifacts
+.audit/
+
 # Playwright MCP debug artifacts
 .playwright-mcp/
