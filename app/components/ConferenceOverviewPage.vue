@@ -45,33 +45,35 @@ const linkClass = computed(() => (isSamun.value ? 'text-red-600 hover:text-red-7
         :subtitle="eventDetails?.description || fallbackDescription"
       />
 
-      <!-- Continue exploring (PanAmUN-style cross-wayfinding strip: slim text + arrow, no card grid) -->
-      <nav
-        aria-label="Continue exploring CICMUN"
-        class="mb-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-b border-gray-200 pb-8 animate-fade-in-up"
-        style="animation-delay: 250ms; animation-fill-mode: both;"
-      >
-        <span class="text-xs font-bold uppercase tracking-[0.25em] text-gray-500">Continue exploring</span>
-        <NuxtLink
-          v-for="link in crossLinks"
-          :key="link.to"
-          :to="link.to"
-          class="group inline-flex items-center gap-1.5 text-sm font-bold uppercase tracking-tight transition-colors"
-          :class="linkClass"
-        >
-          {{ link.label }}
-          <ArrowRight class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
-        </NuxtLink>
-      </nav>
-
+      <!-- Event Details -->
       <div class="reveal mx-auto mb-20 max-w-4xl">
         <div
           class="overflow-hidden rounded-2xl border-l-8 bg-white p-6 shadow-xl transition-all duration-500 hover-lift md:p-10"
           :class="accentBorderClass"
         >
-          <h2 class="mb-8 font-display text-3xl font-bold uppercase tracking-tight text-black">
-            Event Details
-          </h2>
+          <div class="mb-8 flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+            <h2 class="font-display text-3xl font-bold uppercase tracking-tight text-black">
+              Event Details
+            </h2>
+
+            <!-- Continue exploring (PanAmUN-style cross-wayfinding strip: slim text + arrow) -->
+            <nav
+              aria-label="Continue exploring CICMUN"
+              class="flex flex-wrap items-center gap-x-5 gap-y-3"
+            >
+              <span class="text-xs font-bold uppercase tracking-[0.25em] text-gray-500">Continue exploring</span>
+              <NuxtLink
+                v-for="link in crossLinks"
+                :key="link.to"
+                :to="link.to"
+                class="group inline-flex items-center gap-1.5 rounded-full border border-gray-200 px-3.5 py-1.5 text-xs font-bold uppercase tracking-tight transition-colors md:border-0 md:px-0 md:py-0 md:text-sm"
+                :class="linkClass"
+              >
+                {{ link.label }}
+                <ArrowRight class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+              </NuxtLink>
+            </nav>
+          </div>
 
           <div class="grid gap-10 md:grid-cols-2">
             <div class="space-y-6">
@@ -183,11 +185,11 @@ const linkClass = computed(() => (isSamun.value ? 'text-red-600 hover:text-red-7
           />
         </div>
 
-        <div v-else class="reveal rounded-2xl border border-gray-100 bg-white p-12 text-center shadow-md">
-          <p class="mb-3 font-display text-2xl font-bold uppercase text-black">
+        <div v-else class="reveal rounded-2xl border border-gray-100 bg-white px-6 py-12 text-center shadow-md">
+          <p class="mb-2 font-display text-xl font-bold uppercase text-black">
             {{ emptyTitle }}
           </p>
-          <p class="mx-auto max-w-2xl text-base font-medium leading-relaxed text-gray-600">
+          <p class="mx-auto max-w-2xl text-sm font-medium leading-relaxed text-gray-600">
             {{ emptyDescription }}
           </p>
         </div>
