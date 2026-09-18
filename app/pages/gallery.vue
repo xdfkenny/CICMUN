@@ -140,17 +140,11 @@ const refreshPage = async () => {
   <div class="min-h-screen bg-gray-50 py-6 md:py-12 px-4">
     <div class="container mx-auto max-w-7xl">
       <!-- Header -->
-      <div class="text-center mb-8 md:mb-16 animate-fade-in-up px-4">
+      <div class="text-center mb-8 md:mb-12 animate-fade-in-up px-4">
         <div class="mb-4 md:mb-6 inline-flex bg-red-100 p-4 md:p-8 rounded-full shadow-lg group transition-transform duration-500 hover:rotate-12 hover:scale-110">
           <Camera class="w-10 h-10 md:w-14 md:h-14 text-red-600" />
         </div>
-        <h1 class="text-4xl md:text-6xl font-extrabold mb-2 md:mb-4 font-montserrat text-black tracking-tight uppercase">
-          Photo Gallery
-        </h1>
-        <div class="h-1.5 w-16 md:w-24 bg-red-600 mx-auto rounded-full mb-4 md:mb-8"></div>
-        <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">
-          Relive the best moments of CICMUN conferences through our photo selection.
-        </p>
+        <UiPageHero title="Photo Gallery" uppercase divider subtitle="Relive the best moments of CICMUN conferences through our photo selection." />
       </div>
 
       <!-- Filters -->

@@ -38,14 +38,12 @@ const linkClass = computed(() => (isSamun.value ? 'text-red-600 hover:text-red-7
 <template>
   <div class="min-h-screen bg-gray-50 px-4 py-12">
     <div class="container mx-auto max-w-6xl">
-      <div class="mb-12 animate-fade-in-up">
-        <h1 class="mb-4 font-montserrat text-5xl font-bold uppercase tracking-tight text-black md:text-6xl">
-          {{ eventDetails?.name || fallbackTitle }}
-        </h1>
-        <p class="text-xl font-medium text-black opacity-80">
-          {{ eventDetails?.description || fallbackDescription }}
-        </p>
-      </div>
+      <UiPageHero
+        align="left"
+        uppercase
+        :title="eventDetails?.name || fallbackTitle"
+        :subtitle="eventDetails?.description || fallbackDescription"
+      />
 
       <!-- Continue exploring (PanAmUN-style cross-wayfinding strip: slim text + arrow, no card grid) -->
       <nav

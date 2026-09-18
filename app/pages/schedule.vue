@@ -33,9 +33,7 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
 <template>
   <div class="min-h-screen bg-gray-50 py-12 px-4">
     <div class="container max-w-4xl mx-auto">
-      <h1 class="text-5xl md:text-6xl font-bold text-center mb-6 font-montserrat text-black tracking-tight animate-fade-in-up">
-        Conference Schedule
-      </h1>
+      <UiPageHero title="Conference Schedule" />
       
       <!-- Contextual Tabs -->
       <div class="flex justify-center mb-12 animate-fade-in-up" style="animation-delay: 200ms; animation-fill-mode: both;">

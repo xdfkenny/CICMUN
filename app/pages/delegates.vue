@@ -15,12 +15,10 @@ useSeoMeta({
   <div class="min-h-screen bg-gray-50 py-12 px-4">
     <div class="container max-w-4xl mx-auto">
       <!-- Header -->
-      <div class="text-center mb-16 px-4 animate-fade-in-up">
-        <h1 class="text-5xl md:text-6xl font-bold text-black mb-4 font-montserrat tracking-tight">Delegate Resources</h1>
-        <p class="text-xl text-gray-700">
-          Welcome, delegates! Choose your conference to explore event details, committees, and more.
-        </p>
-      </div>
+      <UiPageHero
+        title="Delegate Resources"
+        subtitle="Welcome, delegates! Choose your conference to explore event details, committees, and more."
+      />
 
       <!-- Selection Buttons -->
       <div class="grid md:grid-cols-2 gap-8 px-4">
