@@ -111,6 +111,12 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ],
+      script: [
+        /* Progressive enhancement gate: mark JS as available as early as
+           possible so .reveal elements animate only for JS clients, while
+           staying fully visible for crawlers/no-JS contexts. */
+        { innerHTML: 'document.documentElement.classList.add("js")' }
       ]
     }
   }
