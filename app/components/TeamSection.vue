@@ -126,11 +126,11 @@ const getInitials = (name: string) =>
       <!-- Team Rows Container -->
       <div class="flex flex-col gap-8 md:gap-12 mb-20 md:mb-24">
         <!-- Leadership Row -->
-        <div class="flex flex-wrap justify-center gap-4 sm:gap-8">
+        <div class="grid grid-cols-2 gap-4 sm:gap-8 lg:grid-cols-4">
           <div 
             v-for="member in leadership" 
             :key="member.name"
-            class="group bg-white rounded-2xl py-6 px-4 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center w-[calc(50%-0.5rem)] sm:w-[280px]"
+            class="group bg-white rounded-2xl py-6 px-4 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center"
           >
             <div class="relative inline-flex mb-4 sm:mb-8 mx-auto">
               <!-- Team Member Image -->
@@ -162,11 +162,11 @@ const getInitials = (name: string) =>
         </div>
 
         <!-- Operations Row -->
-        <div class="flex flex-wrap justify-center gap-4 sm:gap-8">
+        <div class="grid grid-cols-2 gap-4 sm:gap-8 md:grid-cols-3">
           <div 
             v-for="member in operations" 
             :key="member.name"
-            class="group bg-white rounded-2xl py-6 px-4 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center w-[calc(50%-0.5rem)] sm:w-[280px]"
+            class="group bg-white rounded-2xl py-6 px-4 sm:py-12 sm:px-6 border-2 border-gray-50 transition-all duration-300 ease-in-out hover:border-red-600/20 hover:shadow-[0_20px_50px_rgba(220,38,38,0.1)] hover:-translate-y-2 text-center"
           >
             <div class="relative inline-flex mb-4 sm:mb-8 mx-auto">
               <!-- Team Member Image -->

@@ -102,7 +102,7 @@ if (import.meta.client) {
           Experience diplomacy, leadership, and global citizenship at the Colegio Internacional de Caracas Model United Nations. Join delegates from across South America for an unforgettable conference.
         </p>
 
-        <div v-if="countdownDate && !countdownEnded" class="mb-12 animate-fade-in-up" style="animation-delay: 0.7s">
+        <div v-if="countdownDate && !countdownEnded" class="mb-12 min-h-[150px] md:min-h-[160px] animate-fade-in-up" style="animation-delay: 0.7s">
           <p class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Counting down to {{ nextEvent?.name }}</p>
           <CountdownTimer :target-date="countdownDate" @brainrot="onBrainrot" @ended="countdownEnded = true" />
         </div>
