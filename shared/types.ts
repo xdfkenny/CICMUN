@@ -19,13 +19,22 @@ export interface PortalResource extends Resource {
 export interface ScheduleEvent {
   time: string;
   activity: string;
-  location: string;
+  location?: string;
+  /** Committee codes for group sessions (e.g. working sessions); renders badges instead of a location chip. */
+  committees?: string[];
+}
+
+export interface ScheduleRoom {
+  committee: string;
+  room: string;
+  chair?: string | null;
 }
 
 export interface ScheduleDay {
   day: string;
   date: string;
   conferences?: ConferenceType[];
+  rooms?: ScheduleRoom[];
   events: ScheduleEvent[];
 }
 

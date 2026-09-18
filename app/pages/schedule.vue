@@ -113,20 +113,41 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
               </h2>
             </div>
             <div class="p-8">
+              <!-- Room Directory: rendered once per day, sessions only show committee badges -->
+              <div v-if="day.rooms?.length" class="mb-8 rounded-xl border border-gray-100 bg-gray-50 p-5">
+                <p class="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-gray-500">Room Directory</p>
+                <ul class="grid gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+                  <li v-for="room in day.rooms" :key="room.committee" class="flex items-baseline gap-2 text-sm">
+                    <span class="font-bold text-black whitespace-nowrap">{{ room.committee }}</span>
+                    <span class="font-medium text-gray-600">
+                      {{ room.room }}{{ room.chair ? ` · ${room.chair}` : '' }}
+                    </span>
+                  </li>
+                </ul>
+              </div>
               <div class="space-y-8">
                 <div 
                   v-for="(event, eIndex) in day.events" 
                   :key="eIndex" 
                   class="flex flex-col md:flex-row md:items-center gap-6 border-b border-gray-100 last:border-0 pb-8 last:pb-0 group"
                 >
-                  <div :class="['md:w-48 font-extrabold text-xl transition-colors duration-300', activeTab === 'SAMUN' ? 'text-red-600' : 'text-black']">
+                  <div :class="['md:w-48 font-extrabold text-xl whitespace-nowrap tabular-nums transition-colors duration-300', activeTab === 'SAMUN' ? 'text-red-600' : 'text-black']">
                     {{ event.time }}
                   </div>
                   <div class="flex-1">
                     <div class="font-bold text-2xl text-gray-900 group-hover:text-red-600 transition-colors duration-300">
                       {{ event.activity }}
                     </div>
-                    <div class="text-gray-600 flex items-center gap-2 mt-2 font-medium">
+                    <div v-if="event.committees?.length" class="flex flex-wrap gap-2 mt-2" aria-label="Committees in session">
+                      <span
+                        v-for="code in event.committees"
+                        :key="code"
+                        class="text-xs font-bold border border-gray-200 rounded-lg px-3 py-1 bg-gray-50 shadow-sm whitespace-nowrap"
+                      >
+                        {{ code }}
+                      </span>
+                    </div>
+                    <div v-else class="text-gray-600 flex items-center gap-2 mt-2 font-medium">
                       <span class="text-sm border border-gray-200 rounded-lg px-3 py-1 bg-gray-50 shadow-sm">
                         {{ event.location }}
                       </span>
