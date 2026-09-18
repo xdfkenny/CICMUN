@@ -121,9 +121,9 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
           </div>
           
           <h3 class="text-2xl font-bold mb-3 font-display text-black tracking-tight uppercase">{{ resource.title }}</h3>
-          <p class="text-gray-600 mb-8 text-base font-medium leading-relaxed">{{ resource.description }}</p>
-          
-          <div class="flex items-center gap-8 mt-auto pb-2">
+          <p class="text-gray-600 flex-1 mb-6 text-base font-medium leading-relaxed">{{ resource.description }}</p>
+
+          <div class="flex items-center gap-8 mt-6 pt-4 border-t border-gray-100">
             <button 
               @click="openViewer(resource.filename, resource.title)"
               class="inline-flex items-center gap-2 text-black font-extrabold hover:text-red-600 transition-colors group"
