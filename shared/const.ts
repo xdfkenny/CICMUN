@@ -1,2 +1,2 @@
 export const APP_NAME = "CICMUN";
-export const CONFERENCE_YEAR = "2026";
+export const CONFERENCE_YEAR = "2027";

@@ -1,4 +1,5 @@
 import tailwindcss from "@tailwindcss/vite";
+import { siteConfig } from "./app/config/siteConfig";
 
 const isProduction = process.env.NODE_ENV === 'production'
 const withApiSWR = (seconds: number) => (isProduction ? { swr: seconds } : {})
@@ -96,14 +97,14 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'CICMUN Delegate Portal',
-      titleTemplate: '%s | CICMUN 2026',
+      titleTemplate: `%s | ${siteConfig.brand} ${siteConfig.edition}`,
       htmlAttrs: {
-        lang: 'es'
+        lang: 'en'
       },
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'Portal oficial de delegados para CICMUN 2026. Accede a recursos, horarios e información de comités del Colegio Internacional de Caracas Model United Nations.' },
+        { name: 'description', content: `Official delegate portal for ${siteConfig.brand} ${siteConfig.edition} — committees, schedules, resources, and the conference photo gallery of the Colegio Internacional de Caracas Model United Nations.` },
         { name: 'format-detection', content: 'telephone=no' },
         { name: 'theme-color', content: '#ffffff' },
         { name: 'robots', content: 'index, follow' }

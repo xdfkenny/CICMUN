@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { Camera, Image as ImageIcon } from 'lucide-vue-next'
+import { siteConfig, siteTitle } from '~/config/siteConfig'
 import { DEFAULT_GALLERY_LIMIT, type GalleryImage, type GalleryResponse } from '~~/shared/gallery'
 
 useSeoMeta({
   title: 'Photo Gallery',
-  ogTitle: 'Photo Gallery | CICMUN 2026',
+  ogTitle: `Photo Gallery | ${siteTitle}`,
   description: 'Relive the best moments of CICMUN conferences through our photo gallery.',
   ogDescription: 'Relive the best moments of CICMUN conferences through our photo gallery.',
-  ogImage: '/LOGO.png',
+  ogImage: `${siteConfig.siteUrl}/LOGO.png`,
 })
 
 const route = useRoute()

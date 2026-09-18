@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { User, Shield, Megaphone, GraduationCap, Star, Truck, UserRound } from 'lucide-vue-next'
+import { siteTitle } from '~/config/siteConfig'
 
 type TeamMember = {
   name: string
@@ -118,7 +119,7 @@ const getInitials = (name: string) =>
         </h2>
         <div class="h-1.5 w-24 bg-red-600 mx-auto rounded-full mb-8"></div>
         <p class="text-lg sm:text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto font-semibold leading-relaxed px-4">
-          The dedicated leaders and educators behind CICMUN 2026.
+          The dedicated leaders and educators behind {{ siteTitle }}.
         </p>
       </div>
 

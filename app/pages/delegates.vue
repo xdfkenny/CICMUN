@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { Users, BookOpen } from 'lucide-vue-next'
+import { siteConfig, siteTitle } from '~/config/siteConfig'
 
 useSeoMeta({
   title: 'Delegate Resources',
-  ogTitle: 'Delegate Resources | CICMUN 2026',
-  description: 'Essential information and resources for SAMUN and JMUN delegates at CICMUN 2026.',
-  ogDescription: 'Essential information and resources for SAMUN and JMUN delegates at CICMUN 2026.',
+  ogTitle: `Delegate Resources | ${siteTitle}`,
+  description: `Essential information and resources for SAMUN and JMUN delegates at ${siteTitle}.`,
+  ogDescription: `Essential information and resources for SAMUN and JMUN delegates at ${siteTitle}.`,
 })
 
 </script>
@@ -31,9 +32,10 @@ useSeoMeta({
           <NuxtLink to="/samun">
             <Users class="w-16 h-16" />
             <div class="text-center">
-              <h2 class="text-3xl font-bold mb-2 font-montserrat uppercase">SAMUN 2026</h2>
+              <h2 class="text-3xl font-bold mb-2 font-montserrat uppercase">{{ siteConfig.samun.name }}</h2>
               <p class="text-lg font-light">South American Model United Nations</p>
-              <p class="text-sm mt-2 opacity-90">Grades 9-12</p>
+              <p class="text-sm mt-2 opacity-90">{{ siteConfig.samun.dateLabel }}</p>
+              <p class="text-sm mt-1 opacity-90">Grades 9-12 · Caracas, Venezuela</p>
             </div>
           </NuxtLink>
         </UiButton>
@@ -47,9 +49,10 @@ useSeoMeta({
           <NuxtLink to="/jmun">
             <BookOpen class="w-16 h-16" />
             <div class="text-center">
-              <h2 class="text-3xl font-bold mb-2 font-montserrat uppercase">JMUN 2027</h2>
+              <h2 class="text-3xl font-bold mb-2 font-montserrat uppercase">{{ siteConfig.jmun.name }}</h2>
               <p class="text-lg font-light">Junior Model United Nations</p>
-              <p class="text-sm mt-2 opacity-90">Grades 6-8</p>
+              <p class="text-sm mt-2 opacity-90">{{ siteConfig.jmun.dateLabel }}</p>
+              <p class="text-sm mt-1 opacity-90">Grades 6-8 · Caracas, Venezuela</p>
             </div>
           </NuxtLink>
         </UiButton>

@@ -7,7 +7,7 @@ test('home page renders', async ({ page }) => {
 
 test('conference pages and committee detail render', async ({ page }) => {
   await page.goto('/jmun')
-  await expect(page.getByRole('heading', { name: 'JMUN 2026' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'JMUN 2027' })).toBeVisible()
 
   await page.goto('/samun')
   await expect(page.getByText('Official committee list not yet published')).toBeVisible()

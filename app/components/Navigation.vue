@@ -72,7 +72,7 @@ onBeforeUnmount(() => {
       <NuxtLink to="/" class="flex items-center gap-3 hover:opacity-80 transition-all duration-300 flex-shrink-0 z-50">
         <img src="/LOGO.png" alt="CICMUN Logo" :class="['transition-all duration-500 object-contain', isScrolled ? 'w-8 h-8' : 'w-10 h-10 sm:w-12 sm:h-12']" />
         <div>
-          <h1 :class="['font-bold text-black leading-tight tracking-widest transition-all duration-500', isScrolled ? 'text-sm sm:text-base' : 'text-base sm:text-lg']">CICMUN</h1>
+          <div :class="['font-bold text-black leading-tight tracking-widest transition-all duration-500', isScrolled ? 'text-sm sm:text-base' : 'text-base sm:text-lg']">CICMUN</div>
         </div>
       </NuxtLink>
       

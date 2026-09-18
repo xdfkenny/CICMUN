@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { FileText, Download, Eye, AlertCircle } from 'lucide-vue-next'
+import { siteTitle } from '~/config/siteConfig'
 import type { PortalResource } from '~~/shared/types'
 
 const { data: resources, status, error } = await useFetch<PortalResource[]>('/api/resources')
 
 useSeoMeta({
   title: 'Resources & Guides',
-  ogTitle: 'Resources & Guides | CICMUN 2026',
-  description: 'Download research guides, rules of procedure, and essential documents for CICMUN 2026.',
-  ogDescription: 'Download research guides, rules of procedure, and essential documents for CICMUN 2026.',
+  ogTitle: `Resources & Guides | ${siteTitle}`,
+  description: `Download research guides, rules of procedure, and essential documents for ${siteTitle}.`,
+  ogDescription: `Download research guides, rules of procedure, and essential documents for ${siteTitle}.`,
 })
 
 const isViewerOpen = ref(false)

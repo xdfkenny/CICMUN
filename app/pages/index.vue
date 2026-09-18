@@ -10,6 +10,7 @@ import {
   Library,
   Users,
 } from 'lucide-vue-next'
+import { siteConfig, siteTitle } from '~/config/siteConfig'
 // UiButton is auto-imported
 
 const { data: events } = await useFetch('/api/events')
@@ -57,10 +58,10 @@ const onBrainrot = () => {
 
 useSeoMeta({
   title: 'Home',
-  ogTitle: 'CICMUN 2027 - Colegio Internacional de Caracas Model United Nations',
-  description: 'Welcome to the official portal for CICMUN 2027. Leadership, diplomacy, and global citizenship at Colegio Internacional de Caracas.',
-  ogDescription: 'Welcome to the official portal for CICMUN 2027. Leadership, diplomacy, and global citizenship at Colegio Internacional de Caracas.',
-  ogImage: '/LOGO.png',
+  ogTitle: `${siteTitle} - Colegio Internacional de Caracas Model United Nations`,
+  description: `Welcome to the official portal for ${siteTitle}. Leadership, diplomacy, and global citizenship at Colegio Internacional de Caracas.`,
+  ogDescription: `Welcome to the official portal for ${siteTitle}. Leadership, diplomacy, and global citizenship at Colegio Internacional de Caracas.`,
+  ogImage: `${siteConfig.siteUrl}/LOGO.png`,
   twitterCard: 'summary_large_image',
 })
 

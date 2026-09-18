@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRight, CalendarDays, Globe2, Images, Landmark, Users, BookOpen, Library, Scale } from 'lucide-vue-next'
+import { ArrowRight, CalendarDays, Globe2, Images, Landmark, Users, Library } from 'lucide-vue-next'
 
 /**
  * ExploreLinks — PanAmUN-style quick-links wayfinding grid.

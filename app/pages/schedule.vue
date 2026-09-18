@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { AlertCircle } from 'lucide-vue-next'
+import { siteTitle } from '~/config/siteConfig'
 
 const { data: schedule, status, error } = await useFetch('/api/schedule')
 
 useSeoMeta({
   title: 'Conference Schedule',
-  ogTitle: 'Conference Schedule | CICMUN 2026',
-  description: 'Check out the detailed schedule of activities for CICMUN 2026, including ceremonies and committee sessions.',
-  ogDescription: 'Check out the detailed schedule of activities for CICMUN 2026, including ceremonies and committee sessions.',
+  ogTitle: `Conference Schedule | ${siteTitle}`,
+  description: `Check out the detailed schedule of activities for ${siteTitle}, including ceremonies and committee sessions.`,
+  ogDescription: `Check out the detailed schedule of activities for ${siteTitle}, including ceremonies and committee sessions.`,
 })
 
 const activeTab = ref<'JMUN' | 'SAMUN'>('JMUN')

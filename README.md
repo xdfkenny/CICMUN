@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="public/images/og-image.png" alt="CICMUN 2026" width="100%">
+  <img src="public/images/og-image.png" alt="CICMUN 2027" width="100%">
 </p>
 
 <h1 align="center">CICMUN Delegate Portal</h1>
 
 <p align="center">
-  Official delegate portal for CICMUN 2026 — committees, schedules, resources, and gallery.
+  Official delegate portal for CICMUN 2027 — committees, schedules, resources, and gallery.
 </p>
 
 <p align="center">
@@ -82,4 +82,4 @@ scripts/          # Build-time generators
 
 ---
 
-<p align="center">Built with Nuxt for CICMUN 2026.</p>
+<p align="center">Built with Nuxt for CICMUN 2027.</p>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { FileText, Download, Eye, AlertCircle } from 'lucide-vue-next'
+import { siteConfig, siteTitle } from '~/config/siteConfig'
 import type { Committee } from '~~/shared/types'
 
 const route = useRoute()
@@ -12,10 +13,10 @@ const hasError = computed(() => !!error.value || !committee.value)
 
 useSeoMeta({
   title: () => committee.value ? `${committee.value.name} (${committee.value.type})` : 'Loading...',
-  ogTitle: () => committee.value ? `${committee.value.name} - CICMUN 2026` : 'Committee - CICMUN 2026',
+  ogTitle: () => committee.value ? `${committee.value.name} - ${siteTitle}` : `Committee - ${siteTitle}`,
   description: () => committee.value ? `Information about the ${committee.value.name} committee. Topics: ${committee.value.topicA}${committee.value.topicB ? ' and ' + committee.value.topicB : ''}.` : 'CICMUN committee details.',
   ogDescription: () => committee.value ? `Information about the ${committee.value.name} committee. Topics: ${committee.value.topicA}${committee.value.topicB ? ' and ' + committee.value.topicB : ''}.` : 'CICMUN committee details.',
-  ogImage: '/LOGO.png',
+  ogImage: `${siteConfig.siteUrl}/LOGO.png`,
 })
 
 const bgLightColor = computed(() => committee.value?.type === 'SAMUN' ? 'bg-red-50' : 'bg-gray-50')
