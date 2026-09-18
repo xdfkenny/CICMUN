@@ -66,7 +66,7 @@ const linkClass = computed(() => (isSamun.value ? 'text-red-600 hover:text-red-7
                 v-for="link in crossLinks"
                 :key="link.to"
                 :to="link.to"
-                class="group inline-flex items-center gap-1.5 rounded-full border border-gray-200 px-3.5 py-1.5 text-xs font-bold uppercase tracking-tight transition-colors md:border-0 md:px-0 md:py-0 md:text-sm"
+                class="group inline-flex items-center gap-1.5 rounded-full border border-gray-200 px-3.5 py-2.5 text-xs font-bold uppercase tracking-tight transition-colors md:border-0 md:px-0 md:py-0 md:text-sm"
                 :class="linkClass"
               >
                 {{ link.label }}
