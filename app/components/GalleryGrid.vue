@@ -93,6 +93,18 @@ onUnmounted(() => {
        Loading more photos...
     </div>
 
+    <!-- Explicit pagination anchor: works even when IntersectionObserver is
+         unavailable, and lets keyboard/screen-reader users page the album. -->
+    <div v-if="hasMore" class="mt-6 flex justify-center">
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-full border-2 border-gray-200 bg-white px-6 py-3 text-sm font-bold uppercase tracking-wide text-gray-600 transition-colors hover:border-black hover:text-black"
+        @click="emit('load-more')"
+      >
+        Load more photos
+      </button>
+    </div>
+
     <Teleport to="body">
       <ImageLightbox 
         v-if="showLightbox"
