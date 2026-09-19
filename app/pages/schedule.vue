@@ -113,7 +113,8 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
               </h2>
             </div>
             <div class="p-8">
-              <!-- Room Directory: rendered once per day, sessions only show committee badges -->
+              <!-- Room Directory (data pending — hidden until day.rooms is populated;
+                   renders once per day, sessions only show committee badges) -->
               <div v-if="day.rooms?.length" class="mb-8 rounded-xl border border-gray-100 bg-gray-50 p-5">
                 <p class="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-gray-500">Room Directory</p>
                 <ul class="grid gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">

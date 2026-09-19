@@ -5,37 +5,6 @@
         "conferences": [
             "JMUN"
         ],
-        "rooms": [
-            {
-                "committee": "WHO",
-                "room": "Room 201",
-                "chair": "Mr. Jordi Tur"
-            },
-            {
-                "committee": "DISEC",
-                "room": "Room 202",
-                "chair": "Ms. Claudia Rangel"
-            },
-            {
-                "committee": "UNSC",
-                "room": "Room 203",
-                "chair": "Mr. Ricardo Millan"
-            },
-            {
-                "committee": "UNGA",
-                "room": "Room 204",
-                "chair": "Ms. Aurora Molina"
-            },
-            {
-                "committee": "UNHRC",
-                "room": "Room 205",
-                "chair": "Ms. Cynthia Seddoh"
-            },
-            {
-                "committee": "G20",
-                "room": "Learning Center (Library)"
-            }
-        ],
         "events": [
             {
                 "time": "8:00 AM - 8:30 AM",
@@ -122,37 +91,6 @@
         "date": "April 25, 2027",
         "conferences": [
             "JMUN"
-        ],
-        "rooms": [
-            {
-                "committee": "WHO",
-                "room": "Room 201",
-                "chair": "Mr. Jordi Tur"
-            },
-            {
-                "committee": "DISEC",
-                "room": "Room 202",
-                "chair": "Ms. Claudia Rangel"
-            },
-            {
-                "committee": "UNSC",
-                "room": "Room 203",
-                "chair": "Mr. Ricardo Millan"
-            },
-            {
-                "committee": "UNGA",
-                "room": "Room 204",
-                "chair": "Ms. Aurora Molina"
-            },
-            {
-                "committee": "UNHRC",
-                "room": "Room 205",
-                "chair": "Ms. Cynthia Seddoh"
-            },
-            {
-                "committee": "G20",
-                "room": "Learning Center (Library)"
-            }
         ],
         "events": [
             {
