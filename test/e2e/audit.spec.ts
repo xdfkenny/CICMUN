@@ -16,6 +16,8 @@ import { mkdirSync } from 'node:fs'
  *   - touch targets: hamburger, Load more, conference tabs >= 44px;
  *     quick-link capsules >= 24px on mobile
  *   - footer logo contrast >= 4.5:1 after the invert fix
+ *   - schedule data freshness: SPA re-visits must refetch /api/schedule
+ *     (cache: 'no-store') and never replay a stale/browser-cached payload
  * Run via `scripts/audit.sh` (lint → unit → build → this suite).
  */
 
@@ -181,6 +183,36 @@ test('no-JS: all reveal content visible on every route', async ({ browser }) => 
     expect(state.text, `body has content without JS on ${route}`).toBeGreaterThan(100)
   }
   await context.close()
+})
+
+// Schedule data must never go stale across SPA navigations. withApiSWR(3600)
+// can serve `public, max-age=3600` on the SWR cache-hit path, letting the
+// browser cache /api/schedule for 1h; after a data change (e.g. emptying the
+// schedule), repeat visits would replay the cached old payload ("data comes
+// back" when it should say coming soon). Fix: `cache: 'no-store'` on the
+// client fetch (same pattern gallery.vue already used) and every visit
+// refetches the API.
+test('schedule: no stale data across SPA navigations', async ({ page }) => {
+  const apiCalls: string[] = []
+  page.on('response', (res) => {
+    if (res.url().includes('/api/schedule')) apiCalls.push(String(res.status()))
+  })
+
+  await page.goto('/')
+  await page.locator('a[href="/schedule"]').first().click()
+  await page.waitForLoadState('networkidle')
+  await expect(page.getByText('Schedule coming soon')).toBeVisible()
+  await expect(page.getByText('Working Session')).toHaveCount(0)
+
+  await page.locator('a[href="/"]').first().click()
+  await page.waitForLoadState('networkidle')
+
+  await page.locator('a[href="/schedule"]').first().click()
+  await page.waitForLoadState('networkidle')
+  await expect(page.getByText('Schedule coming soon')).toBeVisible()
+  await expect(page.getByText('Working Session')).toHaveCount(0)
+
+  expect(apiCalls.length, 'every SPA visit must refetch the schedule API').toBeGreaterThanOrEqual(2)
 })
 
 // Footer logo must be legible on the near-black footer. The <img> carries

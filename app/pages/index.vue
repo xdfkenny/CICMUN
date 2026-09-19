@@ -13,7 +13,7 @@ import {
 import { siteConfig, siteTitle } from '~/config/siteConfig'
 // UiButton is auto-imported
 
-const { data: events } = await useFetch('/api/events')
+const { data: events } = await useFetch('/api/events', { cache: 'no-store' })
 
 // Find the next upcoming event with a confirmed start date
 const nextEvent = computed(() => {

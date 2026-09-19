@@ -2,7 +2,11 @@
 import { AlertCircle, CalendarClock } from 'lucide-vue-next'
 import { siteConfig, siteTitle } from '~/config/siteConfig'
 
-const { data: schedule, status, error } = await useFetch('/api/schedule')
+const { data: schedule, status, error } = await useFetch('/api/schedule', {
+  // Never let the browser cache API data: stale schedule responses can
+  // resurface after data changes (see gallery.vue for the same pattern).
+  cache: 'no-store',
+})
 
 useSeoMeta({
   title: 'Conference Schedule',

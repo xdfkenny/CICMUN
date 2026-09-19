@@ -3,7 +3,7 @@ import { FileText, Download, Eye, AlertCircle } from 'lucide-vue-next'
 import { siteTitle } from '~/config/siteConfig'
 import type { PortalResource } from '~~/shared/types'
 
-const { data: resources, status, error } = await useFetch<PortalResource[]>('/api/resources')
+const { data: resources, status, error } = await useFetch<PortalResource[]>('/api/resources', { cache: 'no-store' })
 
 useSeoMeta({
   title: 'Resources & Guides',

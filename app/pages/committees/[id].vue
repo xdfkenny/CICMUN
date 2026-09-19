@@ -6,7 +6,7 @@ import type { Committee } from '~~/shared/types'
 const route = useRoute()
 const committeeId = parseInt(route.params.id as string)
 
-const { data: committee, status, error } = await useFetch<Committee>(`/api/committee/${committeeId}`)
+const { data: committee, status, error } = await useFetch<Committee>(`/api/committee/${committeeId}`, { cache: 'no-store' })
 
 const isLoading = computed(() => status.value === 'pending')
 const hasError = computed(() => !!error.value || !committee.value)
