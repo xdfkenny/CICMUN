@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { AlertCircle } from 'lucide-vue-next'
-import { siteTitle } from '~/config/siteConfig'
+import { AlertCircle, CalendarClock } from 'lucide-vue-next'
+import { siteConfig, siteTitle } from '~/config/siteConfig'
 
 const { data: schedule, status, error } = await useFetch('/api/schedule')
 
@@ -28,6 +28,11 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
     activeTab.value = tab
   }
 }
+
+// e.g. "JMUN 2027" — follows the active tab so the coming-soon notice names
+// the right conference while the schedule datasets are still pending.
+const conferenceLabel = computed(() =>
+  activeTab.value === 'JMUN' ? siteConfig.jmun.name : siteConfig.samun.name)
 </script>
 
 <template>
@@ -160,10 +165,26 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
           </div>
         </div>
         
-        <!-- Empty State -->
-        <div v-else class="text-center bg-white p-20 rounded-2xl border border-gray-100 shadow-xl reveal">
-          <p class="text-2xl text-gray-400 font-bold font-display uppercase opacity-60">
-            Schedule for {{ activeTab }} coming soon.
+        <!-- Empty State: schedule datasets pending — published closer to the conference -->
+        <div v-else class="reveal rounded-2xl border border-gray-100 bg-white p-16 text-center shadow-xl">
+          <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+            <CalendarClock class="h-8 w-8 text-gray-500" aria-hidden="true" />
+          </div>
+          <h2 class="font-display text-2xl font-bold uppercase tracking-tight text-gray-900">
+            Schedule coming soon
+          </h2>
+          <p class="mx-auto mt-3 max-w-md text-base font-medium text-gray-500">
+            The day-by-day schedule for {{ conferenceLabel }} is being finalized and will be
+            published here as soon as it's confirmed.
+          </p>
+          <p class="mt-2 text-sm font-medium text-gray-400">
+            Check back soon — or email the secretariat at
+            <a
+              href="mailto:samun@ciccaracas.com.ve"
+              class="font-bold text-gray-600 underline underline-offset-2 hover:text-red-600"
+            >
+              samun@ciccaracas.com.ve
+            </a>.
           </p>
         </div>
       </div>
