@@ -13,9 +13,9 @@ export const siteConfig = {
   /** Public canonical URL — used to build absolute og:image URLs. */
   siteUrl: 'https://cicmun.qzz.io',
   samun: {
-    name: 'SAMUN 2027',
-    date: '2027-11-12',
-    dateLabel: 'November 12-13, 2027',
+    name: 'SAMUN 2026',
+    date: '2026-11-27',
+    dateLabel: 'November 27-28, 2026',
     gradeRange: 'Grades 9-12',
   },
   jmun: {
