@@ -1,1 +1,79 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "UNSC",
+    "type": "SAMUN",
+    "chairName": "Nkazimulo Maseko",
+    "chairPhoto": null,
+    "coChairName": "Marcos Brook",
+    "coChairPhoto": null,
+    "secretaryName": "Samuel Caldera",
+    "secretaryPhoto": null,
+    "topicA": "Indo-Pakistani conflict of 1998-1999",
+    "topicB": "Rise of terrorist organizations in the Middle East and Africa in 1998"
+  },
+  {
+    "id": 2,
+    "name": "ONU Mujeres",
+    "type": "SAMUN",
+    "chairName": "Isabella Ojeda",
+    "chairPhoto": null,
+    "coChairName": "Julieta Gonzalez",
+    "coChairPhoto": null,
+    "secretaryName": "Emma Cedeño",
+    "secretaryPhoto": null,
+    "topicA": "Estrategias multilaterales para la erradicación de la violencia sistémica de género y el feminicidio en América Latina",
+    "topicB": "Impacto de la inteligencia artificial generativa y la manipulación digital en la violencia facilitada por la tecnología contra la mujer"
+  },
+  {
+    "id": 3,
+    "name": "FIFA",
+    "type": "SAMUN",
+    "chairName": "Cesar Arrechedera",
+    "chairPhoto": null,
+    "coChairName": "Aitor Abalo",
+    "coChairPhoto": null,
+    "secretaryName": "Fernando Vazquez",
+    "secretaryPhoto": null,
+    "topicA": "Evaluando el impacto socioeconómico y la gobernabilidad comercial en la concesión privada de la Copa del Mundo",
+    "topicB": "La Ley Prestiani y la reelección de Gianni Infantino"
+  },
+  {
+    "id": 4,
+    "name": "OPEP",
+    "type": "SAMUN",
+    "chairName": "Caterina Pedicino",
+    "chairPhoto": null,
+    "coChairName": "Emilia Solarte",
+    "coChairPhoto": null,
+    "secretaryName": "Thiago Monteiro",
+    "secretaryPhoto": null,
+    "topicA": "Intento de los Estados Unidos de disolver la OPEP",
+    "topicB": "Nuevos acuerdos sobre la producción petrolera"
+  },
+  {
+    "id": 5,
+    "name": "European Parliament",
+    "type": "SAMUN",
+    "chairName": "Giovanna Renzella",
+    "chairPhoto": null,
+    "coChairName": "Valentina Benavides",
+    "coChairPhoto": null,
+    "secretaryName": "Eliangel Andrade",
+    "secretaryPhoto": null,
+    "topicA": "Military Dependence on the United States",
+    "topicB": "Immigration crisis in the European Union"
+  },
+  {
+    "id": 6,
+    "name": "US Senate",
+    "type": "SAMUN",
+    "chairName": "Santiago Cabrera",
+    "coChairName": "Adriana Sanchez",
+    "coChairPhoto": null,
+    "secretaryName": "Karimah Ghanem",
+    "secretaryPhoto": null,
+    "topicA": "Approving a bill to expand the number of justices in the Supreme Court",
+    "topicB": "Approving a national ban on gerrymandering"
+  }
+]

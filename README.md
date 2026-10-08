@@ -76,8 +76,8 @@ scripts/          # Build-time generators
 ## Content Notes
 
 - `data/committees.json` is the source of truth for committees.
-- Only the JMUN committee dataset is currently published.
-- The SAMUN route is production-ready but hidden until the approved committee list is provided.
+- The SAMUN 2026 committee dataset is published (6 committees); the JMUN dataset is empty until it is republished.
+- Staff photo fields (`chairPhoto`, `coChairPhoto`, `secretaryPhoto`) must stay `null` in `data/committees.json` — photos of committee staff are sensitive and are not published on the site; the UI renders initials avatars instead.
 - Resources referenced in datasets must exist in `public/resources/`.
 
 ---
