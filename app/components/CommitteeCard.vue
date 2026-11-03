@@ -7,10 +7,6 @@ const ringClass = computed(() => {
   return props.committee.type === 'SAMUN' ? 'hover:ring-red-600' : 'hover:ring-black'
 })
 
-const bgClass = computed(() => {
-  return props.committee.type === 'SAMUN' ? 'bg-red-600' : 'bg-black'
-})
-
 const borderClass = computed(() => {
   return props.committee.type === 'SAMUN' ? 'border-red-600' : 'border-black'
 })
@@ -34,10 +30,6 @@ const hoverTextClass = computed(() => {
       class="group overflow-hidden transition-all duration-300 border-0 shadow-sm hover:shadow-xl bg-white h-full hover:ring-2"
       :class="ringClass"
     >
-      <div 
-        class="h-2 transition-colors duration-300"
-        :class="bgClass"
-      ></div>
 
       <!-- Committee Image Header -->
       <div v-if="committee.image" class="relative h-48 overflow-hidden">
@@ -150,6 +142,10 @@ const hoverTextClass = computed(() => {
               <div v-if="committee.topicB" class="border-t border-gray-100 pt-4">
                 <p class="text-xs font-bold uppercase mb-1 text-black">Topic B</p>
                 <p class="text-sm font-medium text-black leading-snug">{{ committee.topicB }}</p>
+              </div>
+              <div v-if="committee.topicC" class="border-t border-gray-100 pt-4">
+                <p class="text-xs font-bold uppercase mb-1 text-black">Topic C</p>
+                <p class="text-sm font-medium text-black leading-snug">{{ committee.topicC }}</p>
               </div>
             </div>
           </div>

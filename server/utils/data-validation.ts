@@ -233,6 +233,7 @@ export const normalizeCommittees = (raw: unknown): CommitteesResult => {
       secretaryPhoto: sanitizeOptionalPhoto(value.secretaryPhoto, `committee:${id}:secretaryPhoto`, errors),
       topicA: asTrimmedString(value.topicA, 'TBA'),
       topicB: asNullableString(value.topicB),
+      topicC: asNullableString(value.topicC),
       image: sanitizeCommitteeImageSource(value.image, { id, name, type }, errors),
       summary: asTrimmedString(value.summary, '') || undefined,
       resources: resources?.length ? resources : undefined,

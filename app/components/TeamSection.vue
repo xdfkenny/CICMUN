@@ -136,9 +136,11 @@ const getInitials = (name: string) =>
               <!-- Team Member Image -->
               <div class="w-24 h-24 sm:w-40 sm:h-40 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-gray-100 transition-all duration-300 group-hover:scale-105 bg-gray-100 flex items-center justify-center">
                 <template v-if="member.image">
-                  <img 
-                    :src="member.image" 
+                  <img
+                    :src="member.image"
                     :alt="member.name"
+                    loading="lazy"
+                    decoding="async"
                     class="w-full h-full object-cover"
                   />
                 </template>
@@ -171,9 +173,11 @@ const getInitials = (name: string) =>
             <div class="relative inline-flex mb-4 sm:mb-8 mx-auto">
               <!-- Team Member Image -->
               <div class="w-24 h-24 sm:w-40 sm:h-40 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-gray-100 transition-all duration-300 group-hover:scale-105 bg-gray-100">
-                <img 
-                  :src="member.image" 
+                <img
+                  :src="member.image"
                   :alt="member.name"
+                  loading="lazy"
+                  decoding="async"
                   class="w-full h-full object-cover"
                 />
               </div>
@@ -209,13 +213,15 @@ const getInitials = (name: string) =>
             <GraduationCap class="hidden h-12 w-12 text-red-500 md:block" aria-hidden="true" />
           </div>
           <div class="grid gap-4 md:grid-cols-3">
-            <div v-for="faculty in faculties" :key="faculty.name" class="group flex min-h-64 flex-col items-center border border-white/15 bg-white/[0.04] p-6 text-center transition-colors hover:border-red-500 hover:bg-white/[0.08]">
+            <div v-for="faculty in faculties" :key="faculty.name" class="group flex min-h-64 flex-col items-center p-6 text-center">
               <div class="relative inline-flex mb-8">
                 <div class="w-24 h-24 rounded-2xl overflow-hidden border-2 border-white/15 transition-all duration-300 group-hover:scale-105 bg-white/10 flex items-center justify-center">
                   <template v-if="faculty.image">
                     <img
                       :src="faculty.image"
                       :alt="faculty.name"
+                      loading="lazy"
+                      decoding="async"
                       class="w-full h-full object-cover"
                     />
                   </template>

@@ -41,10 +41,10 @@ const links = computed<ExploreLink[]>(() =>
 </script>
 
 <template>
-  <section class="bg-white pb-16 md:pb-20 px-4">
+  <section class="bg-white pt-20 pb-16 md:pt-28 md:pb-20 px-4">
     <div class="container max-w-6xl mx-auto">
       <div class="mb-10 text-center animate-fade-in-up">
-        <h2 class="text-4xl font-bold font-display text-black mb-2">{{ heading }}</h2>
+        <h2 class="text-3xl md:text-4xl font-bold font-display text-black">{{ heading }}</h2>
       </div>
 
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">

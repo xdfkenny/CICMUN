@@ -64,6 +64,7 @@ export interface Committee {
   secretaryPhoto: string | null;
   topicA: string;
   topicB: string | null;
+  topicC: string | null;
   image?: string;
   summary?: string;
   resources?: Resource[];

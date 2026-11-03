@@ -131,7 +131,7 @@ onUnmounted(() => {
         <!-- PDF Viewer Iframe -->
         <div class="flex-grow bg-gray-100 relative">
           <div class="absolute inset-0 flex items-center justify-center -z-10">
-            <div class="animate-pulse text-gray-400 font-medium">Loading document...</div>
+            <div class="animate-pulse text-gray-600 font-medium">Loading document...</div>
           </div>
           <iframe 
             :src="pdfUrl" 
@@ -141,7 +141,7 @@ onUnmounted(() => {
         </div>
 
         <!-- Footer / Mobile fallback -->
-        <div class="p-3 bg-gray-50 border-t flex justify-center text-xs text-gray-400 md:hidden">
+        <div class="p-3 bg-gray-50 border-t flex justify-center text-xs text-gray-600 md:hidden">
           Tip: You can pinch to zoom or scroll to navigate.
         </div>
       </div>

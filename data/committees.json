@@ -10,7 +10,8 @@
     "secretaryName": "Samuel Caldera",
     "secretaryPhoto": null,
     "topicA": "Indo-Pakistani conflict of 1998-1999",
-    "topicB": "Rise of terrorist organizations in the Middle East and Africa in 1998"
+    "topicB": "Rise of terrorist organizations in the Middle East and Africa in 1998",
+    "image": "/committee-images/samun-2026/unsc.png"
   },
   {
     "id": 2,
@@ -23,7 +24,8 @@
     "secretaryName": "Emma Cedeño",
     "secretaryPhoto": null,
     "topicA": "Estrategias multilaterales para la erradicación de la violencia sistémica de género y el feminicidio en América Latina",
-    "topicB": "Impacto de la inteligencia artificial generativa y la manipulación digital en la violencia facilitada por la tecnología contra la mujer"
+    "topicB": "Impacto de la inteligencia artificial generativa y la manipulación digital en la violencia facilitada por la tecnología contra la mujer",
+    "image": "/committee-images/samun-2026/onu-mujeres.png"
   },
   {
     "id": 3,
@@ -35,8 +37,10 @@
     "coChairPhoto": null,
     "secretaryName": "Fernando Vazquez",
     "secretaryPhoto": null,
-    "topicA": "Evaluando el impacto socioeconómico y la gobernabilidad comercial en la concesión privada de la Copa del Mundo",
-    "topicB": "La Ley Prestiani y la reelección de Gianni Infantino"
+    "topicA": "Analizar el impacto socioeconómico y la gobernabilidad comercial en la concesión privada de los eventos organizados por la FIFA",
+    "topicB": "Evaluando la efectividad de la Ley Prestianni",
+    "image": "/committee-images/samun-2026/fifa.png",
+    "topicC": "La reelección de Gianni Infantino"
   },
   {
     "id": 4,
@@ -49,7 +53,8 @@
     "secretaryName": "Thiago Monteiro",
     "secretaryPhoto": null,
     "topicA": "Intento de los Estados Unidos de disolver la OPEP",
-    "topicB": "Nuevos acuerdos sobre la producción petrolera"
+    "topicB": "Nuevos acuerdos sobre la producción petrolera",
+    "image": "/committee-images/samun-2026/opep.png"
   },
   {
     "id": 5,
@@ -62,7 +67,8 @@
     "secretaryName": "Eliangel Andrade",
     "secretaryPhoto": null,
     "topicA": "Military Dependence on the United States",
-    "topicB": "Immigration crisis in the European Union"
+    "topicB": "Immigration crisis in the European Union",
+    "image": "/committee-images/samun-2026/european-parliament.png"
   },
   {
     "id": 6,
@@ -74,6 +80,7 @@
     "secretaryName": "Karimah Ghanem",
     "secretaryPhoto": null,
     "topicA": "Approving a bill to expand the number of justices in the Supreme Court",
-    "topicB": "Approving a national ban on gerrymandering"
+    "topicB": "Approving a national ban on gerrymandering",
+    "image": "/committee-images/samun-2026/us-senate.png"
   }
 ]

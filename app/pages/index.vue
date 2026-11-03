@@ -31,6 +31,32 @@ const nextEvent = computed(() => {
 const countdownDate = computed(() => nextEvent.value?.startDate || '')
 const countdownEnded = ref(false)
 
+// Plain-language date range ("November 27–28, 2026") so the hero states the
+// literal date, not just a relative countdown.
+const eventDateLine = computed(() => {
+  const ev = nextEvent.value
+  if (!ev?.startDate) return ''
+  const tz = ev.timezone || 'America/Caracas'
+  const fmt = (opts: Intl.DateTimeFormatOptions, iso?: string) =>
+    new Intl.DateTimeFormat('en-US', { timeZone: tz, ...opts }).format(new Date(iso ?? ev.startDate))
+  const startDay = fmt({ month: 'long', day: 'numeric' })
+  const year = fmt({ year: 'numeric' })
+  if (!ev.endDate) return `${startDay}, ${year}`
+  const endDay = fmt({ month: 'long', day: 'numeric' }, ev.endDate)
+  if (endDay === startDay) return `${startDay}, ${year}`
+  const range = startDay.split(' ')[0] === endDay.split(' ')[0]
+    ? `${startDay}–${endDay.split(' ')[1]}` // same month → "November 27–28"
+    : `${startDay}–${endDay}`
+  return `${range}, ${year}`
+})
+
+// Closing wayfinding strip: the scroll-depth visitor gets a next step.
+const crossLinks = [
+  { label: 'Delegates', to: '/delegates' },
+  { label: 'Schedule', to: '/schedule' },
+  { label: 'Resources', to: '/resources' },
+]
+
 
 
 
@@ -48,7 +74,7 @@ useSeoMeta({
 <template>
   <div class="min-h-screen flex flex-col">
     <!-- Hero Section -->
-    <section class="relative flex-1 bg-gradient-to-br from-red-800 via-red-700 to-[#180507] text-white py-20 px-4 md:py-32 overflow-hidden">
+    <section class="relative flex-1 bg-gradient-to-br from-red-800 via-red-700 to-brand-950 text-white py-20 px-4 md:py-32 overflow-hidden">
       <Globe2 class="absolute -right-24 -top-20 h-[32rem] w-[32rem] text-white/[0.08] stroke-[0.7] md:-right-16 md:-top-24" aria-hidden="true" />
       <div class="pointer-events-none absolute inset-0 opacity-20" aria-hidden="true">
         <div class="absolute left-[8%] top-20 h-32 w-32 rotate-45 border border-white/60" />
@@ -61,16 +87,17 @@ useSeoMeta({
             Welcome to CICMUN
           </h1>
           <p class="text-xl md:text-2xl font-light mb-8 text-white animate-fade-in-up" style="animation-delay: 0.3s">
-            Where Future Leaders Are Forged
+            Model United Nations at Colegio Internacional de Caracas · Since 1990
           </p>
         </div>
 
         <p class="text-lg md:text-xl mb-8 text-white max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style="animation-delay: 0.5s">
-          Experience diplomacy, leadership, and global citizenship at the Colegio Internacional de Caracas Model United Nations. Join delegates from across South America for an unforgettable conference.
+          CICMUN brings middle- and high-school delegates from across South America to Caracas for authentic committee simulations — two days of debate, negotiation, and diplomacy.
         </p>
 
         <div v-if="countdownDate && !countdownEnded" class="mb-12 min-h-[150px] md:min-h-[160px] animate-fade-in-up" style="animation-delay: 0.7s">
-          <p class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Counting down to {{ nextEvent?.name }}</p>
+          <p class="text-white font-bold mb-2 uppercase tracking-widest text-sm">Counting down to {{ nextEvent?.name }}</p>
+          <p class="mb-4 text-base font-medium text-white/90 md:text-lg">{{ eventDateLine }} · {{ nextEvent?.location }}</p>
           <CountdownTimer :target-date="countdownDate" @ended="countdownEnded = true" />
         </div>
 
@@ -78,11 +105,10 @@ useSeoMeta({
         <UiButton
           asChild
           size="lg"
-          class="group bg-white text-red-600 hover:bg-gray-50 font-bold text-xl px-10 py-8 rounded-full shadow-lg transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 inline-flex items-center gap-3"
-          style="animation-delay: 0.9s; animation-fill-mode: both;"
+          class="group bg-white text-red-600 hover:bg-gray-50 font-bold text-xl px-10 py-8 rounded-full shadow-lg transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 inline-flex items-center gap-3 animate-fade-in-up"
         >
           <NuxtLink to="/delegates">
-            Explore the conferences
+            Get ready for {{ nextEvent?.name || 'the next conference' }}
             <ArrowRight class="w-6 h-6 cta-arrow" />
           </NuxtLink>
         </UiButton>
@@ -105,7 +131,7 @@ useSeoMeta({
     <section class="bg-white py-16 md:py-24 px-4">
       <div class="container max-w-6xl mx-auto">
         <div class="mx-auto max-w-3xl text-center">
-          <h2 class="text-4xl font-bold text-black mb-6 font-display">About CICMUN</h2>
+          <h2 class="text-3xl md:text-4xl font-bold font-display text-black mb-10">About CICMUN</h2>
         </div>
         <div class="prose max-w-3xl mx-auto text-gray-700 text-lg mb-12 text-center">
           <p class="mb-6 leading-relaxed">
@@ -136,19 +162,41 @@ useSeoMeta({
     <!-- CIC Values Section -->
     <section class="bg-gray-50 py-16 md:py-24 px-4">
       <div class="container max-w-4xl mx-auto">
-        <h2 class="text-4xl font-bold text-center text-black mb-12 font-display">CIC Values</h2>
+        <h2 class="text-3xl md:text-4xl font-bold font-display text-black mb-10 text-center">CIC Values</h2>
         <div class="grid md:grid-cols-3 gap-8">
           <div v-for="(value, idx) in [
             { title: 'Respect', description: 'Valuing diverse perspectives and cultures' },
             { title: 'Integrity', description: 'Conducting ourselves with honesty and ethics' },
             { title: 'Leadership', description: 'Developing tomorrow\'s global leaders' },
-          ]" :key="idx" 
-          class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover-lift"
+          ]" :key="idx"
+          class="bg-white p-6 rounded-lg border border-gray-200"
           >
             <h3 class="text-xl font-bold text-red-600 mb-3 font-display">{{ value.title }}</h3>
             <p class="text-gray-700 font-medium">{{ value.description }}</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Continue exploring (PanAmUN-style cross-wayfinding strip: slim text + arrow).
+         The page must not end on a dead end; this mirrors ConferenceOverviewPage. -->
+    <section class="border-t border-gray-100 bg-white py-12 px-4">
+      <div class="container max-w-4xl mx-auto">
+        <nav
+          aria-label="Continue exploring CICMUN"
+          class="flex flex-wrap items-center justify-center gap-x-5 gap-y-3"
+        >
+          <span class="text-xs font-bold uppercase tracking-[0.25em] text-gray-500">Continue exploring</span>
+          <NuxtLink
+            v-for="link in crossLinks"
+            :key="link.to"
+            :to="link.to"
+            class="group inline-flex items-center gap-1.5 rounded-full border border-gray-200 px-3.5 py-2.5 text-xs font-bold uppercase tracking-tight text-black transition-colors hover:text-red-600 md:border-0 md:px-0 md:py-0 md:text-sm"
+          >
+            {{ link.label }}
+            <ArrowRight class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+          </NuxtLink>
+        </nav>
       </div>
     </section>
   </div>

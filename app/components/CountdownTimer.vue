@@ -63,7 +63,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+  <!-- Ticking units are decoration; screen readers get the static date from the
+       surrounding section instead of a per-second announcement stream. -->
+  <div aria-hidden="true" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
     <div class="bg-white/10 backdrop-blur-md rounded-lg p-4 transition-all duration-500">
       <div class="text-4xl md:text-5xl font-bold font-display">{{ timeRemaining.days }}</div>
       <div class="text-sm uppercase tracking-wider text-white">Days</div>

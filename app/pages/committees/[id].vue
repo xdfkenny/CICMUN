@@ -14,8 +14,8 @@ const hasError = computed(() => !!error.value || !committee.value)
 useSeoMeta({
   title: () => committee.value ? `${committee.value.name} (${committee.value.type})` : 'Loading...',
   ogTitle: () => committee.value ? `${committee.value.name} - ${siteTitle}` : `Committee - ${siteTitle}`,
-  description: () => committee.value ? `Information about the ${committee.value.name} committee. Topics: ${committee.value.topicA}${committee.value.topicB ? ' and ' + committee.value.topicB : ''}.` : 'CICMUN committee details.',
-  ogDescription: () => committee.value ? `Information about the ${committee.value.name} committee. Topics: ${committee.value.topicA}${committee.value.topicB ? ' and ' + committee.value.topicB : ''}.` : 'CICMUN committee details.',
+  description: () => committee.value ? `Information about the ${committee.value.name} committee. Topics: ${committee.value.topicA}${committee.value.topicB ? ' and ' + committee.value.topicB : ''}${committee.value.topicC ? ' and ' + committee.value.topicC : ''}.` : 'CICMUN committee details.',
+  ogDescription: () => committee.value ? `Information about the ${committee.value.name} committee. Topics: ${committee.value.topicA}${committee.value.topicB ? ' and ' + committee.value.topicB : ''}${committee.value.topicC ? ' and ' + committee.value.topicC : ''}.` : 'CICMUN committee details.',
   ogImage: `${siteConfig.siteUrl}/LOGO.png`,
 })
 
@@ -111,6 +111,10 @@ const openViewer = (filename: string, title: string) => {
               <div v-if="committee.topicB" class="border-t border-gray-200 pt-4">
                 <span class="font-bold text-sm uppercase tracking-wider mb-2 block" :class="textDarkColor">Topic B</span>
                 <p class="text-xl font-medium text-black leading-snug">{{ committee.topicB }}</p>
+              </div>
+              <div v-if="committee.topicC" class="border-t border-gray-200 pt-4">
+                <span class="font-bold text-sm uppercase tracking-wider mb-2 block" :class="textDarkColor">Topic C</span>
+                <p class="text-xl font-medium text-black leading-snug">{{ committee.topicC }}</p>
               </div>
             </div>
           </div>

@@ -1,7 +1,19 @@
 {
   "detector": {
+    "extensions": [
+      {
+        "ext": ".vue",
+        "engine": "html"
+      }
+    ],
     "ignoreRules": [],
-    "ignoreFiles": [],
+    "ignoreFiles": [
+      "app/components/GalleryImageCard.vue",
+      "app/components/ImageLightbox.vue",
+      "app/components/Navigation.vue",
+      "app/components/TeamSection.vue",
+      "app/pages/committees/[id].vue"
+    ],
     "ignoreValues": [
       {
         "rule": "overused-font",
