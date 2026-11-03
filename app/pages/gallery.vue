@@ -187,7 +187,7 @@ const refreshPage = async () => {
           <ImageIcon class="w-16 h-16 text-gray-300" />
         </div>
         <h3 class="text-3xl font-extrabold text-black mb-3 font-display uppercase tracking-tight">Loading photos...</h3>
-        <p class="text-gray-500 max-w-md mx-auto font-medium opacity-80">Preparing the gallery for you.</p>
+        <p class="text-gray-500 max-w-md mx-auto font-medium">Preparing the gallery for you.</p>
       </div>
 
       <!-- Photo grid -->
@@ -205,7 +205,7 @@ const refreshPage = async () => {
           <ImageIcon class="w-16 h-16 text-red-300" />
         </div>
         <h3 class="text-3xl font-extrabold text-black mb-3 font-display uppercase tracking-tight">Gallery unavailable</h3>
-        <p class="text-gray-500 max-w-md mx-auto mb-10 font-medium opacity-80 leading-relaxed">
+        <p class="text-gray-500 max-w-md mx-auto mb-10 font-medium leading-relaxed">
           {{ loadErrorMessage }}
         </p>
         <button
@@ -223,7 +223,7 @@ const refreshPage = async () => {
           <ImageIcon class="w-16 h-16 text-gray-300" />
         </div>
         <h3 class="text-3xl font-extrabold text-black mb-3 font-display uppercase tracking-tight">No photos found</h3>
-        <p class="text-gray-500 max-w-md mx-auto mb-10 font-medium opacity-80 leading-relaxed">
+        <p class="text-gray-500 max-w-md mx-auto mb-10 font-medium leading-relaxed">
           We haven't uploaded photos for this event yet. Please check back later!
         </p>
         <NuxtLink to="/" class="inline-flex items-center gap-2 bg-black text-white px-8 py-3 rounded-xl font-bold hover:bg-gray-800 transition-all shadow-lg hover:-translate-y-1">

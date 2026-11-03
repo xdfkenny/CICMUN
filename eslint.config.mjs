@@ -16,6 +16,8 @@ export default [
       '.nuxt/**',
       '.output/**',
       '.vercel/**',
+      '.opencode/**',
+      '.impeccable/**',
       'coverage/**',
       'dist/**',
       'node_modules/**',

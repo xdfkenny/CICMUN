@@ -56,7 +56,7 @@ const conferenceLabel = computed(() =>
             :tabindex="activeTab === 'JMUN' ? 0 : -1"
             :class="[
               'px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300',
-              activeTab === 'JMUN' ? 'bg-white text-black shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'
+              activeTab === 'JMUN' ? 'bg-white text-black shadow-md scale-105' : 'text-gray-700 hover:text-black'
             ]"
             @keydown.prevent="handleTabKey('JMUN')"
           >
@@ -71,7 +71,7 @@ const conferenceLabel = computed(() =>
             :tabindex="activeTab === 'SAMUN' ? 0 : -1"
             :class="[
               'px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300',
-              activeTab === 'SAMUN' ? 'bg-red-600 text-white shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'
+              activeTab === 'SAMUN' ? 'bg-red-600 text-white shadow-md scale-105' : 'text-gray-700 hover:text-black'
             ]"
             @keydown.prevent="handleTabKey('SAMUN')"
           >
@@ -101,7 +101,7 @@ const conferenceLabel = computed(() =>
 
         <!-- Error State -->
         <div v-else-if="error" class="bg-red-50 text-red-700 p-12 rounded-2xl text-center border border-red-200 reveal">
-          <AlertCircle class="w-16 h-16 mx-auto mb-6 text-red-500 animate-bounce" />
+          <AlertCircle class="w-16 h-16 mx-auto mb-6 text-red-500 animate-pulse" />
           <h3 class="text-2xl font-bold mb-3 font-display uppercase tracking-tight">Notice</h3>
           <p class="text-lg font-medium opacity-80">
             The schedule is temporarily unavailable. Please try again later or contact the secretariat.
@@ -181,7 +181,7 @@ const conferenceLabel = computed(() =>
             The day-by-day schedule for {{ conferenceLabel }} is being finalized and will be
             published here as soon as it's confirmed.
           </p>
-          <p class="mt-2 text-sm font-medium text-gray-400">
+          <p class="mt-2 text-sm font-medium text-gray-600">
             Check back soon — or email the secretariat at
             <a
               href="mailto:samun@ciccaracas.com.ve"

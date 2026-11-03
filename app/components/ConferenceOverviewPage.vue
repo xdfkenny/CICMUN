@@ -18,7 +18,6 @@ const props = defineProps<{
 
 const isSamun = computed(() => props.conferenceType === 'SAMUN')
 const isLoading = computed(() => props.status === 'pending')
-const accentBorderClass = computed(() => (isSamun.value ? 'border-red-600' : 'border-black'))
 const accentIconContainerClass = computed(() => (isSamun.value ? 'bg-red-50 group-hover:bg-red-100' : 'bg-gray-50 group-hover:bg-gray-100'))
 const accentIconClass = computed(() => (isSamun.value ? 'text-red-600' : 'text-black'))
 const accentButtonClass = computed(() => (isSamun.value ? 'bg-red-600 hover:bg-red-700 hover:shadow-red-600/40' : 'bg-black hover:bg-gray-800 hover:shadow-black/20'))
@@ -32,7 +31,6 @@ const crossLinks = [
 ]
 
 // Accent-aware text-link styling (red for SAMUN, black for JMUN), matching the homepage quick-links language
-const linkClass = computed(() => (isSamun.value ? 'text-red-600 hover:text-red-700' : 'text-black hover:text-gray-700'))
 </script>
 
 <template>
@@ -48,8 +46,7 @@ const linkClass = computed(() => (isSamun.value ? 'text-red-600 hover:text-red-7
       <!-- Event Details -->
       <div class="reveal mx-auto mb-20 max-w-4xl">
         <div
-          class="overflow-hidden rounded-2xl border-l-8 bg-white p-6 shadow-xl transition-all duration-500 hover-lift md:p-10"
-          :class="accentBorderClass"
+          class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-xl transition-all duration-500 hover-lift md:p-10"
         >
           <div class="mb-8 flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
             <h2 class="font-display text-3xl font-bold uppercase tracking-tight text-black">
@@ -66,8 +63,7 @@ const linkClass = computed(() => (isSamun.value ? 'text-red-600 hover:text-red-7
                 v-for="link in crossLinks"
                 :key="link.to"
                 :to="link.to"
-                class="group inline-flex items-center gap-1.5 rounded-full border border-gray-200 px-3.5 py-2.5 text-xs font-bold uppercase tracking-tight transition-colors md:border-0 md:px-0 md:py-0 md:text-sm"
-                :class="linkClass"
+                class="group inline-flex items-center gap-1.5 rounded-full border border-gray-200 px-3.5 py-2.5 text-xs font-bold uppercase tracking-tight text-black transition-colors hover:text-red-600 md:border-0 md:px-0 md:py-0 md:text-sm"
               >
                 {{ link.label }}
                 <ArrowRight class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
@@ -189,7 +185,7 @@ const linkClass = computed(() => (isSamun.value ? 'text-red-600 hover:text-red-7
           <p class="mb-2 font-display text-xl font-bold uppercase text-black">
             {{ emptyTitle }}
           </p>
-          <p class="mx-auto max-w-2xl text-sm font-medium leading-relaxed text-gray-600">
+          <p class="mx-auto max-w-xl text-sm font-medium leading-relaxed text-gray-600">
             {{ emptyDescription }}
           </p>
         </div>

@@ -32,8 +32,8 @@ useSeoMeta({
             <div class="text-center">
               <h2 class="text-3xl font-bold mb-2 font-display uppercase">{{ siteConfig.samun.name }}</h2>
               <p class="text-lg font-light">South American Model United Nations</p>
-              <p class="text-sm mt-2 opacity-90">{{ siteConfig.samun.dateLabel }}</p>
-              <p class="text-sm mt-1 opacity-90">{{ siteConfig.samun.gradeRange }} · {{ siteConfig.location }}</p>
+              <p class="text-sm mt-2">{{ siteConfig.samun.dateLabel }}</p>
+              <p class="text-sm mt-1">{{ siteConfig.samun.gradeRange }} · {{ siteConfig.location }}</p>
             </div>
           </NuxtLink>
         </UiButton>
@@ -49,8 +49,8 @@ useSeoMeta({
             <div class="text-center">
               <h2 class="text-3xl font-bold mb-2 font-display uppercase">{{ siteConfig.jmun.name }}</h2>
               <p class="text-lg font-light">Junior Model United Nations</p>
-              <p class="text-sm mt-2 opacity-90">{{ siteConfig.jmun.dateLabel }}</p>
-              <p class="text-sm mt-1 opacity-90">{{ siteConfig.jmun.gradeRange }} · {{ siteConfig.location }}</p>
+              <p class="text-sm mt-2">{{ siteConfig.jmun.dateLabel }}</p>
+              <p class="text-sm mt-1">{{ siteConfig.jmun.gradeRange }} · {{ siteConfig.location }}</p>
             </div>
           </NuxtLink>
         </UiButton>

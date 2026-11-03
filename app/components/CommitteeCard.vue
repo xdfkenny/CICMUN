@@ -19,10 +19,6 @@ const textClass = computed(() => {
   return props.committee.type === 'SAMUN' ? 'text-red-600' : 'text-black'
 })
 
-const lightBgClass = computed(() => {
-  return props.committee.type === 'SAMUN' ? 'bg-red-50' : 'bg-gray-50'
-})
-
 const darkTextClass = computed(() => {
   return props.committee.type === 'SAMUN' ? 'text-red-700' : 'text-black'
 })
@@ -55,7 +51,7 @@ const hoverTextClass = computed(() => {
         />
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
         <div class="absolute bottom-4 left-6">
-          <span class="px-2 py-1 rounded bg-white/20 backdrop-blur-md text-[10px] font-bold text-white uppercase tracking-widest border border-white/30">
+          <span class="px-2 py-1 rounded bg-white/20 backdrop-blur-md text-xs font-bold text-white uppercase tracking-widest border border-white/30">
             {{ committee.type }}
           </span>
         </div>
@@ -91,7 +87,7 @@ const hoverTextClass = computed(() => {
                 <span v-else class="font-bold text-xs" :class="textClass">CH</span>
               </div>
               <div>
-                <p class="text-[10px] font-bold uppercase tracking-widest text-black">Chair</p>
+                <p class="text-xs font-bold uppercase tracking-widest text-black">Chair</p>
                 <p class="font-semibold text-black leading-tight">{{ committee.chairName }}</p>
               </div>
             </div>
@@ -100,7 +96,7 @@ const hoverTextClass = computed(() => {
             <div v-if="committee.coChairName" class="flex items-center gap-4 p-3 rounded-lg bg-gray-50/50 border border-transparent transition-colors hover:bg-white hover:border-gray-100">
               <div 
                 class="w-12 h-12 rounded-full border-2 flex items-center justify-center flex-shrink-0 bg-white"
-                :class="committee.type === 'SAMUN' ? 'border-blue-600' : 'border-black'"
+                :class="committee.type === 'SAMUN' ? 'border-black' : 'border-black'"
               >
                 <NuxtImg
                   v-if="committee.coChairPhoto"
@@ -111,10 +107,10 @@ const hoverTextClass = computed(() => {
                   height="96"
                   class="w-full h-full rounded-full object-cover"
                 />
-                <span v-else class="font-bold text-xs" :class="committee.type === 'SAMUN' ? 'text-blue-600' : 'text-black'">CC</span>
+                <span v-else class="font-bold text-xs" :class="committee.type === 'SAMUN' ? 'text-black' : 'text-black'">CC</span>
               </div>
               <div>
-                <p class="text-[10px] font-bold uppercase tracking-widest text-black">Co-Chair</p>
+                <p class="text-xs font-bold uppercase tracking-widest text-black">Co-Chair</p>
                 <p class="font-semibold text-black leading-tight">{{ committee.coChairName }}</p>
               </div>
             </div>
@@ -123,7 +119,7 @@ const hoverTextClass = computed(() => {
             <div v-if="committee.secretaryName" class="flex items-center gap-4 p-3 rounded-lg bg-gray-50/50 border border-transparent transition-colors hover:bg-white hover:border-gray-100">
               <div 
                 class="w-12 h-12 rounded-full border-2 flex items-center justify-center flex-shrink-0 bg-white"
-                :class="committee.type === 'SAMUN' ? 'border-green-600' : 'border-black'"
+                :class="committee.type === 'SAMUN' ? 'border-black' : 'border-black'"
               >
                 <NuxtImg
                   v-if="committee.secretaryPhoto"
@@ -134,10 +130,10 @@ const hoverTextClass = computed(() => {
                   height="96"
                   class="w-full h-full rounded-full object-cover"
                 />
-                <span v-else class="font-bold text-xs" :class="committee.type === 'SAMUN' ? 'text-green-600' : 'text-black'">SE</span>
+                <span v-else class="font-bold text-xs" :class="committee.type === 'SAMUN' ? 'text-black' : 'text-black'">SE</span>
               </div>
               <div>
-                <p class="text-[10px] font-bold uppercase tracking-widest text-black">Secretary</p>
+                <p class="text-xs font-bold uppercase tracking-widest text-black">Secretary</p>
                 <p class="font-semibold text-black leading-tight">{{ committee.secretaryName }}</p>
               </div>
             </div>
@@ -145,20 +141,14 @@ const hoverTextClass = computed(() => {
 
           <!-- Topics -->
           <div class="pt-6 border-t border-gray-100">
-            <p class="text-[10px] font-bold uppercase tracking-widest text-black mb-4">Topics</p>
-            <div class="space-y-3">
-              <div 
-                class="p-4 rounded-xl transition-all duration-300 hover:translate-x-1 border-l-4"
-                :class="[lightBgClass, borderClass]"
-              >
-                <p class="text-[10px] font-bold uppercase mb-1" :class="darkTextClass">Topic A</p>
+            <p class="text-xs font-bold uppercase tracking-widest text-black mb-4">Topics</p>
+            <div class="space-y-4">
+              <div>
+                <p class="text-xs font-bold uppercase mb-1" :class="darkTextClass">Topic A</p>
                 <p class="text-sm font-medium text-black leading-snug">{{ committee.topicA }}</p>
               </div>
-              <div 
-                v-if="committee.topicB"
-                class="p-4 rounded-xl bg-gray-50 border-l-4 border-gray-300 transition-all duration-300 hover:translate-x-1 hover:bg-white hover:border-gray-400"
-              >
-                <p class="text-[10px] font-bold uppercase mb-1 text-black">Topic B</p>
+              <div v-if="committee.topicB" class="border-t border-gray-100 pt-4">
+                <p class="text-xs font-bold uppercase mb-1 text-black">Topic B</p>
                 <p class="text-sm font-medium text-black leading-snug">{{ committee.topicB }}</p>
               </div>
             </div>

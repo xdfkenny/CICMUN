@@ -10,7 +10,7 @@ import { Instagram, Mail } from 'lucide-vue-next'
         <a href="https://www.instagram.com/cicmunve/" target="_blank" rel="noopener noreferrer" aria-label="CICMUN on Instagram" class="rounded-full border border-white/20 p-3 transition-colors hover:border-red-500 hover:text-red-500"><Instagram class="h-5 w-5" /></a>
         <a href="mailto:samun@ciccaracas.com.ve" aria-label="Email CICMUN" class="rounded-full border border-white/20 p-3 transition-colors hover:border-red-500 hover:text-red-500"><Mail class="h-5 w-5" /></a>
       </div>
-      <p class="text-center text-xs text-gray-500">© {{ new Date().getFullYear() }} Colegio Internacional de Caracas</p>
+      <p class="text-center text-xs text-gray-400">© {{ new Date().getFullYear() }} Colegio Internacional de Caracas</p>
     </div>
   </footer>
 </template>

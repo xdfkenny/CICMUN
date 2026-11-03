@@ -33,28 +33,6 @@ const countdownEnded = ref(false)
 
 
 
-// 67 Brainrot Easter Egg state
-const show67 = ref(false)
-const heroShake = ref(false)
-
-const onBrainrot = () => {
-  // Only fire once per session (handled by CountdownTimer's sessionStorage)
-  if (import.meta.client) {
-    // Clear any previous dismissal so it can trigger again if desired
-    // The sessionStorage check is handled by CountdownTimer
-  }
-
-  // Layer 1: Shake the hero section
-  heroShake.value = true
-  setTimeout(() => {
-    heroShake.value = false
-  }, 700)
-
-  // Layer 2 + 4: Particles and Doot Doot flash (slight delay)
-  setTimeout(() => {
-    show67.value = true
-  }, 300)
-}
 
 useSeoMeta({
   title: 'Home',
@@ -65,23 +43,12 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 
-// Track brainrot dismissal across sessions
-if (import.meta.client) {
-  const alreadyDismissed = sessionStorage.getItem('brainrot-dismissed')
-  if (alreadyDismissed) {
-    // Clear the brainrot state if user already dismissed
-    sessionStorage.removeItem('brainrot67')
-  }
-}
 </script>
 
 <template>
   <div class="min-h-screen flex flex-col">
-    <!-- 67 Brainrot Overlay -->
-    <BrainrotOverlay v-if="show67" />
-
     <!-- Hero Section -->
-    <section :class="['relative flex-1 bg-gradient-to-br from-red-700 via-red-600 to-[#180507] text-white py-20 px-4 md:py-32 overflow-hidden', { 'brainrot-shake': heroShake }]">
+    <section class="relative flex-1 bg-gradient-to-br from-red-800 via-red-700 to-[#180507] text-white py-20 px-4 md:py-32 overflow-hidden">
       <Globe2 class="absolute -right-24 -top-20 h-[32rem] w-[32rem] text-white/[0.08] stroke-[0.7] md:-right-16 md:-top-24" aria-hidden="true" />
       <div class="pointer-events-none absolute inset-0 opacity-20" aria-hidden="true">
         <div class="absolute left-[8%] top-20 h-32 w-32 rotate-45 border border-white/60" />
@@ -93,29 +60,29 @@ if (import.meta.client) {
           <h1 class="text-5xl md:text-6xl font-bold mb-4 leading-tight font-display tracking-tight animate-fade-in-up" style="animation-delay: 0.1s">
             Welcome to CICMUN
           </h1>
-          <p class="text-xl md:text-2xl font-light mb-8 text-gray-100 animate-fade-in-up" style="animation-delay: 0.3s">
+          <p class="text-xl md:text-2xl font-light mb-8 text-white animate-fade-in-up" style="animation-delay: 0.3s">
             Where Future Leaders Are Forged
           </p>
         </div>
 
-        <p class="text-lg md:text-xl mb-8 text-gray-200 max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style="animation-delay: 0.5s">
+        <p class="text-lg md:text-xl mb-8 text-white max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style="animation-delay: 0.5s">
           Experience diplomacy, leadership, and global citizenship at the Colegio Internacional de Caracas Model United Nations. Join delegates from across South America for an unforgettable conference.
         </p>
 
         <div v-if="countdownDate && !countdownEnded" class="mb-12 min-h-[150px] md:min-h-[160px] animate-fade-in-up" style="animation-delay: 0.7s">
           <p class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Counting down to {{ nextEvent?.name }}</p>
-          <CountdownTimer :target-date="countdownDate" @brainrot="onBrainrot" @ended="countdownEnded = true" />
+          <CountdownTimer :target-date="countdownDate" @ended="countdownEnded = true" />
         </div>
 
         <!-- Call to Action Button -->
         <UiButton
           asChild
           size="lg"
-          class="group bg-white text-red-600 hover:bg-gray-50 font-bold text-xl px-10 py-8 rounded-full cta-shadow transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 inline-flex items-center gap-3 animate-pulse-soft"
+          class="group bg-white text-red-600 hover:bg-gray-50 font-bold text-xl px-10 py-8 rounded-full shadow-lg transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 inline-flex items-center gap-3"
           style="animation-delay: 0.9s; animation-fill-mode: both;"
         >
           <NuxtLink to="/delegates">
-            Register as Delegate
+            Explore the conferences
             <ArrowRight class="w-6 h-6 cta-arrow" />
           </NuxtLink>
         </UiButton>
@@ -127,7 +94,7 @@ if (import.meta.client) {
       :items="[
         { title: 'SAMUN', description: 'The flagship high-school conference', to: '/samun', icon: Landmark, accent: 'red' },
         { title: 'JMUN', description: 'Junior Model United Nations', to: '/jmun', icon: Globe2 },
-        { title: 'Delegates', description: 'Register and prepare your role', to: '/delegates', icon: Users },
+        { title: 'Delegates', description: 'Prepare your delegation', to: '/delegates', icon: Users },
         { title: 'Schedule', description: 'Plan your conference days', to: '/schedule', icon: CalendarDays },
         { title: 'Resources', description: 'Guides, rules, and downloads', to: '/resources', icon: Library },
         { title: 'Gallery', description: 'Relive past conferences', to: '/gallery', icon: Images },
@@ -138,7 +105,6 @@ if (import.meta.client) {
     <section class="bg-white py-16 md:py-24 px-4">
       <div class="container max-w-6xl mx-auto">
         <div class="mx-auto max-w-3xl text-center">
-          <p class="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-red-600">The CICMUN experience</p>
           <h2 class="text-4xl font-bold text-black mb-6 font-display">About CICMUN</h2>
         </div>
         <div class="prose max-w-3xl mx-auto text-gray-700 text-lg mb-12 text-center">
@@ -177,7 +143,7 @@ if (import.meta.client) {
             { title: 'Integrity', description: 'Conducting ourselves with honesty and ethics' },
             { title: 'Leadership', description: 'Developing tomorrow\'s global leaders' },
           ]" :key="idx" 
-          class="bg-white p-6 rounded-lg border border-gray-200 border-l-4 border-l-red-600 shadow-sm hover-lift"
+          class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover-lift"
           >
             <h3 class="text-xl font-bold text-red-600 mb-3 font-display">{{ value.title }}</h3>
             <p class="text-gray-700 font-medium">{{ value.description }}</p>

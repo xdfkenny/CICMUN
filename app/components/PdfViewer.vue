@@ -141,7 +141,7 @@ onUnmounted(() => {
         </div>
 
         <!-- Footer / Mobile fallback -->
-        <div class="p-3 bg-gray-50 border-t flex justify-center text-[10px] text-gray-400 md:hidden">
+        <div class="p-3 bg-gray-50 border-t flex justify-center text-xs text-gray-400 md:hidden">
           Tip: You can pinch to zoom or scroll to navigate.
         </div>
       </div>

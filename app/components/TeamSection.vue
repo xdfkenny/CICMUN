@@ -170,7 +170,7 @@ const getInitials = (name: string) =>
           >
             <div class="relative inline-flex mb-4 sm:mb-8 mx-auto">
               <!-- Team Member Image -->
-              <div class="w-24 h-24 sm:w-40 sm:h-40 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-gray-100 transition-all duration-300 group-hover:scale-105">
+              <div class="w-24 h-24 sm:w-40 sm:h-40 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-gray-100 transition-all duration-300 group-hover:scale-105 bg-gray-100">
                 <img 
                   :src="member.image" 
                   :alt="member.name"
@@ -204,7 +204,6 @@ const getInitials = (name: string) =>
         <div class="relative z-10">
           <div class="mb-8 flex items-end justify-between gap-6">
             <div>
-              <p class="mb-2 text-sm font-bold uppercase tracking-[0.25em] text-red-500">Meet the team behind CICMUN</p>
               <h3 class="text-3xl font-bold font-display tracking-tight leading-tight md:text-4xl">Our Faculty Supervisors</h3>
             </div>
             <GraduationCap class="hidden h-12 w-12 text-red-500 md:block" aria-hidden="true" />

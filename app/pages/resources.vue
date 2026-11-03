@@ -60,7 +60,7 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
             :tabindex="activeTab === 'JMUN' ? 0 : -1"
             :class="[
               'px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300',
-              activeTab === 'JMUN' ? 'bg-white text-black shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'
+              activeTab === 'JMUN' ? 'bg-white text-black shadow-md scale-105' : 'text-gray-700 hover:text-black'
             ]"
             @keydown.prevent="handleTabKey('JMUN')"
           >
@@ -75,7 +75,7 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
             :tabindex="activeTab === 'SAMUN' ? 0 : -1"
             :class="[
               'px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300',
-              activeTab === 'SAMUN' ? 'bg-red-600 text-white shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'
+              activeTab === 'SAMUN' ? 'bg-red-600 text-white shadow-md scale-105' : 'text-gray-700 hover:text-black'
             ]"
             @keydown.prevent="handleTabKey('SAMUN')"
           >
@@ -86,7 +86,7 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
 
       <!-- Loading State -->
       <div v-if="status === 'pending'" class="grid md:grid-cols-2 gap-6" :id="`resource-panel-${activeTab}`" role="tabpanel" :aria-labelledby="`resource-tab-${activeTab}`" tabindex="0">
-        <div v-for="i in 4" :key="i" class="bg-white p-8 rounded-2xl shadow-md border-l-4 border-gray-200 animate-pulse">
+        <div v-for="i in 4" :key="i" class="bg-white p-8 rounded-2xl shadow-md border border-gray-200 animate-pulse">
           <div class="flex justify-between items-start mb-6">
             <UiSkeleton class="w-14 h-14 rounded-xl" />
             <UiSkeleton class="w-12 h-6 rounded" />
@@ -103,15 +103,15 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
 
       <!-- Error State -->
       <div v-else-if="error" class="bg-red-50 text-red-700 p-12 rounded-2xl text-center border border-red-200 reveal" :id="`resource-panel-${activeTab}`" role="tabpanel" :aria-labelledby="`resource-tab-${activeTab}`" tabindex="0">
-        <AlertCircle class="w-16 h-16 mx-auto mb-6 text-red-500 animate-bounce" />
-        <h3 class="text-2xl font-bold mb-3 font-display uppercase tracking-tight">Notice</h3>
+        <AlertCircle class="w-16 h-16 mx-auto mb-6 text-red-500 animate-pulse" />
+        <h2 class="text-2xl font-bold mb-3 font-display uppercase tracking-tight">Notice</h2>
         <p class="text-lg font-medium opacity-80">Resources are temporarily unavailable. Please try again later or contact the secretariat.</p>
       </div>
 
       <!-- Data State -->
       <div v-else-if="filteredResources.length > 0" class="grid md:grid-cols-2 gap-8 min-h-[400px]" :id="`resource-panel-${activeTab}`" role="tabpanel" :aria-labelledby="`resource-tab-${activeTab}`" tabindex="0">
         <div v-for="(resource, idx) in filteredResources" :key="resource.id" 
-             :class="['bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border-l-8 reveal hover-lift flex flex-col', activeTab === 'SAMUN' ? 'border-red-600' : 'border-black']"
+             :class="['bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-200 reveal hover-lift flex flex-col']"
              :style="{ transitionDelay: `${idx * 150}ms` }">
           <div class="flex justify-between items-start mb-6">
             <div :class="['p-4 rounded-xl transition-colors duration-300', activeTab === 'SAMUN' ? 'bg-red-50' : 'bg-gray-100']">
@@ -120,7 +120,7 @@ const handleTabKey = (tab: 'JMUN' | 'SAMUN') => {
             <span class="text-xs font-extrabold px-3 py-1.5 bg-gray-100 rounded-lg text-black uppercase tracking-wider">PDF</span>
           </div>
           
-          <h3 class="text-2xl font-bold mb-3 font-display text-black tracking-tight uppercase">{{ resource.title }}</h3>
+          <h2 class="text-2xl font-bold mb-3 font-display text-black tracking-tight uppercase">{{ resource.title }}</h2>
           <p class="text-gray-600 flex-1 mb-6 text-base font-medium leading-relaxed">{{ resource.description }}</p>
 
           <div class="flex items-center gap-8 mt-6 pt-4 border-t border-gray-100">

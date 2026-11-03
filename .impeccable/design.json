@@ -1,0 +1,320 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-03T00:00:00.000Z",
+  "title": "Design System: CICMUN Delegate Portal",
+  "extensions": {
+    "colorMeta": {
+      "cic-crimson": {
+        "role": "primary",
+        "displayName": "CIC Crimson",
+        "canonical": "oklch(0.577 0.245 27.325)",
+        "tonalRamp": [
+          "oklch(0.20 0.09 27.325)",
+          "oklch(0.30 0.15 27.325)",
+          "oklch(0.40 0.20 27.325)",
+          "oklch(0.50 0.23 27.325)",
+          "oklch(0.577 0.245 27.325)",
+          "oklch(0.68 0.21 27.325)",
+          "oklch(0.80 0.13 27.325)",
+          "oklch(0.92 0.05 27.325)"
+        ]
+      },
+      "ink-black": {
+        "role": "neutral",
+        "displayName": "Ink Black",
+        "canonical": "#000000",
+        "tonalRamp": [
+          "oklch(0.10 0.014 261.692)",
+          "oklch(0.18 0.020 261.692)",
+          "oklch(0.26 0.024 261.692)",
+          "oklch(0.35 0.026 261.692)",
+          "oklch(0.45 0.028 261.692)",
+          "oklch(0.60 0.022 261.692)",
+          "oklch(0.76 0.014 261.692)",
+          "oklch(0.92 0.006 261.692)"
+        ]
+      },
+      "bulletin-paper": {
+        "role": "neutral",
+        "displayName": "Bulletin Paper",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.30 0 0)",
+          "oklch(0.45 0 0)",
+          "oklch(0.60 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.82 0 0)",
+          "oklch(0.91 0 0)",
+          "oklch(1 0 0)"
+        ]
+      },
+      "notice-grey": {
+        "role": "neutral",
+        "displayName": "Notice Grey",
+        "canonical": "#F5F5F5",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.30 0 0)",
+          "oklch(0.45 0 0)",
+          "oklch(0.60 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.82 0 0)",
+          "oklch(0.90 0 0)",
+          "oklch(0.966 0 0)"
+        ]
+      },
+      "slate-grey": {
+        "role": "neutral",
+        "displayName": "Slate Grey",
+        "canonical": "#333333",
+        "tonalRamp": [
+          "oklch(0.18 0 0)",
+          "oklch(0.28 0 0)",
+          "oklch(0.38 0 0)",
+          "oklch(0.48 0 0)",
+          "oklch(0.58 0 0)",
+          "oklch(0.70 0 0)",
+          "oklch(0.82 0 0)",
+          "oklch(0.93 0 0)"
+        ]
+      },
+      "rule-line": {
+        "role": "neutral",
+        "displayName": "Rule Line",
+        "canonical": "oklch(0.92 0.004 286.32)",
+        "tonalRamp": [
+          "oklch(0.22 0.004 286.32)",
+          "oklch(0.34 0.004 286.32)",
+          "oklch(0.46 0.004 286.32)",
+          "oklch(0.58 0.004 286.32)",
+          "oklch(0.70 0.004 286.32)",
+          "oklch(0.80 0.004 286.32)",
+          "oklch(0.88 0.004 286.32)",
+          "oklch(0.96 0.004 286.32)"
+        ]
+      },
+      "cover-night": {
+        "role": "neutral",
+        "displayName": "Cover Night",
+        "canonical": "oklch(0.13 0.028 261.692)",
+        "tonalRamp": [
+          "oklch(0.13 0.028 261.692)",
+          "oklch(0.22 0.028 261.692)",
+          "oklch(0.33 0.026 261.692)",
+          "oklch(0.45 0.024 261.692)",
+          "oklch(0.58 0.020 261.692)",
+          "oklch(0.70 0.016 261.692)",
+          "oklch(0.82 0.010 261.692)",
+          "oklch(0.93 0.004 261.692)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page heroes only; one per page, uppercase on conference and gallery surfaces."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section openers and card titles that anchor a block of content."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Committee names, event names, list-item headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose, descriptions, and table cells; keep measure near 65–75 characters."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Navigation, dates, metadata, and button text."
+      }
+    },
+    "shadows": [
+      {
+        "name": "whisper",
+        "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+        "purpose": "Card and input rest state."
+      },
+      {
+        "name": "lift",
+        "value": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+        "purpose": "Card hover, paired with an 8px upward translate."
+      },
+      {
+        "name": "pinned",
+        "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+        "purpose": "Sticky navigation at rest."
+      },
+      {
+        "name": "overlay",
+        "value": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+        "purpose": "Lightbox, dialogs, and full-screen menus."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-quint",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Default entrance easing for reveal and fade-in-up."
+      },
+      {
+        "name": "ease-out",
+        "value": "ease-out",
+        "purpose": "Hover lift and color transitions."
+      },
+      {
+        "name": "ease-spring",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "purpose": "The CTA arrow slide on group hover."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The page's single filled action; black at rest, crimson on hover.",
+      "html": "<button class=\"ds-btn-primary\">View schedule <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 36px; padding: 0 16px; border: none; border-radius: 8.4px; background: #000000; color: #FFFFFF; font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 500; line-height: 1; white-space: nowrap; cursor: pointer; transition: background-color 0.2s ease-out, transform 0.2s ease-out; } .ds-btn-primary:hover { background: #DC2628; } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(220, 38, 40, 0.5); } .ds-btn-primary:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Brand Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The crimson default variant, for actions that should read as the school's own.",
+      "html": "<button class=\"ds-btn-brand\">Register interest</button>",
+      "css": ".ds-btn-brand { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 36px; padding: 0 16px; border: none; border-radius: 8.4px; background: #DC2628; color: #FFFFFF; font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 500; line-height: 1; white-space: nowrap; cursor: pointer; transition: background-color 0.2s ease-out; } .ds-btn-brand:hover { background: rgba(220, 38, 40, 0.9); } .ds-btn-brand:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(220, 38, 40, 0.35); } .ds-btn-brand:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action; hairline border, no fill.",
+      "html": "<button class=\"ds-btn-outline\">Read the charter</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 36px; padding: 0 16px; border: 1px solid #E4E4E7; border-radius: 8.4px; background: transparent; color: #000000; font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 500; line-height: 1; white-space: nowrap; cursor: pointer; transition: background-color 0.2s ease-out; } .ds-btn-outline:hover { background: #F5F5F5; } .ds-btn-outline:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(220, 38, 40, 0.35); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Navigation and low-emphasis actions; transparent until hovered.",
+      "html": "<button class=\"ds-btn-ghost\">Resources</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 36px; padding: 0 16px; border: none; border-radius: 8.4px; background: transparent; color: #000000; font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 500; line-height: 1; white-space: nowrap; cursor: pointer; transition: background-color 0.2s ease-out; } .ds-btn-ghost:hover { background: #F5F5F5; } .ds-btn-ghost[aria-current=\"page\"] { background: #000000; color: #FFFFFF; } .ds-btn-ghost:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(220, 38, 40, 0.35); }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip-active",
+      "description": "Day and event filters; the active chip is the only black element in the row.",
+      "html": "<div class=\"ds-chip-row\"><button class=\"ds-chip ds-chip-active\">Day 1</button><button class=\"ds-chip\">Day 2</button><button class=\"ds-chip\">All events</button></div>",
+      "css": ".ds-chip-row { display: flex; flex-wrap: wrap; gap: 8px; } .ds-chip { display: inline-flex; align-items: center; height: 36px; padding: 8px 16px; border: 1px solid transparent; border-radius: 9999px; background: #F5F5F5; color: #333333; font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 600; line-height: 1; cursor: pointer; transition: background-color 0.2s ease-out, color 0.2s ease-out; } .ds-chip:hover { background: #EDEDED; } .ds-chip-active, .ds-chip-active:hover { background: #000000; color: #FFFFFF; } .ds-chip:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(220, 38, 40, 0.35); }"
+    },
+    {
+      "name": "Content Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The default paper surface: hairline border, flat at rest, lifts on hover.",
+      "html": "<article class=\"ds-card\"><h3 class=\"ds-card-title\">UNSC</h3><p class=\"ds-card-body\">United Nations Security Council — Grades 9-12.</p></article>",
+      "css": ".ds-card { display: flex; flex-direction: column; gap: 8px; padding: 24px; border: 1px solid #E4E4E7; border-radius: 14.4px; background: #FFFFFF; color: #000000; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; } .ds-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); } .ds-card-title { margin: 0; font-family: 'Montserrat', ui-sans-serif, sans-serif; font-size: 20px; font-weight: 700; line-height: 1.3; letter-spacing: 0; } .ds-card-body { margin: 0; font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif; font-size: 16px; font-weight: 400; line-height: 1.625; color: #333333; }"
+    },
+    {
+      "name": "Page Hero",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "The single page-level title block: display heading, crimson divider, grey subtitle.",
+      "html": "<header class=\"ds-page-hero\"><h1 class=\"ds-page-hero-title\">Committee Resources</h1><div class=\"ds-page-hero-divider\"></div><p class=\"ds-page-hero-subtitle\">Research guides, the charter, and the rules of procedure.</p></header>",
+      "css": ".ds-page-hero { padding: 0 0 48px; text-align: center; } .ds-page-hero-title { margin: 0; font-family: 'Montserrat', ui-sans-serif, sans-serif; font-size: 60px; font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; color: #000000; } .ds-page-hero-divider { width: 64px; height: 6px; margin: 16px auto 0; border-radius: 9999px; background: #DC2628; } .ds-page-hero-subtitle { margin: 12px auto 0; max-width: 46rem; font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif; font-size: 20px; font-weight: 500; line-height: 1.6; color: #4B5563; } @media (max-width: 768px) { .ds-page-hero-title { font-size: 36px; } .ds-page-hero-subtitle { font-size: 18px; } }"
+    },
+    {
+      "name": "Navigation Masthead",
+      "kind": "nav",
+      "refersTo": "button-primary",
+      "description": "Sticky masthead with wordmark, ghost links, black active pill, and a 2px black rule.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-wordmark\">CICMUN</span><div class=\"ds-nav-links\"><a class=\"ds-nav-link ds-nav-link-active\" href=\"#\" aria-current=\"page\">Home</a><a class=\"ds-nav-link\" href=\"#\">Delegates</a><a class=\"ds-nav-link\" href=\"#\">Schedule</a><a class=\"ds-nav-link\" href=\"#\">Gallery</a></div></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; height: 80px; padding: 0 32px; border-bottom: 2px solid #000000; background: #FFFFFF; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); } .ds-nav-wordmark { font-family: 'Montserrat', ui-sans-serif, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.1em; color: #000000; } .ds-nav-links { display: flex; align-items: center; gap: 4px; } .ds-nav-link { padding: 8px 16px; border-radius: 8.4px; font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 500; color: #000000; text-decoration: none; transition: background-color 0.2s ease-out; } .ds-nav-link:hover { background: #F5F5F5; } .ds-nav-link-active, .ds-nav-link-active:hover { background: #000000; color: #FFFFFF; } .ds-nav-link:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(220, 38, 40, 0.35); }"
+    },
+    {
+      "name": "Conference Hero",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "Full-bleed photograph behind a dark scrim; white display name and a metadata row.",
+      "html": "<section class=\"ds-conference-hero\"><div class=\"ds-conference-hero-inner\"><p class=\"ds-conference-hero-kicker\">November 27-28, 2026</p><h1 class=\"ds-conference-hero-title\">SAMUN 2026</h1><p class=\"ds-conference-hero-meta\">Grades 9-12 · Caracas, Venezuela</p></div></section>",
+      "css": ".ds-conference-hero { position: relative; display: flex; min-height: 360px; align-items: flex-end; border-radius: 14.4px; overflow: hidden; background: linear-gradient(135deg, #1a1c24 0%, #000000 100%); } .ds-conference-hero-inner { position: relative; width: 100%; padding: 48px 32px; background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0)); } .ds-conference-hero-kicker { margin: 0 0 8px; font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.85); } .ds-conference-hero-title { margin: 0; font-family: 'Montserrat', ui-sans-serif, sans-serif; font-size: 48px; font-weight: 700; line-height: 1.05; letter-spacing: -0.025em; text-transform: uppercase; color: #FFFFFF; } .ds-conference-hero-meta { margin: 12px 0 0; font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Official Bulletin",
+    "overview": "This is a school's official record, not a campaign page. The system reads like a printed bulletin that happens to be a website: white paper, black type, hairline rules, and one crimson that carries the school's authority. Information is set, not performed — a date is a date, a committee is a committee, and the type hierarchy does the persuading that decoration would otherwise do.\n\nDensity is generous but never airy for its own sake. Section rhythm comes from a 4px base scale and a single 1280px content column, so a delegate scanning on a phone sees the same order a delegate scanning on a laptop sees. Photography is evidence: real rooms, real delegates, real committees. Where there is no evidence — an unpublished schedule, a committee roster still being confirmed — the page says so in plain words rather than filling the slot with placeholder art.\n\nThe chromatic budget is deliberately narrow. Black and white carry structure, grey carries secondary text and rules, and crimson is a signal: the active tab, the one primary call to action, the divider under a page title. The restraint is the identity; a page that spends crimson everywhere stops being this system.",
+    "keyCharacteristics": [
+      "White paper ground, black type, hairline grey rules.",
+      "One signal color, used on a small fraction of any screen.",
+      "Rectangular forms with small radii (8–10px), never pills for content, never zero-radius austerity.",
+      "Flat at rest; depth appears only as a response to hover or overlay state.",
+      "Montserrat for structure, Open Sans for reading."
+    ],
+    "rules": [
+      {
+        "name": "The One Signal Rule",
+        "body": "Crimson occupies less than roughly a tenth of any viewport. If two competing elements are both red, one of them is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Tinted Paper Rule",
+        "body": "Backgrounds are white or #F5F5F5. No cream, no blue-grey, no gradient wash behind content. Depth comes from rules and shadow, never from hue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Face Rule",
+        "body": "Montserrat never sets a paragraph and Open Sans never sets a page title. The boundary is structural, not stylistic.",
+        "section": "typography"
+      },
+      {
+        "name": "The Caps Belong To Structure Rule",
+        "body": "Uppercase is for page titles, conference names, and navigation — never for body copy or long headings, where it costs reading speed.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-At-Rest Rule",
+        "body": "A card that is not being interacted with does not float. If a surface needs a shadow to be legible, the border and spacing are wrong.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep one crimson signal per viewport — the primary CTA, the active pill, or the title divider, not all three at full strength.",
+      "Do set the page title once, through UiPageHero, in Montserrat display type.",
+      "Do keep cards flat with a 1px Rule Line border and lift them only on hover (-translate-y-2 + shadow-xl, 300ms).",
+      "Do pad cards at 24px and feature cards at 32px.",
+      "Do use #F5F5F5 as the interior-page ground and white for card surfaces."
+    ],
+    "donts": [
+      "Don't introduce a new typeface, a second accent hue, or a tinted page background.",
+      "Don't use pills for content cards, or zero-radius rectangles for interactive elements.",
+      "Don't put a shadow on a static card, or a second h1 on a page.",
+      "Don't use crimson as a large background fill except in the homepage hero and beneath a conference photograph.",
+      "Don't set body copy in Montserrat or page titles in Open Sans.",
+      "Don't fabricate imagery, rosters, or schedules to fill an empty slot — use the explicit empty state."
+    ]
+  }
+}

@@ -87,9 +87,9 @@ onUnmounted(() => {
     <div
        v-show="hasMore"
       ref="loadMoreRef"
-      class="h-14 mt-4 flex items-center justify-center text-sm text-gray-400"
+      class="h-14 mt-4 flex items-center justify-center text-sm font-medium text-gray-600"
+      aria-live="polite"
     >
-       <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-red-600 mr-2"></div>
        Loading more photos...
     </div>
 

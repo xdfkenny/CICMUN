@@ -240,7 +240,7 @@ onBeforeUnmount(() => {
               </div>
 
               <div class="flex flex-col items-center gap-1">
-                <p class="text-[10px] text-gray-400 opacity-60">
+                <p class="text-xs text-gray-400 opacity-60">
                   © {{ new Date().getFullYear() }} Colegio Internacional de Caracas
                 </p>
               </div>

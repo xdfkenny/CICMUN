@@ -79,11 +79,12 @@ const openViewer = (filename: string, title: string) => {
             <div v-if="committee.image" class="absolute inset-0 z-0">
               <img 
                 :src="committee.image" 
-                :alt="committee.name"
+                alt=""
+                aria-hidden="true"
                 class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-              <div class="absolute inset-0 bg-black/40"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
+              <div class="absolute inset-0 bg-black/60"></div>
             </div>
             <div v-else class="absolute inset-0 bg-black"></div>
 
@@ -103,13 +104,13 @@ const openViewer = (filename: string, title: string) => {
           <div class="p-8 bg-white relative z-20">
             <h2 class="text-2xl font-bold font-display mb-6 border-b border-gray-100 pb-4 text-black">Topics</h2>
             <div class="grid md:grid-cols-2 gap-8">
-              <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm">
+              <div class="border-t border-gray-200 pt-4">
                 <span class="font-bold text-sm uppercase tracking-wider mb-2 block" :class="textDarkColor">Topic A</span>
-                <p class="text-xl font-medium text-black leading-tight">{{ committee.topicA }}</p>
+                <p class="text-xl font-medium text-black leading-snug">{{ committee.topicA }}</p>
               </div>
-              <div v-if="committee.topicB" class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm">
+              <div v-if="committee.topicB" class="border-t border-gray-200 pt-4">
                 <span class="font-bold text-sm uppercase tracking-wider mb-2 block" :class="textDarkColor">Topic B</span>
-                <p class="text-xl font-medium text-black leading-tight">{{ committee.topicB }}</p>
+                <p class="text-xl font-medium text-black leading-snug">{{ committee.topicB }}</p>
               </div>
             </div>
           </div>
@@ -146,12 +147,12 @@ const openViewer = (filename: string, title: string) => {
           <div class="lg:col-span-2 space-y-6">
             <h3 class="text-2xl font-bold font-display text-black px-2">Committee Resources</h3>
             <div v-if="resources.length > 0" class="grid sm:grid-cols-2 gap-4">
-              <div v-for="resource in resources" :key="resource.title" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-black group flex flex-col">
+              <div v-for="resource in resources" :key="resource.title" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all border border-gray-200 group flex flex-col">
                 <div class="flex justify-between items-start mb-4">
                   <div class="p-2 rounded-lg transition-colors" :class="groupHoverBgLightColor">
                     <FileText class="w-6 h-6 text-black transition-colors" :class="groupHoverTextAccentColor" />
                   </div>
-                  <span class="text-[10px] font-bold px-2 py-0.5 bg-gray-100 rounded text-black uppercase tracking-widest">PDF</span>
+                  <span class="text-xs font-bold px-2 py-0.5 bg-gray-100 rounded text-black uppercase tracking-widest">PDF</span>
                 </div>
                 
                 <h4 class="text-lg font-bold mb-1 font-display leading-tight text-black">{{ resource.title }}</h4>
