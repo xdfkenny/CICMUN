@@ -11,7 +11,14 @@
     "secretaryPhoto": null,
     "topicA": "Indo-Pakistani conflict of 1998-1999",
     "topicB": "Rise of terrorist organizations in the Middle East and Africa in 1998",
-    "image": "/committee-images/samun-2026/unsc.png"
+    "image": "/committee-images/samun-2026/unsc.png",
+    "resources": [
+      {
+        "title": "Study Guide",
+        "description": "Official background guide covering the committee's topics, country positions, and preparation materials for debate.",
+        "filename": "UNSC Study Guide.pdf"
+      }
+    ]
   },
   {
     "id": 2,
@@ -25,7 +32,14 @@
     "secretaryPhoto": null,
     "topicA": "Estrategias multilaterales para la erradicación de la violencia sistémica de género y el feminicidio en América Latina",
     "topicB": "Impacto de la inteligencia artificial generativa y la manipulación digital en la violencia facilitada por la tecnología contra la mujer",
-    "image": "/committee-images/samun-2026/onu-mujeres.png"
+    "image": "/committee-images/samun-2026/onu-mujeres.png",
+    "resources": [
+      {
+        "title": "Study Guide",
+        "description": "Official background guide covering the committee's topics, country positions, and preparation materials for debate.",
+        "filename": "ONU Mujeres Study Guide.pdf"
+      }
+    ]
   },
   {
     "id": 3,
@@ -40,7 +54,14 @@
     "topicA": "Analizar el impacto socioeconómico y la gobernabilidad comercial en la concesión privada de los eventos organizados por la FIFA",
     "topicB": "Evaluando la efectividad de la Ley Prestianni",
     "image": "/committee-images/samun-2026/fifa.png",
-    "topicC": "La reelección de Gianni Infantino"
+    "topicC": "La reelección de Gianni Infantino",
+    "resources": [
+      {
+        "title": "Study Guide",
+        "description": "Official background guide covering the committee's topics, country positions, and preparation materials for debate.",
+        "filename": "FIFA Study Guide.pdf"
+      }
+    ]
   },
   {
     "id": 4,
@@ -54,7 +75,14 @@
     "secretaryPhoto": null,
     "topicA": "Intento de los Estados Unidos de disolver la OPEP",
     "topicB": "Nuevos acuerdos sobre la producción petrolera",
-    "image": "/committee-images/samun-2026/opep.png"
+    "image": "/committee-images/samun-2026/opep.png",
+    "resources": [
+      {
+        "title": "Study Guide",
+        "description": "Official background guide covering the committee's topics, country positions, and preparation materials for debate.",
+        "filename": "OPEP Study Guide.pdf"
+      }
+    ]
   },
   {
     "id": 5,
@@ -68,7 +96,14 @@
     "secretaryPhoto": null,
     "topicA": "Military Dependence on the United States",
     "topicB": "Immigration crisis in the European Union",
-    "image": "/committee-images/samun-2026/european-parliament.png"
+    "image": "/committee-images/samun-2026/european-parliament.png",
+    "resources": [
+      {
+        "title": "Study Guide",
+        "description": "Official background guide covering the committee's topics, country positions, and preparation materials for debate.",
+        "filename": "European Parliament Study Guide.pdf"
+      }
+    ]
   },
   {
     "id": 6,
@@ -81,6 +116,13 @@
     "secretaryPhoto": null,
     "topicA": "Approving a bill to expand the number of justices in the Supreme Court",
     "topicB": "Approving a national ban on gerrymandering",
-    "image": "/committee-images/samun-2026/us-senate.png"
+    "image": "/committee-images/samun-2026/us-senate.png",
+    "resources": [
+      {
+        "title": "Study Guide",
+        "description": "Official background guide covering the committee's topics, country positions, and preparation materials for debate.",
+        "filename": "US Senate Study Guide.pdf"
+      }
+    ]
   }
 ]
