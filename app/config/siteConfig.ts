@@ -20,8 +20,8 @@ export const siteConfig = {
   },
   jmun: {
     name: 'JMUN 2027',
-    date: '2027-04-24',
-    dateLabel: 'April 24-25, 2027',
+    date: null,
+    dateLabel: 'To be confirmed',
     gradeRange: 'Grades 6-8',
   },
   /** Host city line shown on delegate entry cards. */
