@@ -16,17 +16,3 @@ public/gallery-origins
 
 # Playwright MCP debug artifacts
 .playwright-mcp/
-
-# Impeccable working files — keep the shared project artifacts, ignore runtime state
-.impeccable/*
-!.impeccable/config.json
-!.impeccable/design.json
-!.impeccable/live/
-!.impeccable/live/config.json
-!.impeccable/surfaces/
-!.impeccable/surfaces/*.md
-!.impeccable/critique/
-!.impeccable/critique/*.md
-
-# Impeccable engine binary (downloaded on first run)
-.opencode/skills/impeccable/scripts/bin/

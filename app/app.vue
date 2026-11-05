@@ -1,4 +1,20 @@
 <script setup lang="ts">
+import { siteConfig } from '~/config/siteConfig'
+
+// Canonical URL for the active route, emitted as <link rel="canonical"> and
+// og:url on every page so Search Console consolidates ranking signals per
+// path (query strings are dropped).
+const route = useRoute()
+const canonicalUrl = computed(() => {
+  const path = route.path.replace(/\/+$/, '') || '/'
+  return `${siteConfig.siteUrl.replace(/\/+$/, '')}${path}`
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: canonicalUrl }],
+  meta: [{ property: 'og:url', content: canonicalUrl }],
+})
+
 let revealObserver: IntersectionObserver | null = null
 let mutationObserver: MutationObserver | null = null
 const staggerCleanupTimers = new WeakMap<Element, number>()

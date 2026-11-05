@@ -69,6 +69,61 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 
+// JSON-LD structured data (schema.org) so Google can surface the conference
+// as a rich result and associate the site with its organizers. Values derive
+// from siteConfig / data/events.json — update there, not here.
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: `${siteTitle} Delegate Portal`,
+    alternateName: siteTitle,
+    url: `${siteConfig.siteUrl}/`,
+    inLanguage: 'en',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Colegio Internacional de Caracas',
+      logo: { '@type': 'ImageObject', url: `${siteConfig.siteUrl}/LOGO.png` },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: `${siteConfig.samun.name} — South American Model of United Nations`,
+    description: `${siteConfig.samun.name} Model United Nations conference for high school students (${siteConfig.samun.gradeRange}) hosted by Colegio Internacional de Caracas.`,
+    startDate: `${siteConfig.samun.date}T08:00:00-04:00`,
+    endDate: '2026-11-28T18:00:00-04:00',
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    url: `${siteConfig.siteUrl}/samun`,
+    image: [`${siteConfig.siteUrl}/LOGO.png`],
+    location: {
+      '@type': 'Place',
+      name: 'Colegio Internacional de Caracas',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Calle Colegio Americano, Minas de Baruta',
+        addressLocality: 'Caracas',
+        addressCountry: 'VE',
+      },
+    },
+    organizer: {
+      '@type': 'Organization',
+      name: 'Colegio Internacional de Caracas',
+      url: `${siteConfig.siteUrl}/`,
+    },
+  },
+]
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(structuredData),
+    },
+  ],
+})
+
 </script>
 
 <template>

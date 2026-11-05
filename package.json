@@ -49,13 +49,17 @@
     "nanotar": "^0.3.0",
     "defu": "6.1.7",
     "h3": "1.15.11",
-    "nitropack": "2.13.3",
+    "nitropack": "2.13.6",
     "srvx": "0.11.15",
     "yaml": "2.8.3",
     "listhen": "1.9.1",
     "flatted": "3.4.2",
     "lodash": "4.18.1",
     "picomatch": "4.0.4",
+    "deepmerge": "4.1.2",
+    "@vercel/nft": {
+      "glob": "^14.0.3"
+    },
     "anymatch": {
       "picomatch": "2.3.2"
     },

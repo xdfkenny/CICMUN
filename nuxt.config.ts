@@ -107,10 +107,21 @@ export default defineNuxtConfig({
         { name: 'description', content: `Official delegate portal for ${siteConfig.brand} ${siteConfig.edition} — committees, schedules, resources, and the conference photo gallery of the Colegio Internacional de Caracas Model United Nations.` },
         { name: 'format-detection', content: 'telephone=no' },
         { name: 'theme-color', content: '#ffffff' },
-        { name: 'robots', content: 'index, follow' }
+        { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
+        /* Open Graph / Twitter defaults — per-page useSeoMeta overrides
+           og:title / og:description / og:image where set. og:url is set
+           per-route in app.vue from the canonical URL. */
+        { property: 'og:site_name', content: `${siteConfig.brand} ${siteConfig.edition}` },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:locale', content: 'en_US' },
+        { property: 'og:image', content: `${siteConfig.siteUrl}/LOGO.png` },
+        { property: 'og:image:alt', content: `${siteConfig.brand} ${siteConfig.edition} logo` },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:image', content: `${siteConfig.siteUrl}/LOGO.png` }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'sitemap', type: 'application/xml', href: `${siteConfig.siteUrl}/sitemap.xml` }
       ],
       script: [
         /* Progressive enhancement gate: mark JS as available as early as
