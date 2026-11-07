@@ -114,9 +114,7 @@ const getInitials = (name: string) =>
     <div class="container max-w-6xl mx-auto">
       <!-- Header Section -->
       <div class="text-center mb-16 md:mb-20">
-        <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black mb-6 font-display tracking-tight uppercase leading-tight">
-          Meet the Team
-        </h2>
+        <SplitText as="h2" text="Meet the Team" class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black mb-6 font-display tracking-tight uppercase leading-tight" />
         <div class="h-1.5 w-24 bg-red-600 mx-auto rounded-full mb-8"></div>
         <p class="text-lg sm:text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto font-semibold leading-relaxed px-4">
           The dedicated leaders and educators behind {{ siteTitle }}.
@@ -126,7 +124,7 @@ const getInitials = (name: string) =>
       <!-- Team Rows Container -->
       <div class="flex flex-col gap-8 md:gap-12 mb-20 md:mb-24">
         <!-- Leadership Row -->
-        <div class="grid grid-cols-2 gap-4 sm:gap-8 lg:grid-cols-4">
+        <div v-reveal="{ children: true, stagger: 0.08, y: 36 }" class="grid grid-cols-2 gap-4 sm:gap-8 lg:grid-cols-4">
           <div 
             v-for="member in leadership" 
             :key="member.name"
@@ -164,7 +162,7 @@ const getInitials = (name: string) =>
         </div>
 
         <!-- Operations Row -->
-        <div class="grid grid-cols-2 gap-4 sm:gap-8 md:grid-cols-3">
+        <div v-reveal="{ children: true, stagger: 0.08, y: 36 }" class="grid grid-cols-2 gap-4 sm:gap-8 md:grid-cols-3">
           <div 
             v-for="member in operations" 
             :key="member.name"
@@ -212,7 +210,7 @@ const getInitials = (name: string) =>
             </div>
             <GraduationCap class="hidden h-12 w-12 text-red-500 md:block" aria-hidden="true" />
           </div>
-          <div class="grid gap-4 md:grid-cols-3">
+          <div v-reveal="{ children: true, stagger: 0.1, y: 36 }" class="grid gap-4 md:grid-cols-3">
             <div v-for="faculty in faculties" :key="faculty.name" class="group flex min-h-64 flex-col items-center p-6 text-center">
               <div class="relative inline-flex mb-8">
                 <div class="w-24 h-24 rounded-2xl overflow-hidden border-2 border-white/15 transition-all duration-300 group-hover:scale-105 bg-white/10 flex items-center justify-center">

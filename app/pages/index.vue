@@ -186,7 +186,7 @@ useHead({
     <section class="bg-white py-16 md:py-24 px-4">
       <div class="container max-w-6xl mx-auto">
         <div class="mx-auto max-w-3xl text-center">
-          <h2 class="text-3xl md:text-4xl font-bold font-display text-black mb-10">About CICMUN</h2>
+          <SplitText as="h2" text="About CICMUN" class="text-3xl md:text-4xl font-bold font-display text-black mb-10" />
         </div>
         <div class="prose max-w-3xl mx-auto text-gray-700 text-lg mb-12 text-center">
           <p class="mb-6 leading-relaxed">
@@ -196,7 +196,7 @@ useHead({
             Our conference features authentic committees, challenging topics, and an environment that fosters critical thinking, public speaking, and international relations skills.
           </p>
         </div>
-        <div class="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+        <div v-reveal="{ children: true, stagger: 0.12, y: 40 }" class="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
           <div v-for="feature in [
             { title: 'Diplomacy', icon: Handshake, description: 'Build consensus across perspectives.' },
             { title: 'Internationalism', icon: Globe2, description: 'See every issue in a global context.' },
@@ -217,8 +217,8 @@ useHead({
     <!-- CIC Values Section -->
     <section class="bg-gray-50 py-16 md:py-24 px-4">
       <div class="container max-w-4xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold font-display text-black mb-10 text-center">CIC Values</h2>
-        <div class="grid md:grid-cols-3 gap-8">
+        <SplitText as="h2" text="CIC Values" class="text-3xl md:text-4xl font-bold font-display text-black mb-10 text-center" />
+        <div v-reveal="{ children: true, stagger: 0.15, y: 40 }" class="grid md:grid-cols-3 gap-8">
           <div v-for="(value, idx) in [
             { title: 'Respect', description: 'Valuing diverse perspectives and cultures' },
             { title: 'Integrity', description: 'Conducting ourselves with honesty and ethics' },
