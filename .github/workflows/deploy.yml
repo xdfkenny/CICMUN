@@ -14,6 +14,10 @@ on:
         description: "Override remote directory (blank = FTP_REMOTE_DIR)"
         required: false
         default: ""
+      probe_only:
+        description: "Only inspect the remote, do not upload"
+        required: false
+        default: "false"
 
 # Never run two deploys at once; queue the next one behind a running deploy.
 concurrency:
@@ -77,19 +81,25 @@ jobs:
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
           set -euo pipefail
-          lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "ftp://$FTP_HOST:$FTP_PORT" -e "
-            set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate false;
-            set cmd:fail-exit no;
-            echo '--- pwd ---'; pwd;
-            echo '--- root ---'; cls -1;
-            echo '--- public_html ---'; cls -1 public_html;
-            echo '--- domains ---'; cls -1 domains;
-            echo '--- domains/cicmun.cic-caracas.com ---'; cls -1 domains/cicmun.cic-caracas.com;
-            echo '--- domains/cicmun.cic-caracas.com/public_html ---'; cls -1 domains/cicmun.cic-caracas.com/public_html;
-            bye
-          "
+          run() {
+            lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "ftp://$FTP_HOST:$FTP_PORT" -e "
+              set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate false;
+              set cmd:fail-exit no;
+              $1 ;
+              bye
+            " || true
+          }
+          clean() { sed -E 's#ftp://[^/]*@#ftp://#'; }
+
+          echo '=== pwd ===';        run 'pwd' | clean
+          echo '=== cwd listing ==='; run 'cls -1'
+          echo '=== .htaccess ===';  run 'cat .htaccess'
+          echo '=== placeholder files ==='; run 'cls -1 index.php default.php index.html'
+          echo '=== parent ===';     run 'cd ..; pwd' | clean
+          echo '=== parent listing ==='; run 'cd ..; cls -1'
 
       - name: Deploy to FTP
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.probe_only != 'true' }}
         env:
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
