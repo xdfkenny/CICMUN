@@ -22,8 +22,10 @@ const accentIconContainerClass = computed(() => (isSamun.value ? 'bg-red-50 grou
 const accentIconClass = computed(() => (isSamun.value ? 'text-red-600' : 'text-black'))
 const accentButtonClass = computed(() => (isSamun.value ? 'bg-red-600 hover:bg-red-700 hover:shadow-red-600/40' : 'bg-black hover:bg-gray-800 hover:shadow-black/20'))
 
-// PanAmUN-style cross-wayfinding strip data: real tracked routes only (no dead ends)
+// PanAmUN-style cross-wayfinding strip data: real tracked routes only (no dead ends).
+// '#committees' is an in-page anchor to the committees grid further down.
 const crossLinks = [
+  { to: '#committees', label: 'Committees' },
   { to: '/schedule', label: 'Schedule' },
   { to: '/delegates', label: 'Delegates' },
   { to: '/resources', label: 'Resources' },
@@ -34,14 +36,26 @@ const crossLinks = [
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 px-4 py-12">
+  <div class="min-h-screen scroll-smooth bg-gray-50 px-4 py-12">
     <div class="container mx-auto max-w-6xl">
       <UiPageHero
         align="left"
         uppercase
         :title="eventDetails?.name || fallbackTitle"
         :subtitle="eventDetails?.description || fallbackDescription"
-      />
+      >
+        <!-- First-view cue: committees live below the fold, so point the way immediately -->
+        <div class="mt-6">
+          <a
+            href="#committees"
+            class="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold uppercase tracking-widest text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
+            :class="accentButtonClass"
+          >
+            See the {{ conferenceType }} committees
+            <ArrowRight class="h-4 w-4 rotate-90 transition-transform duration-300 group-hover:translate-y-0.5" aria-hidden="true" />
+          </a>
+        </div>
+      </UiPageHero>
 
       <!-- Event Details -->
       <div class="reveal mx-auto mb-20 max-w-4xl">
@@ -149,7 +163,7 @@ const crossLinks = [
         </div>
       </div>
 
-      <div>
+      <div id="committees" class="scroll-mt-24">
         <h2 class="reveal mb-8 font-display text-3xl font-bold uppercase tracking-tight text-black">
           {{ conferenceType }} Committees
         </h2>
