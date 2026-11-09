@@ -8,9 +8,13 @@ test('home page renders', async ({ page }) => {
 test('conference pages and committee detail render', async ({ page }) => {
   await page.goto('/jmun')
   await expect(page.getByRole('heading', { name: 'JMUN 2027' })).toBeVisible()
+  // JMUN committees are not published yet, so the empty state is shown.
+  await expect(page.getByText('Official committee list not yet published')).toBeVisible()
 
   await page.goto('/samun')
-  await expect(page.getByText('Official committee list not yet published')).toBeVisible()
+  // SAMUN's committee list is published; the empty state must not appear.
+  await expect(page.getByText('UNSC').first()).toBeVisible()
+  await expect(page.getByText('Official committee list not yet published')).toHaveCount(0)
 
   await page.goto('/committees/1')
   await expect(page.getByRole('heading', { name: 'UNSC' })).toBeVisible()
@@ -49,8 +53,8 @@ test('health endpoint responds with structured status', async ({ request }) => {
     checks: {
       committees: {
         counts: {
-          JMUN: 6,
-          SAMUN: 0,
+          JMUN: 0,
+          SAMUN: 6,
         },
       },
     },
