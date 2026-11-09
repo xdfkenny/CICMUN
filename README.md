@@ -109,11 +109,12 @@ The host, protocol, port, and target directory live in `.github/workflows/deploy
 | `FTP_HOST` | `ftp.cicmun.cic-caracas.com` | |
 | `FTP_PROTOCOL` | `ftps` | `ftp`, `ftps` (explicit TLS), or `sftp` |
 | `FTP_PORT` | `21` | Use `22` for `sftp` |
-| `FTP_REMOTE_DIR` | `.` | Target directory on the server (the FTP login's home is the site's `public_html`) |
+| `FTP_REMOTE_DIR` | `..` | Target directory on the server (the served account root) |
+| `FTP_DELETE` | `false` | Set `true` to delete remote-only files (kept off at the account root) |
 
-The deploy uses `lftp mirror -R --delete`, so files removed from the build are removed on the server. Server-managed files (`.htaccess`, `.user.ini`, `.well-known/`, `cgi-bin/`, `.ftpquota`) are excluded and never deleted.
+The deploy uses `lftp mirror -R`, so only new/changed files are re-uploaded. Server-managed files (`.htaccess`, `.user.ini`, `.well-known/`, `cgi-bin/`, `.ftpquota`) plus `public_html/` and `default.php` at the account root are excluded and never deleted.
 
-> **Hostinger document root:** the FTPS login's home is the site's `public_html` directory, so the workflow uploads to `.`. The domain's document root in hPanel must be that same `public_html` folder; if the domain root shows Hostinger's "Próximamente" placeholder while `/public_html/` serves the site, correct the document root under hPanel.
+> **Hostinger document root:** this subdomain is served from the account root (which contains `default.php` and `public_html/`), not from `public_html/`, so the workflow uploads to `..`. If you later correct the domain's document root to `public_html` in hPanel, change `FTP_REMOTE_DIR` to `.` and set `FTP_DELETE` to `true`.
 
 To deploy by hand, run **Deploy to FTP** from the Actions tab (`Run workflow`).
 

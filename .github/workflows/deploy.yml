@@ -37,9 +37,13 @@ env:
   FTP_PROTOCOL: ftps
   # 21 for ftp/ftps, 22 for sftp
   FTP_PORT: "21"
-  # The FTP login's home is the site's public_html directory, so "." uploads
-  # to the document root (using "public_html/" here would nest a duplicate).
-  FTP_REMOTE_DIR: .
+  # The domain's document root is the account root (parent of the FTP home's
+  # public_html). ".." uploads the site to that served root; a literal
+  # "public_html/" target nests a duplicate and is never served.
+  FTP_REMOTE_DIR: ..
+  # Never delete at the account root: it also holds public_html/ and
+  # default.php, which must be preserved. Set "true" only with care.
+  FTP_DELETE: "false"
   SITE_DIR: .output/public
 
 jobs:
@@ -115,9 +119,9 @@ jobs:
           set -euo pipefail
 
           TARGET_DIR="${REMOTE_DIR_INPUT:-$FTP_REMOTE_DIR}"
-          DELETE_FLAG="--delete"
-          if [ "${NO_DELETE_INPUT:-false}" = "true" ]; then
-            DELETE_FLAG=""
+          DELETE_FLAG=""
+          if [ "${FTP_DELETE:-false}" = "true" ] && [ "${NO_DELETE_INPUT:-false}" != "true" ]; then
+            DELETE_FLAG="--delete"
           fi
           echo "Uploading to: $TARGET_DIR (delete flag: '${DELETE_FLAG}')"
 
