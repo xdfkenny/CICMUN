@@ -127,7 +127,7 @@ const openViewer = (filename: string, title: string) => {
             <h3 class="text-xl font-bold font-display mb-6 text-black">Committee Leadership</h3>
             <div class="space-y-6">
                 <div class="flex items-center gap-4">
-                <div class="w-14 h-14 rounded-full flex items-center justify-center font-bold text-xl border-2 uppercase" :class="[bgLightColor, textAccentColor, borderAccentColor]">
+                <div class="w-14 h-14 shrink-0 rounded-full flex items-center justify-center font-bold text-xl border-2 uppercase" :class="[bgLightColor, textAccentColor, borderAccentColor]">
                   {{ getInitial(committee.chairName) }}
                 </div>
                 <div>
@@ -136,12 +136,21 @@ const openViewer = (filename: string, title: string) => {
                 </div>
               </div>
               <div class="flex items-center gap-4">
-                <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center text-black font-bold text-xl border-2 border-gray-100 uppercase">
+                <div class="w-14 h-14 shrink-0 bg-gray-50 rounded-full flex items-center justify-center text-black font-bold text-xl border-2 border-gray-100 uppercase">
                   {{ getInitial(committee.coChairName) }}
                 </div>
                 <div>
                   <div class="font-bold text-lg leading-tight text-black">{{ committee.coChairName || 'TBA' }}</div>
                   <div class="text-sm text-black font-medium">Co-Chair</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 shrink-0 bg-gray-50 rounded-full flex items-center justify-center text-black font-bold text-xl border-2 border-gray-100 uppercase">
+                  {{ getInitial(committee.secretaryName) }}
+                </div>
+                <div>
+                  <div class="font-bold text-lg leading-tight text-black">{{ committee.secretaryName || 'TBA' }}</div>
+                  <div class="text-sm text-black font-medium">Secretary</div>
                 </div>
               </div>
             </div>

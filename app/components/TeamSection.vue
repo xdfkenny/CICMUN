@@ -84,7 +84,7 @@ const faculties: TeamMember[] = [
     image: '/team-photos/Ricardo.JPG'
   },
   {
-    name: 'Oriana',
+    name: 'Oriana Escalona',
     role: 'Faculty Supervisor',
     icon: UserRound,
     color: 'text-white',
@@ -92,7 +92,7 @@ const faculties: TeamMember[] = [
     image: '/team-photos/Oriana.JPG'
   },
   {
-    name: 'Claudia',
+    name: 'Claudia Rangel',
     role: 'Faculty Supervisor',
     icon: UserRound,
     color: 'text-white',
