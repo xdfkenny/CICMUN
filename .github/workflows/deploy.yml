@@ -82,21 +82,28 @@ jobs:
             exit 1
           fi
 
-          case "$FTP_PROTOCOL" in
-            ftp)  URL="ftp://$FTP_HOST:$FTP_PORT" ;;
-            ftps) URL="ftps://$FTP_HOST:$FTP_PORT" ;;
-            sftp) URL="sftp://$FTP_HOST:$FTP_PORT" ;;
-            *) echo "::error::Unknown FTP_PROTOCOL '$FTP_PROTOCOL'"; exit 1 ;;
-          esac
-
-          # FTPS on shared hosting commonly presents a certificate that cannot
-          # be verified against the runner's CA bundle. TLS still encrypts the
-          # connection; identity is Trust On First Use. Remove the
-          # ssl:verify-certificate line to enforce strict verification.
+          # lftp's ftps:// scheme performs *implicit* TLS, but Hostinger on
+          # port 21 speaks *explicit* FTPS (AUTH TLS). Use ftp:// with
+          # ssl-force so lftp negotiates explicit TLS.
           SSL_OPTS=""
-          if [ "$FTP_PROTOCOL" = "ftps" ]; then
-            SSL_OPTS="set ftp:ssl-force true; set ssl:verify-certificate false;"
-          fi
+          case "$FTP_PROTOCOL" in
+            ftp)
+              URL="ftp://$FTP_HOST:$FTP_PORT"
+              ;;
+            ftps)
+              URL="ftp://$FTP_HOST:$FTP_PORT"
+              # The shared host presents its *.hstgr.io certificate, which will
+              # not match this hostname. TLS still encrypts the session.
+              SSL_OPTS="set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate false;"
+              ;;
+            sftp)
+              URL="sftp://$FTP_HOST:$FTP_PORT"
+              ;;
+            *)
+              echo "::error::Unknown FTP_PROTOCOL '$FTP_PROTOCOL'"
+              exit 1
+              ;;
+          esac
 
           # mirror -R  = upload local -> remote
           # --delete   = remove remote files not present locally (excludes protected)
