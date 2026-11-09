@@ -9,6 +9,11 @@ on:
     types: [completed]
     branches: [main]
   workflow_dispatch:
+    inputs:
+      remote_dir:
+        description: "Override remote directory (blank = FTP_REMOTE_DIR)"
+        required: false
+        default: ""
 
 # Never run two deploys at once; queue the next one behind a running deploy.
 concurrency:
@@ -65,12 +70,35 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq lftp
 
-      - name: Deploy to FTP
+      - name: Inspect remote layout (manual runs)
+        if: github.event_name == 'workflow_dispatch'
         env:
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
           set -euo pipefail
+          lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "ftp://$FTP_HOST:$FTP_PORT" -e "
+            set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate false;
+            set cmd:fail-exit no;
+            echo '--- pwd ---'; pwd;
+            echo '--- root ---'; cls -1;
+            echo '--- public_html ---'; cls -1 public_html;
+            echo '--- domains ---'; cls -1 domains;
+            echo '--- domains/cicmun.cic-caracas.com ---'; cls -1 domains/cicmun.cic-caracas.com;
+            echo '--- domains/cicmun.cic-caracas.com/public_html ---'; cls -1 domains/cicmun.cic-caracas.com/public_html;
+            bye
+          "
+
+      - name: Deploy to FTP
+        env:
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          REMOTE_DIR_INPUT: ${{ github.event.inputs.remote_dir }}
+        run: |
+          set -euo pipefail
+
+          TARGET_DIR="${REMOTE_DIR_INPUT:-$FTP_REMOTE_DIR}"
+          echo "Uploading to: $TARGET_DIR"
 
           if [ -z "${FTP_USERNAME:-}" ] || [ -z "${FTP_PASSWORD:-}" ]; then
             echo "::error::FTP_USERNAME and FTP_PASSWORD must be added as repository secrets."
@@ -118,6 +146,6 @@ jobs:
               --exclude-glob .ftpquota \
               --exclude-glob .well-known/* \
               --exclude-glob cgi-bin/* \
-              "$SITE_DIR/" "$FTP_REMOTE_DIR";
+              "$SITE_DIR/" "$TARGET_DIR";
             bye
           "
