@@ -18,6 +18,10 @@ on:
         description: "Only inspect the remote, do not upload"
         required: false
         default: "false"
+      no_delete:
+        description: "Upload without deleting remote-only files"
+        required: false
+        default: "false"
 
 # Never run two deploys at once; queue the next one behind a running deploy.
 concurrency:
@@ -106,11 +110,16 @@ jobs:
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
           REMOTE_DIR_INPUT: ${{ github.event.inputs.remote_dir }}
+          NO_DELETE_INPUT: ${{ github.event.inputs.no_delete }}
         run: |
           set -euo pipefail
 
           TARGET_DIR="${REMOTE_DIR_INPUT:-$FTP_REMOTE_DIR}"
-          echo "Uploading to: $TARGET_DIR"
+          DELETE_FLAG="--delete"
+          if [ "${NO_DELETE_INPUT:-false}" = "true" ]; then
+            DELETE_FLAG=""
+          fi
+          echo "Uploading to: $TARGET_DIR (delete flag: '${DELETE_FLAG}')"
 
           if [ -z "${FTP_USERNAME:-}" ] || [ -z "${FTP_PASSWORD:-}" ]; then
             echo "::error::FTP_USERNAME and FTP_PASSWORD must be added as repository secrets."
@@ -152,12 +161,14 @@ jobs:
             set net:max-retries 3;
             set net:timeout 30;
             $SSL_OPTS
-            mirror -R --delete --no-perms --verbose=1 \
+            mirror -R $DELETE_FLAG --no-perms --verbose=1 \
               --exclude-glob .htaccess \
               --exclude-glob .user.ini \
               --exclude-glob .ftpquota \
               --exclude-glob .well-known/* \
               --exclude-glob cgi-bin/* \
+              --exclude-glob public_html \
+              --exclude-glob default.php \
               "$SITE_DIR/" "$TARGET_DIR";
             bye
           "
