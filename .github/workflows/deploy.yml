@@ -33,7 +33,9 @@ env:
   FTP_PROTOCOL: ftps
   # 21 for ftp/ftps, 22 for sftp
   FTP_PORT: "21"
-  FTP_REMOTE_DIR: public_html/
+  # The FTP login's home is the site's public_html directory, so "." uploads
+  # to the document root (using "public_html/" here would nest a duplicate).
+  FTP_REMOTE_DIR: .
   SITE_DIR: .output/public
 
 jobs:
