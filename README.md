@@ -82,4 +82,41 @@ scripts/          # Build-time generators
 
 ---
 
+## Deployment
+
+Automated deploys run on GitHub Actions:
+
+| Workflow | When | What it does |
+|---|---|---|
+| `ci.yml` | Every push / PR | Lint, unit tests, build, Playwright smoke tests |
+| `deploy.yml` | After `CI` succeeds on `main`, or manual dispatch | Builds the static site and mirrors it to the FTP host |
+
+### Required secrets
+
+Add these under **Settings → Secrets and variables → Actions → Repository secrets**:
+
+| Secret | Description |
+|---|---|
+| `FTP_USERNAME` | FTP account username |
+| `FTP_PASSWORD` | FTP account password |
+
+### FTP configuration
+
+The host, protocol, port, and target directory live in `.github/workflows/deploy.yml`:
+
+| Variable | Default | Notes |
+|---|---|---|
+| `FTP_HOST` | `ftp.cicmun.cic-caracas.com` | |
+| `FTP_PROTOCOL` | `ftps` | `ftp`, `ftps` (explicit TLS), or `sftp` |
+| `FTP_PORT` | `21` | Use `22` for `sftp` |
+| `FTP_REMOTE_DIR` | `public_html/` | Target directory on the server |
+
+The deploy uses `lftp mirror -R --delete`, so files removed from the build are removed on the server. Server-managed files (`.htaccess`, `.user.ini`, `.well-known/`, `cgi-bin/`, `.ftpquota`) are excluded and never deleted.
+
+To deploy by hand, run **Deploy to FTP** from the Actions tab (`Run workflow`).
+
+> **Note:** the site is built as a static bundle. Nitro API routes (`/api/*`) are not available on static-only hosting, so dynamic gallery pagination/filtering and client-side `/api/*` refreshes need a static-data or prerender strategy if the target host cannot run Node.
+
+---
+
 <p align="center">Built with Nuxt for CICMUN 2027.</p>

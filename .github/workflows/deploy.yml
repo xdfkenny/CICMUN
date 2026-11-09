@@ -1,0 +1,111 @@
+name: Deploy to FTP
+
+# Runs after the "CI" workflow finishes successfully on main, or manually
+# from the Actions tab. The static site (`.output/public`) is mirrored to the
+# FTP host's public_html/ directory.
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+# Never run two deploys at once; queue the next one behind a running deploy.
+concurrency:
+  group: deploy-ftp
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  FTP_HOST: ftp.cicmun.cic-caracas.com
+  # ftp | ftps (explicit TLS) | sftp
+  FTP_PROTOCOL: ftps
+  # 21 for ftp/ftps, 22 for sftp
+  FTP_PORT: "21"
+  FTP_REMOTE_DIR: public_html/
+  SITE_DIR: .output/public
+
+jobs:
+  deploy:
+    # Only deploy a successful push to main (not pull_request runs), or a
+    # manual dispatch.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Deploy the exact commit CI validated, not the moving branch head.
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate static site
+        # `pregenerate` hook runs the asset generators (images, gallery, sitemap)
+        # before `nuxt generate` emits the static site into .output/public.
+        run: npm run generate
+
+      - name: Deploy to FTP
+        env:
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${FTP_USERNAME:-}" ] || [ -z "${FTP_PASSWORD:-}" ]; then
+            echo "::error::FTP_USERNAME and FTP_PASSWORD must be added as repository secrets."
+            exit 1
+          fi
+
+          if [ ! -d "$SITE_DIR" ]; then
+            echo "::error::$SITE_DIR was not produced by the build."
+            exit 1
+          fi
+
+          case "$FTP_PROTOCOL" in
+            ftp)  URL="ftp://$FTP_HOST:$FTP_PORT" ;;
+            ftps) URL="ftps://$FTP_HOST:$FTP_PORT" ;;
+            sftp) URL="sftp://$FTP_HOST:$FTP_PORT" ;;
+            *) echo "::error::Unknown FTP_PROTOCOL '$FTP_PROTOCOL'"; exit 1 ;;
+          esac
+
+          # FTPS on shared hosting commonly presents a certificate that cannot
+          # be verified against the runner's CA bundle. TLS still encrypts the
+          # connection; identity is Trust On First Use. Remove the
+          # ssl:verify-certificate line to enforce strict verification.
+          SSL_OPTS=""
+          if [ "$FTP_PROTOCOL" = "ftps" ]; then
+            SSL_OPTS="set ftp:ssl-force true; set ssl:verify-certificate false;"
+          fi
+
+          # mirror -R  = upload local -> remote
+          # --delete   = remove remote files not present locally (excludes protected)
+          # --exclude  = never upload or delete server-managed files
+          lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "$URL" -e "
+            set net:max-retries 3;
+            set net:timeout 30;
+            $SSL_OPTS
+            mirror -R --delete --no-perms --verbose=1 \
+              --exclude-glob .htaccess \
+              --exclude-glob .user.ini \
+              --exclude-glob .ftpquota \
+              --exclude-glob .well-known/* \
+              --exclude-glob cgi-bin/* \
+              "$SITE_DIR/" "$FTP_REMOTE_DIR";
+            bye
+          "
