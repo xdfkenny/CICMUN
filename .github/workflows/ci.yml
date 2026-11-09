@@ -9,7 +9,9 @@ on:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    # ubuntu-latest now resolves to 26.04, which Playwright 1.58 does not
+    # support for Chromium; pin to 24.04 until Playwright catches up.
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
 
     steps:
