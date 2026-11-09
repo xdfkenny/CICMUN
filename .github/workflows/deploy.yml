@@ -60,6 +60,11 @@ jobs:
         # before `nuxt generate` emits the static site into .output/public.
         run: npm run generate
 
+      - name: Install lftp
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+
       - name: Deploy to FTP
         env:
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
