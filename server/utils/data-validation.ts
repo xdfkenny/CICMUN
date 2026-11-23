@@ -225,7 +225,6 @@ export const normalizeCommittees = (raw: unknown): CommitteesResult => {
       id,
       name,
       type,
-      facultyName: asNullableString(value.facultyName),
       room: asNullableString(value.room),
       chairName: asTrimmedString(value.chairName, ''),
       chairPhoto: sanitizeOptionalPhoto(value.chairPhoto, `committee:${id}:chairPhoto`, errors),

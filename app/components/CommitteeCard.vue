@@ -67,20 +67,6 @@ const hoverTextClass = computed(() => {
         <div class="space-y-6">
           <!-- Staff Section -->
           <div class="grid grid-cols-1 gap-4">
-            <!-- Faculty Advisor (SAMUN committees paired with a CIC faculty member) -->
-            <div v-if="committee.facultyName" class="flex items-center gap-4 p-3 rounded-lg bg-gray-50/50 border border-transparent transition-colors hover:bg-white hover:border-gray-100">
-              <div
-                class="w-12 h-12 rounded-full border-2 flex items-center justify-center flex-shrink-0 bg-white"
-                :class="borderClass"
-              >
-                <span class="font-bold text-xs" :class="textClass">FA</span>
-              </div>
-              <div>
-                <p class="text-xs font-bold uppercase tracking-widest text-black">Faculty Advisor</p>
-                <p class="font-semibold text-black leading-tight">{{ committee.facultyName }}</p>
-              </div>
-            </div>
-
             <!-- Chair -->
             <div class="flex items-center gap-4 p-3 rounded-lg bg-gray-50/50 border border-transparent transition-colors hover:bg-white hover:border-gray-100">
               <div 

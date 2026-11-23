@@ -58,8 +58,6 @@ export interface Committee {
   id: number;
   name: string;
   type: ConferenceType;
-  /** Faculty member supervising the committee (SAMUN only). */
-  facultyName?: string | null;
   /** Committee room / meeting place (SAMUN only). */
   room?: string | null;
   chairName: string | null;
