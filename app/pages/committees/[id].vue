@@ -93,10 +93,17 @@ const openViewer = (filename: string, title: string) => {
               <h1 class="text-5xl md:text-6xl font-bold font-display mb-4 drop-shadow-2xl tracking-tight">
                 {{ committee.name }}
               </h1>
-              <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-6 py-2 rounded-full border border-white/30 shadow-xl">
-                <span class="font-bold tracking-widest uppercase text-xs">
-                  {{ committee.type }} Committee
-                </span>
+              <div class="inline-flex flex-wrap items-center justify-center gap-2">
+                <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-6 py-2 rounded-full border border-white/30 shadow-xl">
+                  <span class="font-bold tracking-widest uppercase text-xs">
+                    {{ committee.type }} Committee
+                  </span>
+                </div>
+                <div v-if="committee.room" class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-6 py-2 rounded-full border border-white/30 shadow-xl">
+                  <span class="font-bold tracking-widest uppercase text-xs">
+                    {{ committee.room }}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -126,7 +133,16 @@ const openViewer = (filename: string, title: string) => {
           <div class="bg-white p-8 rounded-2xl shadow-lg lg:sticky lg:top-24">
             <h3 class="text-xl font-bold font-display mb-6 text-black">Committee Leadership</h3>
             <div class="space-y-6">
-                <div class="flex items-center gap-4">
+              <div v-if="committee.facultyName" class="flex items-center gap-4">
+                <div class="w-14 h-14 shrink-0 rounded-full flex items-center justify-center font-bold text-xl border-2 uppercase" :class="[bgLightColor, textAccentColor, borderAccentColor]">
+                  {{ getInitial(committee.facultyName) }}
+                </div>
+                <div>
+                  <div class="font-bold text-lg leading-tight text-black">{{ committee.facultyName }}</div>
+                  <div class="text-sm text-black font-medium">Faculty Advisor</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
                 <div class="w-14 h-14 shrink-0 rounded-full flex items-center justify-center font-bold text-xl border-2 uppercase" :class="[bgLightColor, textAccentColor, borderAccentColor]">
                   {{ getInitial(committee.chairName) }}
                 </div>

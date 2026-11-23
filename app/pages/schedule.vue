@@ -148,6 +148,9 @@ const conferenceLabel = computed(() =>
                     <div class="font-bold text-2xl text-gray-900 group-hover:text-red-600 transition-colors duration-300">
                       {{ event.activity }}
                     </div>
+                    <p v-if="event.details" class="mt-2 text-base font-medium leading-relaxed text-gray-700">
+                      {{ event.details }}
+                    </p>
                     <div v-if="event.committees?.length" class="flex flex-wrap gap-2 mt-2" aria-label="Committees in session">
                       <span
                         v-for="code in event.committees"

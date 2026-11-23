@@ -42,9 +42,15 @@ const hoverTextClass = computed(() => {
           class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-        <div class="absolute bottom-4 left-6">
+        <div class="absolute bottom-4 left-6 flex flex-wrap items-center gap-2">
           <span class="px-2 py-1 rounded bg-white/20 backdrop-blur-md text-xs font-bold text-white uppercase tracking-widest border border-white/30">
             {{ committee.type }}
+          </span>
+          <span
+            v-if="committee.room"
+            class="px-2 py-1 rounded bg-white/20 backdrop-blur-md text-xs font-bold text-white uppercase tracking-widest border border-white/30"
+          >
+            {{ committee.room }}
           </span>
         </div>
       </div>
@@ -61,6 +67,20 @@ const hoverTextClass = computed(() => {
         <div class="space-y-6">
           <!-- Staff Section -->
           <div class="grid grid-cols-1 gap-4">
+            <!-- Faculty Advisor (SAMUN committees paired with a CIC faculty member) -->
+            <div v-if="committee.facultyName" class="flex items-center gap-4 p-3 rounded-lg bg-gray-50/50 border border-transparent transition-colors hover:bg-white hover:border-gray-100">
+              <div
+                class="w-12 h-12 rounded-full border-2 flex items-center justify-center flex-shrink-0 bg-white"
+                :class="borderClass"
+              >
+                <span class="font-bold text-xs" :class="textClass">FA</span>
+              </div>
+              <div>
+                <p class="text-xs font-bold uppercase tracking-widest text-black">Faculty Advisor</p>
+                <p class="font-semibold text-black leading-tight">{{ committee.facultyName }}</p>
+              </div>
+            </div>
+
             <!-- Chair -->
             <div class="flex items-center gap-4 p-3 rounded-lg bg-gray-50/50 border border-transparent transition-colors hover:bg-white hover:border-gray-100">
               <div 

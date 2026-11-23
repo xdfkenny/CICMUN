@@ -22,6 +22,8 @@ export interface ScheduleEvent {
   location?: string;
   /** Committee codes for group sessions (e.g. working sessions); renders badges instead of a location chip. */
   committees?: string[];
+  /** Short explanatory note shown under the activity (e.g. arrival instructions). */
+  details?: string;
 }
 
 export interface ScheduleRoom {
@@ -56,6 +58,10 @@ export interface Committee {
   id: number;
   name: string;
   type: ConferenceType;
+  /** Faculty member supervising the committee (SAMUN only). */
+  facultyName?: string | null;
+  /** Committee room / meeting place (SAMUN only). */
+  room?: string | null;
   chairName: string | null;
   chairPhoto: string | null;
   coChairName: string | null;

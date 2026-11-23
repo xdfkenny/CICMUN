@@ -1,31 +1,64 @@
 [
   {
     "day": "Day 1",
-    "date": "November 27, 2026",
+    "date": "Friday, November 27th, 2026",
     "conferences": [
       "SAMUN"
+    ],
+    "rooms": [
+      {
+        "committee": "OPEP",
+        "room": "Room 201",
+        "chair": "Mr. Jordi Tur"
+      },
+      {
+        "committee": "US Senate",
+        "room": "Room 202",
+        "chair": "Ms. Claudia Rangel"
+      },
+      {
+        "committee": "ONU Mujeres",
+        "room": "Room 203",
+        "chair": "Mr. Ricardo Millan"
+      },
+      {
+        "committee": "FIFA",
+        "room": "Room 204",
+        "chair": "Ms. Aurora Molina"
+      },
+      {
+        "committee": "UNSC",
+        "room": "Room 205",
+        "chair": "Ms. Cynthia Seddoh"
+      },
+      {
+        "committee": "European Parliament",
+        "room": "Exam Room (under the Library)"
+      }
     ],
     "events": [
       {
         "time": "8:00 AM - 8:30 AM",
         "activity": "Arrival and Registration",
-        "location": "Main Entrance"
+        "location": "Main Entrance",
+        "details": "Participants arrive at school and receive their name tags."
       },
       {
         "time": "8:35 AM - 9:15 AM",
         "activity": "Opening Ceremony",
-        "location": "Main Court"
+        "location": "Main Court",
+        "details": "Participants should come a few minutes earlier so they can sit down. After the ceremony, participants will go to their committee rooms."
       },
       {
         "time": "9:20 AM - 10:45 AM",
-        "activity": "Working Session 1 (Opening speeches / Lobbying)",
+        "activity": "Working Session 1 (Opening Speeches / Lobbying)",
         "committees": [
-          "UNSC",
+          "OPEP",
+          "US Senate",
           "ONU Mujeres",
           "FIFA",
-          "OPEP",
-          "European Parliament",
-          "US Senate"
+          "UNSC",
+          "European Parliament"
         ]
       },
       {
@@ -37,50 +70,50 @@
         "time": "11:05 AM - 12:45 PM",
         "activity": "Working Session 2",
         "committees": [
-          "UNSC",
+          "OPEP",
+          "US Senate",
           "ONU Mujeres",
           "FIFA",
-          "OPEP",
-          "European Parliament",
-          "US Senate"
+          "UNSC",
+          "European Parliament"
         ]
       },
       {
-        "time": "12:45 PM - 1:30 PM",
+        "time": "1:00 PM - 1:45 PM",
         "activity": "Lunch",
         "location": "Cafeteria"
       },
       {
-        "time": "1:35 PM - 3:00 PM",
+        "time": "1:45 PM - 3:15 PM",
         "activity": "Working Session 3",
         "committees": [
-          "UNSC",
+          "OPEP",
+          "US Senate",
           "ONU Mujeres",
           "FIFA",
-          "OPEP",
-          "European Parliament",
-          "US Senate"
+          "UNSC",
+          "European Parliament"
         ]
       },
       {
-        "time": "3:00 PM - 3:10 PM",
+        "time": "3:15 PM - 3:30 PM",
         "activity": "Break",
         "location": "Cafeteria"
       },
       {
-        "time": "3:15 PM - 4:30 PM",
+        "time": "3:30 PM - 4:45 PM",
         "activity": "Working Session 4",
         "committees": [
-          "UNSC",
+          "OPEP",
+          "US Senate",
           "ONU Mujeres",
           "FIFA",
-          "OPEP",
-          "European Parliament",
-          "US Senate"
+          "UNSC",
+          "European Parliament"
         ]
       },
       {
-        "time": "4:30 PM - 5:00 PM",
+        "time": "4:45 PM - 5:00 PM",
         "activity": "Dismissal",
         "location": "Main Entrance"
       }
@@ -88,9 +121,40 @@
   },
   {
     "day": "Day 2",
-    "date": "November 28, 2026",
+    "date": "Saturday, November 28th, 2026",
     "conferences": [
       "SAMUN"
+    ],
+    "rooms": [
+      {
+        "committee": "OPEP",
+        "room": "Room 201",
+        "chair": "Mr. Jordi Tur"
+      },
+      {
+        "committee": "US Senate",
+        "room": "Room 202",
+        "chair": "Ms. Claudia Rangel"
+      },
+      {
+        "committee": "ONU Mujeres",
+        "room": "Room 203",
+        "chair": "Mr. Ricardo Millan"
+      },
+      {
+        "committee": "FIFA",
+        "room": "Room 204",
+        "chair": "Ms. Aurora Molina"
+      },
+      {
+        "committee": "UNSC",
+        "room": "Room 205",
+        "chair": "Ms. Cynthia Seddoh"
+      },
+      {
+        "committee": "European Parliament",
+        "room": "Exam Room (under the Library)"
+      }
     ],
     "events": [
       {
@@ -102,12 +166,12 @@
         "time": "8:05 AM - 9:35 AM",
         "activity": "Working Session 5",
         "committees": [
-          "UNSC",
+          "OPEP",
+          "US Senate",
           "ONU Mujeres",
           "FIFA",
-          "OPEP",
-          "European Parliament",
-          "US Senate"
+          "UNSC",
+          "European Parliament"
         ]
       },
       {
@@ -119,12 +183,12 @@
         "time": "9:50 AM - 11:00 AM",
         "activity": "Working Session 6",
         "committees": [
-          "UNSC",
+          "OPEP",
+          "US Senate",
           "ONU Mujeres",
           "FIFA",
-          "OPEP",
-          "European Parliament",
-          "US Senate"
+          "UNSC",
+          "European Parliament"
         ]
       },
       {
@@ -136,12 +200,12 @@
         "time": "11:15 AM - 12:15 PM",
         "activity": "Working Session 7",
         "committees": [
-          "UNSC",
+          "OPEP",
+          "US Senate",
           "ONU Mujeres",
           "FIFA",
-          "OPEP",
-          "European Parliament",
-          "US Senate"
+          "UNSC",
+          "European Parliament"
         ]
       },
       {
@@ -153,12 +217,12 @@
         "time": "1:20 PM - 2:00 PM",
         "activity": "Working Session 8",
         "committees": [
-          "UNSC",
+          "OPEP",
+          "US Senate",
           "ONU Mujeres",
           "FIFA",
-          "OPEP",
-          "European Parliament",
-          "US Senate"
+          "UNSC",
+          "European Parliament"
         ]
       },
       {
